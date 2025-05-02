@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class LoginActivity extends AppCompatActivity {
@@ -14,8 +13,8 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        EditText usernameEditText = findViewById(R.id.username);
-        EditText passwordEditText = findViewById(R.id.password);
+        EditText usernameEditText = findViewById(R.id.login_username);
+        EditText passwordEditText = findViewById(R.id.login_password);
         Button loginButton = findViewById(R.id.login_button);
 
         loginButton.setOnClickListener(v -> {

@@ -1,65 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<!--
-    <string name="app_name">Control of Medications and Household Articles</string>
-    <string name="option_01">Direction</string>
-    <string name="option_02">Branch</string>
-    <string name="option_03">Existence Detail</string>
-    <string name="option_04">Sale</string>
-    <string name="option_05">Sales Details</string>
-    <string name="option_06">Sales Invoice</string>
-    <string name="option_07">Client</string>
-    <string name="option_08">Purchase</string>
-    <string name="option_09">Purchase Details</string>
-    <string name="option_10">Purchase Invoice</string>
-    <string name="option_11">Pharmaceutical Form</string>
-    <string name="option_12">Brand</string>
-    <string name="option_13">Route of Administration</string>
-    <string name="option_14">Prescription</string>
-    <string name="option_15">Doctor</string>
-    <string name="option_16">Item</string>
-    <string name="option_17">Category</string>
-    <string name="option_18">Subcategory</string>
+<!--<string name="direction">Direction</string>
+    <string name="branch">Branch</string>
+    <string name="existence_detail">Existence Detail</string>
+    <string name="sales">Sale</string>
+    <string name="sales_details">Sales Details</string>
+    <string name="sales_invoice">Sales Invoice</string>
+    <string name="client">Client</string>
+    <string name="purchase">Purchase</string>
+    <string name="purchase_details">Purchase Details</string>
+    <string name="purchase_invoice">Purchase Invoice</string>
+    <string name="supplier">Supplier</string>
+    <string name="pharmaceutical_form">Pharmaceutical Form</string>
+    <string name="brand">Brand</string>
+    <string name="route_of_administration">Route of Administration</string>
+    <string name="prescription">Prescription</string>
+    <string name="doctor">Doctor</string>
+    <string name="item">Item</string>
+    <string name="category">Category</string>
+    <string name="subcategory">Subcategory</string>
 -->
     <string-array name="main_menu">
-        <item>@string/option_01</item>
-        <item>@string/option_02</item>
-        <item>@string/option_03</item>
-        <item>@string/option_04</item>
-        <item>@string/option_05</item>
-        <item>@string/option_06</item>
-        <item>@string/option_07</item>
-        <item>@string/option_08</item>
-        <item>@string/option_09</item>
-        <item>@string/option_10</item>
-        <item>@string/option_11</item>
-        <item>@string/option_12</item>
-        <item>@string/option_13</item>
-        <item>@string/option_14</item>
-        <item>@string/option_15</item>
-        <item>@string/option_16</item>
-        <item>@string/option_17</item>
-        <item>@string/option_18</item>
+        <item>@string/direction</item>
+        <item>@string/branch</item>
+        <item>@string/existence_detail</item>
+        <item>@string/sale</item>
+        <item>@string/sale_detail</item>
+        <item>@string/sale_invoice</item>
+        <item>@string/client</item>
+        <item>@string/purchase</item>
+        <item>@string/purchase_detail</item>
+        <item>@string/purchase_invoice</item>
+        <item>@string/supplier</item>
+        <item>@string/pharmaceutical_form</item>
+        <item>@string/brand</item>
+        <item>@string/route_of_administration</item>
+        <item>@string/prescription</item>
+        <item>@string/doctor</item>
+        <item>@string/item</item>
+        <item>@string/category</item>
+        <item>@string/subcategory</item>
     </string-array>
 
     <string-array name="main_icons">
         <item>direction</item>
-        <item>check</item>
-        <item>check</item>
-        <item>check</item>
-        <item>check</item>
-        <item>client</item>
+        <item>branch</item>
+        <item>existence_detail</item>
+        <item>sale</item>
+        <item>sale_detail</item>
+        <item>sale_invoice</item>
         <item>client</item>
         <item>purchase</item>
-        <item>check</item>
-        <item>check</item>
-        <item>check</item>
-        <item>check</item>
-        <item>check</item>
-        <item>check</item>
-        <item>check</item>
-        <item>check</item>
-        <item>check</item>
-        <item>check</item>
+        <item>purchase_detail</item>
+        <item>purchase_invoice</item>
+        <item>supplier</item>
+        <item>pharmaceutical_form</item>
+        <item>brand</item>
+        <item>route_of_administration</item>
+        <item>prescription</item>
+        <item>doctor</item>
+        <item>item</item>
+        <item>category</item>
+        <item>subcategory</item>
     </string-array>
 </resources>

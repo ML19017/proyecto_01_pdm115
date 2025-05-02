@@ -18,6 +18,7 @@ public class MenuActivity extends ListActivity {
             "CompraActivity",
             "DetalleCompraActivity",
             "FacturaCompraActivity",
+            "ProveedorActivity",
             "FormaFarmaceuticaActivity",
             "MarcaActivity",
             "VíaAdministracionActivity",

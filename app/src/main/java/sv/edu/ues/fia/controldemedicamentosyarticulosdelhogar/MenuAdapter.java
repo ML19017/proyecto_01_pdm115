@@ -33,7 +33,6 @@ public class MenuAdapter extends ArrayAdapter<String> {
 
         ImageView icono_opcion = convertView.findViewById(R.id.icono_opcion);
         TextView texto_opcion = convertView.findViewById(R.id.texto_opcion);
-        icono_opcion.setColorFilter(ContextCompat.getColor(contexto, R.color.lav));
         icono_opcion.setImageDrawable(ContextCompat.getDrawable(contexto, iconos[position]));
         texto_opcion.setText(opciones[position]);
 
