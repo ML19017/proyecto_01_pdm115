@@ -2,15 +2,14 @@ package sv.edu.ues.fia.controldemedicamentosyarticulosdelhogar;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-
 import java.sql.SQLException;
 
-public class ConnectionBD {
+public class ControlBD {
 
     private final Context context;
     private final DataBaseHelper DBHelper;
 
-    public ConnectionBD(Context context) {
+    public ControlBD(Context context) {
         this.context = context;
         DBHelper = new DataBaseHelper(context);
     }

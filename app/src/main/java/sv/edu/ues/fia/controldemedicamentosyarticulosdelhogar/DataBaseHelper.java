@@ -1,49 +1,46 @@
 package sv.edu.ues.fia.controldemedicamentosyarticulosdelhogar;
 
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class DataBaseHelper extends SQLiteOpenHelper {
     private static final String NOMBRE_BASE_DATOS = "control_medicamentos.s3db";
+    private static final String SCRIPT_CREACION = "db_script.sql";
     private static final int VERSION = 1;
-
-    private static final String [] TABLAS = {
-            "",
-    };
-    private static final String [] RESTRICCIONES = {
-            "",
-    };
-    private static final String [] DISPARADORES = {
-            "",
-    };
-
-    private static final String [] DATOS_PRUEBA = {
-            "",
-    };
+    private final Context context;
 
     public DataBaseHelper(Context context) {
         super(context, NOMBRE_BASE_DATOS, null, VERSION);
+        this.context = context;
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         try {
-            for (String tabla: TABLAS) {
-                db.execSQL(tabla);
+            AssetManager assetManager = context.getAssets();
+            InputStream inputStream = assetManager.open(SCRIPT_CREACION);
+
+            StringBuilder stringBuilder = new StringBuilder();
+            int size = inputStream.available();
+            byte[] buffer = new byte[size];
+            inputStream.read(buffer);
+            inputStream.close();
+
+            String sqlScript = new String(buffer);
+            String[] sqlStatements = sqlScript.split(";");
+
+            for (String statement : sqlStatements) {
+                statement = statement.trim();
+                if (!statement.isEmpty()) {
+                    db.execSQL(statement + ";");
+                }
             }
-            for (String dato: DATOS_PRUEBA) {
-                db.execSQL(dato);
-            }
-            for (String restriccion: RESTRICCIONES) {
-                db.execSQL(restriccion);
-            }
-            for (String disparador: DISPARADORES) {
-                db.execSQL(disparador);
-            }
-        }
-        catch (SQLException e) {
+        } catch (SQLException | IOException e) {
             e.printStackTrace();
         }
     }

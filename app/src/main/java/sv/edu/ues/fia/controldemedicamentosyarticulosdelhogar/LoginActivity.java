@@ -26,7 +26,6 @@ public class LoginActivity extends AppCompatActivity {
                 Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
                 startActivity(intent);
                 finish();
-
             } else {
                 Toast.makeText(this, "No", Toast.LENGTH_SHORT).show();
             }
