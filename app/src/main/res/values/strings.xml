@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Control of Medications and Household Articles</string>
+    <string name="option_01">Direction</string>
+    <string name="option_02">Branch</string>
+    <string name="option_03">Existence Detail</string>
+    <string name="option_04">Sale</string>
+    <string name="option_05">Sales Details</string>
+    <string name="option_06">Sales Invoice</string>
+    <string name="option_07">Client</string>
+    <string name="option_08">Purchase</string>
+    <string name="option_09">Purchase Details</string>
+    <string name="option_10">Purchase Invoice</string>
+    <string name="option_11">Pharmaceutical Form</string>
+    <string name="option_12">Brand</string>
+    <string name="option_13">Route of Administration</string>
+    <string name="option_14">Prescription</string>
+    <string name="option_15">Doctor</string>
+    <string name="option_16">Item</string>
+    <string name="option_17">Category</string>
+    <string name="option_18">Subcategory</string>
+    <string name="login_text">Login</string>
+    <string name="password_text">Password</string>
+    <string name="username_text">Username</string>
+</resources>

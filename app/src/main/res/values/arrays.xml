@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<!--
+    <string name="app_name">Control of Medications and Household Articles</string>
+    <string name="option_01">Direction</string>
+    <string name="option_02">Branch</string>
+    <string name="option_03">Existence Detail</string>
+    <string name="option_04">Sale</string>
+    <string name="option_05">Sales Details</string>
+    <string name="option_06">Sales Invoice</string>
+    <string name="option_07">Client</string>
+    <string name="option_08">Purchase</string>
+    <string name="option_09">Purchase Details</string>
+    <string name="option_10">Purchase Invoice</string>
+    <string name="option_11">Pharmaceutical Form</string>
+    <string name="option_12">Brand</string>
+    <string name="option_13">Route of Administration</string>
+    <string name="option_14">Prescription</string>
+    <string name="option_15">Doctor</string>
+    <string name="option_16">Item</string>
+    <string name="option_17">Category</string>
+    <string name="option_18">Subcategory</string>
+-->
+    <string-array name="main_menu">
+        <item>@string/option_01</item>
+        <item>@string/option_02</item>
+        <item>@string/option_03</item>
+        <item>@string/option_04</item>
+        <item>@string/option_05</item>
+        <item>@string/option_06</item>
+        <item>@string/option_07</item>
+        <item>@string/option_08</item>
+        <item>@string/option_09</item>
+        <item>@string/option_10</item>
+        <item>@string/option_11</item>
+        <item>@string/option_12</item>
+        <item>@string/option_13</item>
+        <item>@string/option_14</item>
+        <item>@string/option_15</item>
+        <item>@string/option_16</item>
+        <item>@string/option_17</item>
+        <item>@string/option_18</item>
+    </string-array>
+
+    <string-array name="main_icons">
+        <item>direction</item>
+        <item>check</item>
+        <item>check</item>
+        <item>check</item>
+        <item>check</item>
+        <item>client</item>
+        <item>client</item>
+        <item>purchase</item>
+        <item>check</item>
+        <item>check</item>
+        <item>check</item>
+        <item>check</item>
+        <item>check</item>
+        <item>check</item>
+        <item>check</item>
+        <item>check</item>
+        <item>check</item>
+        <item>check</item>
+    </string-array>
+</resources>
