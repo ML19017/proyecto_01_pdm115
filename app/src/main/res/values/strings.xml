@@ -29,4 +29,34 @@
     <string name="invalid_credentials">Invalid credentials</string>
     <string name="welcome_message">Welcome</string>
     <!-- End of Login -->
+
+    <!-- Compras -->
+    <string name="add_supplier">Add Supplier</string>
+
+    <string name="nameSupplier">Name</string>
+    <string name="phoneSupplier">Phone</string>
+    <string name="addressSupplier">Address</string>
+    <string name="industrySupplier">Industry</string>
+    <string name="registrationNumberSupplier">Registration Number</string>
+    <string name="taxIdSupplier">Tax ID</string>
+    <string name="businessTypeSupplier">Business Type</string>
+
+    <string name="addSupplierDialog">Add Supplier</string>
+    <string name="supplierDetailsDialog">Supplier Details</string>
+    <string name="editSupplierDialog">Edit Supplier</string>
+
+    <!-- Fin Compra -->
+
+    <!-- Para botones -->
+    <string name="view">View</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="actions">Actions</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="close">Close</string>
+    <string name="update">Update</string>
+    <!-- Fin comunismo -->
+
+
 </resources>

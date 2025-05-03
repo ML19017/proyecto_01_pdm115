@@ -28,7 +28,7 @@ public class ProveedorActivity extends AppCompatActivity {
         setContentView(R.layout.activity_proveedor);
 
         listView = findViewById(R.id.listViewProveedores);
-        btnAgregar = findViewById(R.id.btnAgregar);
+        btnAgregar = findViewById(R.id.btnAddProveedor);
         proveedorDAO = new ProveedorDAO(this);
 
         cargarLista();
@@ -59,9 +59,9 @@ public class ProveedorActivity extends AppCompatActivity {
         EditText edtGiro = view.findViewById(R.id.edtGiro);
 
         new AlertDialog.Builder(this)
-                .setTitle("Agregar Proveedor")
+                .setTitle(getString(R.string.addSupplierDialog))
                 .setView(view)
-                .setPositiveButton("Guardar", (dialog, which) -> {
+                .setPositiveButton(getString(R.string.save), (dialog, which) -> {
                     Proveedor proveedor = new Proveedor(
                             Integer.parseInt(edtId.getText().toString()),
                             edtNombre.getText().toString(),
@@ -75,16 +75,18 @@ public class ProveedorActivity extends AppCompatActivity {
                     proveedorDAO.insertar(proveedor);
                     cargarLista();
                 })
-                .setNegativeButton("Cancelar", null)
+                .setNegativeButton(getString(R.string.cancel), null)
                 .show();
     }
 
 
     private void mostrarDialogoOpciones(Proveedor proveedor) {
-        String[] opciones = {"Ver", "Editar", "Eliminar"};
+        String[] opciones = {getString(R.string.view),
+        getString(R.string.edit),
+        getString(R.string.delete)};
 
         new AlertDialog.Builder(this)
-                .setTitle("Acciones")
+                .setTitle(getString(R.string.actions))
                 .setItems(opciones, (dialog, which) -> {
                     if (which == 0) {
                         mostrarDialogoVer(proveedor);
@@ -131,9 +133,9 @@ public class ProveedorActivity extends AppCompatActivity {
         edtGiro.setEnabled(false);
 
         new AlertDialog.Builder(this)
-                .setTitle("Detalles del Proveedor")
+                .setTitle(getString(R.string.supplierDetailsDialog))
                 .setView(dialogView)
-                .setPositiveButton("Cerrar", null)
+                .setPositiveButton(getString(R.string.close), null)
                 .show();
     }
 
@@ -160,9 +162,9 @@ public class ProveedorActivity extends AppCompatActivity {
         edtGiro.setText(proveedor.getGiroProveedor());
 
         new AlertDialog.Builder(this)
-                .setTitle("Editar Proveedor")
+                .setTitle(getString(R.string.editSupplierDialog))
                 .setView(dialogView)
-                .setPositiveButton("Actualizar", (dialog, which) -> {
+                .setPositiveButton(getString(R.string.update), (dialog, which) -> {
                     proveedorDAO.actualizar(new Proveedor(
                             proveedor.getIdProveedor(),
                             edtNombre.getText().toString(),
@@ -176,7 +178,7 @@ public class ProveedorActivity extends AppCompatActivity {
                     ));
                     cargarLista();
                 })
-                .setNegativeButton("Cancelar", null)
+                .setNegativeButton(getString(R.string.cancel), null)
                 .show();
     }
 

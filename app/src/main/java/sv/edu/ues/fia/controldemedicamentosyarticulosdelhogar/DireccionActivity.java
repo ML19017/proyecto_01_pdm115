@@ -1,5 +1,4 @@
 package sv.edu.ues.fia.controldemedicamentosyarticulosdelhogar;
-
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import androidx.annotation.Nullable;

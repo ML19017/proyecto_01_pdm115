@@ -26,4 +26,23 @@
     <string name="connection_error">Error de Conexión</string>
     <string name="invalid_credentials">Credenciales invalidas</string>
     <string name="welcome_message">Bienvenido</string>
+    <string name="add_supplier">Agregar Proveedor</string>
+    <string name="nameSupplier">Nombre</string>
+    <string name="phoneSupplier">Teléfono</string>
+    <string name="addressSupplier">Dirección</string>
+    <string name="industrySupplier">Sector</string>
+    <string name="registrationNumberSupplier">Número de Registro</string>
+    <string name="taxIdSupplier">NIF</string>
+    <string name="businessTypeSupplier">Tipo de Empresa</string>
+    <string name="view">Ver</string>
+    <string name="edit">Editar</string>
+    <string name="delete">Eliminar</string>
+    <string name="actions">Acciones</string>
+    <string name="addSupplierDialog">Agregar Proveedor</string>
+    <string name="save">Guardar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="close">Cerrar</string>
+    <string name="update">Autualizar</string>
+    <string name="supplierDetailsDialog">Detalles del Proveedor</string>
+    <string name="editSupplierDialog">Editar Proveedor</string>
 </resources>

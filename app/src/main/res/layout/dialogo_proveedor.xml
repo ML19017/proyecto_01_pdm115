@@ -19,49 +19,49 @@
             android:id="@+id/edtNombre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nombre"
+            android:hint="@string/nameSupplier"
             tools:ignore="TouchTargetSizeCheck" />
 
         <EditText
             android:id="@+id/edtTelefono"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Teléfono"
+            android:hint="@string/phoneSupplier"
             tools:ignore="TouchTargetSizeCheck" />
 
         <EditText
             android:id="@+id/edtDireccion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Dirección"
+            android:hint="@string/addressSupplier"
             tools:ignore="TouchTargetSizeCheck" />
 
         <EditText
             android:id="@+id/edtRubro"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Rubro"
+            android:hint="@string/industrySupplier"
             tools:ignore="TouchTargetSizeCheck" />
 
         <EditText
             android:id="@+id/edtNumReg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Número Registro"
+            android:hint="@string/registrationNumberSupplier"
             tools:ignore="TouchTargetSizeCheck" />
 
         <EditText
             android:id="@+id/edtNIT"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="NIT"
+            android:hint="@string/taxIdSupplier"
             tools:ignore="TouchTargetSizeCheck" />
 
         <EditText
             android:id="@+id/edtGiro"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Giro"
+            android:hint="@string/businessTypeSupplier"
             tools:ignore="TouchTargetSizeCheck" />
 
     </LinearLayout>
