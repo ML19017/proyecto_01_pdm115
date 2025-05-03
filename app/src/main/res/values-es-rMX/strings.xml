@@ -45,4 +45,5 @@
     <string name="update">Autualizar</string>
     <string name="supplierDetailsDialog">Detalles del Proveedor</string>
     <string name="editSupplierDialog">Editar Proveedor</string>
+    <string name="id">ID</string>
 </resources>

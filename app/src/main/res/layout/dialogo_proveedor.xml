@@ -11,7 +11,7 @@
             android:id="@+id/edtId"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="ID"
+            android:hint="@string/id"
             android:inputType="number"
             tools:ignore="TouchTargetSizeCheck" />
 
@@ -20,6 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/nameSupplier"
+            android:inputType="text"
             tools:ignore="TouchTargetSizeCheck" />
 
         <EditText
@@ -27,6 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/phoneSupplier"
+            android:inputType="number"
             tools:ignore="TouchTargetSizeCheck" />
 
         <EditText
@@ -34,6 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/addressSupplier"
+            android:inputType="text"
             tools:ignore="TouchTargetSizeCheck" />
 
         <EditText
@@ -41,6 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/industrySupplier"
+            android:inputType="text"
             tools:ignore="TouchTargetSizeCheck" />
 
         <EditText
@@ -48,6 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/registrationNumberSupplier"
+            android:inputType="text"
             tools:ignore="TouchTargetSizeCheck" />
 
         <EditText
@@ -55,6 +60,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/taxIdSupplier"
+            android:inputType="text"
             tools:ignore="TouchTargetSizeCheck" />
 
         <EditText
@@ -62,6 +68,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/businessTypeSupplier"
+            android:inputType="text"
             tools:ignore="TouchTargetSizeCheck" />
 
     </LinearLayout>
