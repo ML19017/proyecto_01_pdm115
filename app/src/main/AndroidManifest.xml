@@ -13,6 +13,21 @@
         android:theme="@style/Theme.ControlDeMedicamentosYArticulosDelHogar"
         tools:targetApi="31">
         <activity
+            android:name=".DoctorActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RecetaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ViaAdministracionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MarcaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".FormaFarmaceuticaActivity"
+            android:exported="false" />
+        <activity
             android:name=".ProveedorActivity"
             android:exported="false" />
         <activity android:name=".LoginActivity" />
