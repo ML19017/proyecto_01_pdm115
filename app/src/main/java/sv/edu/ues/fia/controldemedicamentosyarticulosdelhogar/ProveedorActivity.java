@@ -11,15 +11,14 @@ import android.widget.ListView;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import java.util.ArrayList;
 import java.util.List;
 
 
 public class ProveedorActivity extends AppCompatActivity {
     private ListView listView;
-    private Button btnAgregar;
+    public Button btnAgregar;
     private ProveedorDAO proveedorDAO;
-    private ArrayAdapter<Proveedor> adapter;
+    public ArrayAdapter<Proveedor> adapter;
     private List<Proveedor> listaProveedores;
 
     @Override
