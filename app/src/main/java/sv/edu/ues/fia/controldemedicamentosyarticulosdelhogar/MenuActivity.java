@@ -2,7 +2,6 @@ package sv.edu.ues.fia.controldemedicamentosyarticulosdelhogar;
 
 import android.app.ListActivity;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
