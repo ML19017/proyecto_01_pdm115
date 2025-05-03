@@ -30,8 +30,4 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
         finish(); // Finaliza MainActivity para que no se pueda volver atrás
     }
-
-
-
-
 }
