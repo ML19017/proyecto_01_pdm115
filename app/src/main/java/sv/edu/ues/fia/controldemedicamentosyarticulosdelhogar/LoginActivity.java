@@ -1,13 +1,19 @@
 package sv.edu.ues.fia.controldemedicamentosyarticulosdelhogar;
 
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import java.sql.SQLException;
 
 public class LoginActivity extends AppCompatActivity {
+
+    private final ControlBD  controlDB = new ControlBD(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,17 +24,32 @@ public class LoginActivity extends AppCompatActivity {
         Button loginButton = findViewById(R.id.login_button);
 
         loginButton.setOnClickListener(v -> {
-            String username = usernameEditText.getText().toString();
-            String password = passwordEditText.getText().toString();
+            String username = usernameEditText.getText().toString().trim();
+            String password = passwordEditText.getText().toString().trim();
 
-            if (username.equals("admin") && password.equals("1234")) {
-                Toast.makeText(this, "SI", Toast.LENGTH_SHORT).show();
+            if (validarUsuario(username, password)) {
                 Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
                 startActivity(intent);
+                Toast.makeText(this, getString(R.string.welcome_message) + " " + username, Toast.LENGTH_SHORT).show();
                 finish();
             } else {
-                Toast.makeText(this, "No", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.invalid_credentials, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private boolean validarUsuario(String username, String password) {
+        try {
+            SQLiteDatabase conexionDB = controlDB.getConnection();
+            Cursor cursor = conexionDB.rawQuery("SELECT * FROM USUARIO WHERE IDUSUARIO = ? AND CLAVE = ?", new String[]{username, password});
+            boolean isValid = cursor.getCount() > 0;
+            cursor.close();
+            conexionDB.close();
+            return isValid;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Toast.makeText(this, R.string.connection_error, Toast.LENGTH_LONG).show();
+        }
+        return false;
     }
 }

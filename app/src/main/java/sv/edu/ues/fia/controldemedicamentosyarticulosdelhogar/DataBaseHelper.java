@@ -10,7 +10,10 @@ import java.io.InputStream;
 
 public class DataBaseHelper extends SQLiteOpenHelper {
     private static final String NOMBRE_BASE_DATOS = "control_medicamentos.s3db";
-    private static final String SCRIPT_CREACION = "db_script.sql";
+    private static final String [] SCRIPTS = {
+            "creation_db_script.sql",
+            "user_table_filling_script.sql",
+    };
     private static final int VERSION = 1;
     private final Context context;
 
@@ -22,27 +25,31 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         try {
-            AssetManager assetManager = context.getAssets();
-            InputStream inputStream = assetManager.open(SCRIPT_CREACION);
+            for (String script: SCRIPTS) {
+                String sqlScript = getSqlScript(script);
+                String[] sqlStatements = sqlScript.split(";");
 
-            StringBuilder stringBuilder = new StringBuilder();
-            int size = inputStream.available();
-            byte[] buffer = new byte[size];
-            inputStream.read(buffer);
-            inputStream.close();
-
-            String sqlScript = new String(buffer);
-            String[] sqlStatements = sqlScript.split(";");
-
-            for (String statement : sqlStatements) {
-                statement = statement.trim();
-                if (!statement.isEmpty()) {
-                    db.execSQL(statement + ";");
+                for (String statement : sqlStatements) {
+                    statement = statement.trim();
+                    if (!statement.isEmpty()) {
+                        db.execSQL(statement + ";");
+                    }
                 }
             }
         } catch (SQLException | IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private String getSqlScript(String SCRIPT_NAME) throws IOException{
+        AssetManager assetManager = context.getAssets();
+        InputStream inputStream = assetManager.open(SCRIPT_NAME);
+
+        int size = inputStream.available();
+        byte[] buffer = new byte[size];
+        inputStream.read(buffer);
+        inputStream.close();
+        return new String(buffer);
     }
 
     @Override

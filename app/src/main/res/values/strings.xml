@@ -25,5 +25,8 @@
     <string name="login_text">Login</string>
     <string name="password_text">Password</string>
     <string name="username_text">Username</string>
+    <string name="connection_error">Connection error</string>
+    <string name="invalid_credentials">Invalid credentials</string>
+    <string name="welcome_message">Welcome</string>
     <!-- End of Login -->
 </resources>

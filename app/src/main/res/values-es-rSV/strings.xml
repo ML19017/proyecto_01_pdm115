@@ -23,4 +23,7 @@
     <string name="login_text">Iniciar Sesión</string>
     <string name="password_text">Contraseña</string>
     <string name="username_text">Nombre de Usuario</string>
+    <string name="connection_error">Error de Conexión</string>
+    <string name="invalid_credentials">Credenciales invalidas</string>
+    <string name="welcome_message">Bienvenido</string>
 </resources>
