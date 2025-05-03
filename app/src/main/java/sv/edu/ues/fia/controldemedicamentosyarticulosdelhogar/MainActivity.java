@@ -13,7 +13,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        SharedPreferences preferencias = getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
+        SharedPreferences preferencias = getSharedPreferences("PREFERENCIAS_APP", Context.MODE_PRIVATE);
         boolean primeraVez =  preferencias.getBoolean("primera_vez", true);
 
         if(primeraVez) {

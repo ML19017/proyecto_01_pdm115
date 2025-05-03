@@ -1,10 +1,15 @@
 package sv.edu.ues.fia.controldemedicamentosyarticulosdelhogar;
 
 import android.app.ListActivity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MenuActivity extends ListActivity {
     String [] actividades = {
@@ -32,9 +37,26 @@ public class MenuActivity extends ListActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String [] menu = getResources().getStringArray(R.array.main_menu); //Obtiene las etiquetas de la lista menu.
-        int [] iconos = getIconos(getResources().getStringArray(R.array.main_icons));
-        setListAdapter(new MenuAdapter(this, menu, iconos));
+        SharedPreferences preferencias = getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
+        List<String> opcionesFiltradas = new ArrayList<>();
+        List<Integer> iconosFiltrados = new ArrayList<>();
+        String[] todasOpciones = getResources().getStringArray(R.array.options_menu);
+        String[] idMenu = getResources().getStringArray(R.array.id_menu); // Lista de todas las opciones
+        int[] todosIconos = getIconos(getResources().getStringArray(R.array.main_icons));
+
+        for (int i = 0; i < idMenu.length; i++) {
+            boolean tienePermiso = preferencias.getBoolean(idMenu[i], false);
+            Log.d("MenuActivity", "Opción: " + idMenu[i] + ", Tiene permiso: " + tienePermiso);
+            if (tienePermiso) {
+                opcionesFiltradas.add(todasOpciones[i]);
+                iconosFiltrados.add(todosIconos[i]);
+            }
+        }
+
+        Log.d("MenuActivity", "Opciones filtradas: " + opcionesFiltradas);
+        Log.d("MenuActivity", "Iconos filtrados: " + iconosFiltrados);
+
+        setListAdapter(new MenuAdapter(this, opcionesFiltradas.toArray(new String[0]), iconosFiltrados.stream().mapToInt(i -> i).toArray()));
     }
 
     @Override

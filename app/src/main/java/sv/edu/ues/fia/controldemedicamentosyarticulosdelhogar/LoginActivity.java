@@ -2,9 +2,11 @@ package sv.edu.ues.fia.controldemedicamentosyarticulosdelhogar;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -43,6 +45,24 @@ public class LoginActivity extends AppCompatActivity {
             SQLiteDatabase conexionDB = controlDB.getConnection();
             Cursor cursor = conexionDB.rawQuery("SELECT * FROM USUARIO WHERE IDUSUARIO = ? AND CLAVE = ?", new String[]{username, password});
             boolean isValid = cursor.getCount() > 0;
+            if (isValid) {
+                cursor.moveToFirst();
+                // Obtener permisos
+                Cursor permisosCursor = conexionDB.rawQuery("SELECT IDOPCION FROM ACCESOUSUARIO WHERE IDUSUARIO = ?", new String[]{username});
+                SharedPreferences preferencias = getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferencias.edit();
+
+                // Limpiar permisos anteriores
+                editor.clear();
+
+                while (permisosCursor.moveToNext()) {
+                    String opcion = permisosCursor.getString(permisosCursor.getColumnIndexOrThrow("IDOPCION"));
+                    editor.putBoolean(opcion, true);
+                    Log.d("LoginActivity", "Permiso guardado: " + opcion);
+                }
+                editor.apply();
+                permisosCursor.close();
+            }
             cursor.close();
             conexionDB.close();
             return isValid;
