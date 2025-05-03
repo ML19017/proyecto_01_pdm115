@@ -1,8 +1,10 @@
 /*==============================================================*/
 /* DBMS name:      SQLite 3                                     */
-/* Created on:     2/5/2025 16:16:11                            */
+/* Created on:     2/5/2025 18:13:38                            */
 /*==============================================================*/
 
+
+drop table if exists ACCESOUSUARIO;
 
 drop table if exists ARTICULO;
 
@@ -34,6 +36,8 @@ drop table if exists MARCA;
 
 drop table if exists MUNICIPIO;
 
+drop table if exists OPCIONCRUD;
+
 drop table if exists PROVEEDOR;
 
 drop table if exists RECETA;
@@ -42,7 +46,42 @@ drop table if exists SUBCATEGORIA;
 
 drop table if exists SUCURSALFARMACIA;
 
+drop table if exists USUARIO;
+
 drop table if exists VIAADMINISTRACION;
+
+/*==============================================================*/
+/* Table: USUARIO                                               */
+/*==============================================================*/
+create table USUARIO (
+   IDUSUARIO text not null,
+   NOMBREUSUARIO text not null,
+   CLAVE text not null,
+   constraint PK_USUARIO primary key (IDUSUARIO)
+);
+
+/*==============================================================*/
+/* Table: OPCIONCRUD                                            */
+/*==============================================================*/
+create table OPCIONCRUD (
+   IDOPCION text not null,
+   DESOPCION text not null,
+   NUMCRUD integer not null,
+   constraint PK_OPCIONCRUD primary key (IDOPCION)
+);
+
+/*==============================================================*/
+/* Table: ACCESOUSUARIO                                         */
+/*==============================================================*/
+create table ACCESOUSUARIO (
+   IDUSUARIO text not null,
+   IDOPCION text not null,
+   constraint PK_ACCESOUSUARIO primary key (IDUSUARIO, IDOPCION),
+   constraint FK_ACCESOUS_ACCESO_USUARIO foreign key (IDUSUARIO)
+         references USUARIO (IDUSUARIO),
+   constraint FK_ACCESOUS_OPCIONES_OPCIONCR foreign key (IDOPCION)
+         references OPCIONCRUD (IDOPCION)
+);
 
 /*==============================================================*/
 /* Table: MARCA                                                 */
