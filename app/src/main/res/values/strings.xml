@@ -21,6 +21,7 @@
     <string name="category">Category</string>
     <string name="subcategory">Subcategory</string>
     <!-- End of menu options -->
+
     <!-- Login -->
     <string name="login_text">Login</string>
     <string name="password_text">Password</string>
@@ -32,7 +33,6 @@
 
     <!-- Compras -->
     <string name="add_supplier">Add Supplier</string>
-
     <string name="nameSupplier">Name</string>
     <string name="phoneSupplier">Phone</string>
     <string name="addressSupplier">Address</string>
@@ -40,14 +40,17 @@
     <string name="registrationNumberSupplier">Registration Number</string>
     <string name="taxIdSupplier">Tax ID</string>
     <string name="businessTypeSupplier">Business Type</string>
-
     <string name="addSupplierDialog">Add Supplier</string>
     <string name="supplierDetailsDialog">Supplier Details</string>
     <string name="editSupplierDialog">Edit Supplier</string>
-
     <!-- Fin Compra -->
 
+<<<<<<< Updated upstream
     <!-- Para Comunismo -->
+=======
+    <!-- Para botones -->
+    <string name="add">Add</string>
+>>>>>>> Stashed changes
     <string name="view">View</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
@@ -58,6 +61,4 @@
     <string name="update">Update</string>
     <string name="id">ID</string>
     <!-- Fin comunismo -->
-
-
 </resources>

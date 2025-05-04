@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MenuActivity extends ListActivity {
-    String [] actividades = {
+    private static final String [] actividades = {
             "DireccionActivity",
             "SucursalActivity",
             "DetalleExistenciaActivity",
@@ -33,13 +33,14 @@ public class MenuActivity extends ListActivity {
             "CategoriaActivity",
             "SubCategoriaActivity",
     };
+    private List<String> opcionesFiltradas = new ArrayList<>();
+    private List<Integer> iconosFiltrados = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SharedPreferences preferencias = getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
-        List<String> opcionesFiltradas = new ArrayList<>();
-        List<Integer> iconosFiltrados = new ArrayList<>();
         String[] todasOpciones = getResources().getStringArray(R.array.options_menu);
         String[] idMenu = getResources().getStringArray(R.array.id_menu); // Lista de todas las opciones
         int[] todosIconos = getIconos(getResources().getStringArray(R.array.main_icons));
@@ -63,6 +64,9 @@ public class MenuActivity extends ListActivity {
     protected void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
         try {
+            SharedPreferences opcion = getSharedPreferences("PREFERENCIAS_APP", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = opcion.edit();
+
             String nombreClase = actividades[position];
             Class<?> clase = Class.forName("sv.edu.ues.fia.controldemedicamentosyarticulosdelhogar." + nombreClase);
             Intent inte = new Intent(this, clase);

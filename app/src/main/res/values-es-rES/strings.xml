@@ -34,6 +34,7 @@
     <string name="registrationNumberSupplier">Número de Registro</string>
     <string name="taxIdSupplier">NIF</string>
     <string name="businessTypeSupplier">Tipo de Empresa</string>
+    <string name="add">Agregar</string>
     <string name="view">Ver</string>
     <string name="edit">Editar</string>
     <string name="delete">Eliminar</string>

@@ -43,25 +43,26 @@ public class LoginActivity extends AppCompatActivity {
     private boolean validarUsuario(String username, String password) {
         try {
             SQLiteDatabase conexionDB = controlDB.getConnection();
-            Cursor cursor = conexionDB.rawQuery("SELECT * FROM USUARIO WHERE IDUSUARIO = ? AND CLAVE = ?", new String[]{username, password});
+            Cursor cursor = conexionDB.rawQuery("SELECT * FROM USUARIO WHERE NOMBREUSUARIO = ? AND CLAVE = ?", new String[]{username, password});
             boolean isValid = cursor.getCount() > 0;
+
             if (isValid) {
                 cursor.moveToFirst();
                 // Obtener permisos
-                Cursor permisosCursor = conexionDB.rawQuery("SELECT IDOPCION FROM ACCESOUSUARIO WHERE IDUSUARIO = ?", new String[]{username});
-                SharedPreferences preferencias = getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
+                Cursor permisosMenuCursor = conexionDB.rawQuery("SELECT IDOPCION FROM ACCESOUSUARIO WHERE IDUSUARIO = ?"
+                        , new String[]{cursor.getString(cursor.getColumnIndexOrThrow("IDUSUARIO"))});
+                permisosMenuCursor.moveToFirst();
+                SharedPreferences preferencias = getSharedPreferences("PERMISOS_APP", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = preferencias.edit();
-
-                // Limpiar permisos anteriores
                 editor.clear();
 
-                while (permisosCursor.moveToNext()) {
-                    String opcion = permisosCursor.getString(permisosCursor.getColumnIndexOrThrow("IDOPCION"));
+                while (permisosMenuCursor.moveToNext()) {
+                    String opcion = permisosMenuCursor.getString(permisosMenuCursor.getColumnIndexOrThrow("IDOPCION"));
                     editor.putBoolean(opcion, true);
                     Log.d("LoginActivity", "Permiso guardado: " + opcion);
                 }
                 editor.apply();
-                permisosCursor.close();
+                permisosMenuCursor.close();
             }
             cursor.close();
             conexionDB.close();

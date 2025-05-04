@@ -22,7 +22,7 @@
     <string name="category">Category</string>
     <string name="subcategory">Subcategory</string>
     -->
-    <string-array name="id_menu">
+    <!-- string-array name="id_menu">
         <item>direction</item>
         <item>branch</item>
         <item>existence_detail</item>
@@ -42,6 +42,27 @@
         <item>item</item>
         <item>category</item>
         <item>subcategory</item>
+    </string-array -->
+    <string-array name="id_menu">
+        <item>001</item>
+        <item>006</item>
+        <item>011</item>
+        <item>016</item>
+        <item>021</item>
+        <item>026</item>
+        <item>031</item>
+        <item>036</item>
+        <item>041</item>
+        <item>046</item>
+        <item>051</item>
+        <item>056</item>
+        <item>061</item>
+        <item>066</item>
+        <item>071</item>
+        <item>076</item>
+        <item>081</item>
+        <item>086</item>
+        <item>091</item>
     </string-array>
     <string-array name="options_menu">
         <item>@string/direction</item>
