@@ -1,5 +1,6 @@
 package sv.edu.ues.fia.controldemedicamentosyarticulosdelhogar;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,7 +21,7 @@ public class DireccionActivity extends AppCompatActivity {
         try {
             SQLiteDatabase conexion = controlBD.getConnection();
             conexion.execSQL("select * from a");
-        } catch (SQLException e) {
+        } catch (SQLiteException e) {
             e.printStackTrace();
         }
     }

@@ -65,7 +65,7 @@ public class LoginActivity extends AppCompatActivity {
                         Log.d("LoginActivity", "Permiso guardado: " + opcion);
                     } while (permisosMenuCursor.moveToNext());
                 }
-                editor.putString("id_user",cursor.getString(cursor.getColumnIndexOrThrow("IDUSUARIO")));
+                editor.putString("id_usuario",cursor.getString(cursor.getColumnIndexOrThrow("IDUSUARIO")));
                 editor.apply();
                 permisosMenuCursor.close();
             }

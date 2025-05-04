@@ -65,7 +65,8 @@ public class MenuActivity extends ListActivity {
             String[] idMenu = getResources().getStringArray(R.array.id_menu); // Lista de todas las opciones
             SharedPreferences preferencias = getSharedPreferences("PERMISOS_APP", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = preferencias.edit();
-            editor.putString("seleccion", idMenu[position]);
+            editor.putString("id_opcion", idMenu[position]);
+            editor.apply();
             String nombreClase = ACTIVIDADES[position];
             Class<?> clase = Class.forName("sv.edu.ues.fia.controldemedicamentosyarticulosdelhogar." + nombreClase);
             Intent inte = new Intent(this, clase);
