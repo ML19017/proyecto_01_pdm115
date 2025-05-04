@@ -75,5 +75,10 @@
     <string name="tipo_forma_farmaceutica">Type</string>
     <string name="options">Options</string>
     <string name="save_message">An item has been saved</string>
+    <string name="confirm_delete">Delete record permanently?</string>
+    <string name="delete_message">An record was deleted</string>
+    <string name="confirm_delete_message">Delete record</string>
+    <string name="update_message">An record was updated</string>
+    <string name="action_block">This action is blocked</string>
 
 </resources>

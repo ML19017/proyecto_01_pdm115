@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.List;
 
@@ -92,28 +91,33 @@ public class FormaFarmaceuticaActivity extends AppCompatActivity {
         dialogView.findViewById(R.id.buttonView).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Handle view action
-                viewFormaFarmaceutica(formaFarmaceutica);
+                if(vac.validarAcceso(2))
+                    viewFormaFarmaceutica(formaFarmaceutica);
+                else
+                    Toast.makeText(getApplicationContext(), R.string.action_block, Toast.LENGTH_LONG).show();
                 dialog.dismiss();
-                // Implement view logic here
             }
         });
 
         dialogView.findViewById(R.id.buttonEdit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Handle edit action
+                if(vac.validarAcceso(3))
+                    editFormaFarmaceutica(formaFarmaceutica);
+                else
+                    Toast.makeText(getApplicationContext(), R.string.action_block, Toast.LENGTH_LONG).show();
                 dialog.dismiss();
-                // Implement edit logic here
             }
         });
 
         dialogView.findViewById(R.id.buttonDelete).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Handle delete action
+                if(vac.validarAcceso(4))
+                    deleteFormaFarmaceutica(formaFarmaceutica.getIdFormaFarmaceutica());
+                else
+                    Toast.makeText(getApplicationContext(), R.string.action_block, Toast.LENGTH_LONG).show();
                 dialog.dismiss();
-                deleteFormaFarmaceutica(formaFarmaceutica.getIdFormaFarmaceutica());
             }
         });
         dialog.show();
@@ -143,16 +147,78 @@ public class FormaFarmaceuticaActivity extends AppCompatActivity {
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_forma_farmaceutica, null);
         builder.setView(dialogView);
 
+        EditText editTextIdFormaFarmaceutica = dialogView.findViewById(R.id.editTextIdFormaFarmaceutica);
+        EditText editTextTipoFormaFarmaceutica = dialogView.findViewById(R.id.editTextTipoFormaFarmaceutica);
+
+        editTextIdFormaFarmaceutica.setText(String.valueOf(formaFarmaceutica.getIdFormaFarmaceutica()));
+        editTextTipoFormaFarmaceutica.setText(formaFarmaceutica.getTipoFormaFarmaceutica());
+
+        editTextIdFormaFarmaceutica.setEnabled(false);
+        editTextTipoFormaFarmaceutica.setEnabled(false);
+
+        // Disable buttons if they exist in the layout
+        Button btnGuardarFormaFarmaceutica = dialogView.findViewById(R.id.btnGuardarFormaFarmaceutica);
+        Button btnLimpiarFormaFarmaceutica = dialogView.findViewById(R.id.btnLimpiarFormaFarmaceutica);
+
+        if (btnGuardarFormaFarmaceutica != null) {
+            btnGuardarFormaFarmaceutica.setVisibility(View.GONE);
+        }
+        if (btnLimpiarFormaFarmaceutica != null) {
+            btnLimpiarFormaFarmaceutica.setVisibility(View.GONE);
+        }
+
         final AlertDialog dialog = builder.create();
         dialog.show();
     }
 
     private void editFormaFarmaceutica(FormaFarmaceutica formaFarmaceutica) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.edit);
 
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_forma_farmaceutica, null);
+        builder.setView(dialogView);
+
+        EditText editTextIdFormaFarmaceutica = dialogView.findViewById(R.id.editTextIdFormaFarmaceutica);
+        EditText editTextTipoFormaFarmaceutica = dialogView.findViewById(R.id.editTextTipoFormaFarmaceutica);
+
+        editTextIdFormaFarmaceutica.setText(String.valueOf(formaFarmaceutica.getIdFormaFarmaceutica()));
+        editTextTipoFormaFarmaceutica.setText(formaFarmaceutica.getTipoFormaFarmaceutica());
+
+        editTextIdFormaFarmaceutica.setEnabled(false);
+
+        Button btnGuardarFormaFarmaceutica = dialogView.findViewById(R.id.btnGuardarFormaFarmaceutica);
+        Button btnLimpiarFormaFarmaceutica = dialogView.findViewById(R.id.btnLimpiarFormaFarmaceutica);
+
+        // Disable the clear button
+        btnLimpiarFormaFarmaceutica.setEnabled(false);
+
+        final AlertDialog dialog = builder.create();
+
+        btnGuardarFormaFarmaceutica.setOnClickListener(v -> {
+            formaFarmaceutica.setTipoFormaFarmaceutica(editTextTipoFormaFarmaceutica.getText().toString().trim());
+            formaFarmaceuticaDAO.updateFormaFarmaceutica(formaFarmaceutica);
+            Toast.makeText(this, R.string.update_message, Toast.LENGTH_SHORT).show();
+            fillList(); // Refresh the ListView
+            dialog.dismiss();
+        });
+
+        dialog.show();
     }
 
     private void deleteFormaFarmaceutica(int id) {
-        formaFarmaceuticaDAO.deleteFormaFarmaceutica(id);
-        // Refresh ListView or handle post-delete actions
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.confirm_delete);
+        builder.setMessage(getString(R.string.confirm_delete_message) + ": " + id);
+
+        builder.setPositiveButton(R.string.yes, (dialog, which) -> {
+            formaFarmaceuticaDAO.deleteFormaFarmaceutica(id);
+            Toast.makeText(this, R.string.delete_message, Toast.LENGTH_SHORT).show();
+            fillList(); // Refresh the ListView
+        });
+
+        builder.setNegativeButton(R.string.no, (dialog, which) -> dialog.dismiss());
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }
