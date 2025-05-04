@@ -17,7 +17,7 @@
     <string name="route_of_administration">Route of Administration</string>
     <string name="prescription">Prescription</string>
     <string name="doctor">Doctor</string>
-    <string name="item">Item</string>
+    <string name="item">Items</string>
     <string name="category">Category</string>
     <string name="subcategory">Subcategory</string>
     <!-- End of menu options -->
@@ -75,4 +75,14 @@
     <string name="tipo_forma_farmaceutica">Type</string>
     <string name="options">Options</string>
 
+
+    <!--Articulo-->
+    <string-array name="category_prompt">
+        <item>categoria 1</item>
+        <item>categoria 2</item>
+        <item>categoria 3</item>
+        <item>categoria 4</item>
+        <item>categoria 5</item>
+    </string-array>
+    <!--Fin Articulo-->
 </resources>

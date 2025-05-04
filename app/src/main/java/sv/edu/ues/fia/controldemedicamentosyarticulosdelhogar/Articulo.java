@@ -5,14 +5,14 @@ public class Articulo {
     private int idMarca;
     private int idViaAdministracion;
     private int idSubCategoria;
-    private int idDetalleExistencia;
+    private int idDetalleExistencia; //No debe ir aca, sujeto a revision
     private int idFormaFarmaceutica;
     private String nombreArticulo;
     private String descripcionArticulo;
-    private int restringidoArticulo;
+    private boolean restringidoArticulo;
     private double precioArticulo;
 
-    public Articulo(int idArticulo, int idMarca, int idViaAdministracion, int idSubCategoria, int idDetalleExistencia, int idFormaFarmaceutica, String nombreArticulo, String descripcionArticulo, int restringidoArticulo, double precioArticulo) {
+    public Articulo(int idArticulo, int idMarca, int idViaAdministracion, int idSubCategoria, int idDetalleExistencia, int idFormaFarmaceutica, String nombreArticulo, String descripcionArticulo, boolean restringidoArticulo, double precioArticulo) {
         this.idArticulo = idArticulo;
         this.idMarca = idMarca;
         this.idViaAdministracion = idViaAdministracion;
@@ -89,11 +89,11 @@ public class Articulo {
         this.descripcionArticulo = descripcionArticulo;
     }
 
-    public int getRestringidoArticulo() {
+    public boolean getRestringidoArticulo() {
         return restringidoArticulo;
     }
 
-    public void setRestringidoArticulo(int restringidoArticulo) {
+    public void setRestringidoArticulo(boolean restringidoArticulo) {
         this.restringidoArticulo = restringidoArticulo;
     }
 
