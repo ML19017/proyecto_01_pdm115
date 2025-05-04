@@ -8,7 +8,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ID Forma Farmaceutica"
+        android:text="@string/id_forma_farmaceutica"
         android:textSize="18sp" />
 
     <EditText
@@ -20,7 +20,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Tipo Forma Farmaceutica"
+        android:text="@string/tipo_forma_farmaceutica"
         android:textSize="18sp"
         android:layout_marginTop="16dp" />
 
@@ -41,6 +41,6 @@
         android:id="@+id/buttonClear"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@stringcl"
+        android:text="@string/clear"
         android:layout_marginTop="8dp" />
 </LinearLayout>
