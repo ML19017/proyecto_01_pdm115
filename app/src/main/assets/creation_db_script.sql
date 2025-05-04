@@ -3,52 +3,51 @@
 /* Created on:     4/5/2025 09:46:25                            */
 /*==============================================================*/
 
+drop table if exists ACCESOUSUARIO ;
 
-drop table ACCESOUSUARIO ;
+drop table if exists ARTICULO ;
 
-drop table ARTICULO ;
+drop table if exists CATEGORIA ;
 
-drop table CATEGORIA ;
+drop table if exists CLIENTE ;
 
-drop table CLIENTE ;
+drop table if exists DEPARTAMENTO ;
 
-drop table DEPARTAMENTO ;
+drop table if exists DETALLECOMPRA ;
 
-drop table DETALLECOMPRA ;
+drop table if exists DETALLEEXISTENCIA ;
 
-drop table DETALLEEXISTENCIA ;
+drop table if exists DETALLEVENTA ;
 
-drop table DETALLEVENTA ;
+drop table if exists DIRECCION ;
 
-drop table DIRECCION ;
+drop table if exists DISTRITO ;
 
-drop table DISTRITO ;
+drop table if exists DOCTOR ;
 
-drop table DOCTOR ;
+drop table if exists FACTURACOMPRA ;
 
-drop table FACTURACOMPRA ;
+drop table if exists FACTURAVENTA ;
 
-drop table FACTURAVENTA ;
+drop table if exists FORMAFARMACEUTICA ;
 
-drop table FORMAFARMACEUTICA ;
+drop table if exists MARCA ;
 
-drop table MARCA ;
+drop table if exists MUNICIPIO ;
 
-drop table MUNICIPIO ;
+drop table if exists OPCIONCRUD ;
 
-drop table OPCIONCRUD ;
+drop table if exists PROVEEDOR ;
 
-drop table PROVEEDOR ;
+drop table if exists RECETA ;
 
-drop table RECETA ;
+drop table if exists SUBCATEGORIA ;
 
-drop table SUBCATEGORIA ;
+drop table if exists SUCURSALFARMACIA ;
 
-drop table SUCURSALFARMACIA ;
+drop table if exists USUARIO ;
 
-drop table USUARIO ;
-
-drop table VIAADMINISTRACION ;
+drop table if exists VIAADMINISTRACION ;
 
 /*==============================================================*/
 /* Table: ACCESOUSUARIO                                         */
