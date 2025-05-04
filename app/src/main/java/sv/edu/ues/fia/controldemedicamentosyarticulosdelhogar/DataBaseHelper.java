@@ -6,11 +6,12 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+
 import java.io.IOException;
 import java.io.InputStream;
-
 public class DataBaseHelper extends SQLiteOpenHelper {
-    private static final String NOMBRE_BASE_DATOS = "control_medicamentos.s3db";
+    private static final String NOMBRE_BASE_DATOS = "control_medicamentosv2.s3db";
     private static final String [] SCRIPTS = {
             "creation_db_script.sql",
             "user_table_filling_script.sql",
@@ -39,6 +40,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             }
         } catch (SQLiteException | IOException e) {
             e.printStackTrace();
+            Log.d("Error", "onCreate:"+e.toString());
         }
     }
 

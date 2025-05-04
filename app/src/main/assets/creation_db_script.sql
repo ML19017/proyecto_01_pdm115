@@ -4,51 +4,51 @@
 /*==============================================================*/
 
 
-drop table ACCESOUSUARIO ;
+drop table if exists ACCESOUSUARIO ;
 
-drop table ARTICULO ;
+drop table if exists ARTICULO ;
 
-drop table CATEGORIA ;
+drop table if exists CATEGORIA ;
 
-drop table CLIENTE ;
+drop table if exists CLIENTE ;
 
-drop table DEPARTAMENTO ;
+drop table if exists DEPARTAMENTO ;
 
-drop table DETALLECOMPRA ;
+drop table if exists DETALLECOMPRA ;
 
-drop table DETALLEEXISTENCIA ;
+drop table if exists DETALLEEXISTENCIA ;
 
-drop table DETALLEVENTA ;
+drop table if exists DETALLEVENTA ;
 
-drop table DIRECCION ;
+drop table if exists DIRECCION ;
 
-drop table DISTRITO ;
+drop table if exists DISTRITO ;
 
-drop table DOCTOR ;
+drop table if exists DOCTOR ;
 
-drop table FACTURACOMPRA ;
+drop table if exists FACTURACOMPRA ;
 
-drop table FACTURAVENTA ;
+drop table if exists FACTURAVENTA ;
 
-drop table FORMAFARMACEUTICA ;
+drop table if exists FORMAFARMACEUTICA ;
 
-drop table MARCA ;
+drop table if exists MARCA ;
 
-drop table MUNICIPIO ;
+drop table if exists MUNICIPIO ;
 
-drop table OPCIONCRUD ;
+drop table if exists OPCIONCRUD ;
 
-drop table PROVEEDOR ;
+drop table if exists PROVEEDOR ;
 
-drop table RECETA ;
+drop table if exists RECETA ;
 
-drop table SUBCATEGORIA ;
+drop table if exists SUBCATEGORIA ;
 
-drop table SUCURSALFARMACIA ;
+drop table if exists SUCURSALFARMACIA ;
 
-drop table USUARIO ;
+drop table if exists USUARIO ;
 
-drop table VIAADMINISTRACION ;
+drop table if exists VIAADMINISTRACION ;
 
 /*==============================================================*/
 /* Table: ACCESOUSUARIO                                         */
@@ -213,8 +213,8 @@ create table DETALLEEXISTENCIA  (
 );
 
 -- comment on table DETALLEEXISTENCIA is
-'cambiar a compuesta si tenemos dos dependencias
-';
+--cambiar a compuesta si tenemos dos dependencias
+
 
 /*==============================================================*/
 /* Index: DETALLA_FK                                            */
@@ -387,7 +387,7 @@ create table MUNICIPIO  (
 );
 
 -- comment on table MUNICIPIO is
-'Es un municipio';
+--Es un municipio
 
 /*==============================================================*/
 /* Index: RELATIONSHIP_3_FK                                     */
