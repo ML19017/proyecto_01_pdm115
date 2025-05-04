@@ -1,5 +1,6 @@
 package sv.edu.ues.fia.controldemedicamentosyarticulosdelhogar;
 
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,12 +59,31 @@ public class ProveedorActivity extends AppCompatActivity {
         EditText edtNIT = view.findViewById(R.id.edtNIT);
         EditText edtGiro = view.findViewById(R.id.edtGiro);
 
-        new AlertDialog.Builder(this)
+        int idProveedor = proveedorDAO.obtenerIdProveedor();
+        edtId.setText(String.valueOf(idProveedor));
+        edtId.setEnabled(false);
+
+        AlertDialog dialog = new AlertDialog.Builder(this)
                 .setTitle(getString(R.string.addSupplierDialog))
                 .setView(view)
-                .setPositiveButton(getString(R.string.save), (dialog, which) -> {
+                .setPositiveButton(getString(R.string.save), null)
+                .setNegativeButton(getString(R.string.cancel), null)
+                .create();
+
+        dialog.setOnShowListener(dialogInterface -> {
+            Button botonGuardar = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+            botonGuardar.setOnClickListener(view1 -> {
+                if (validarCampos(edtNombre, edtTelefono, edtDireccion, edtRubro, edtNumReg, edtNIT, edtGiro) &&
+                        validarSoloTexto(edtNombre, "El Nombre es inválido") &&
+                        validarSoloNumeros(edtTelefono, "El Teléfono es inválido") &&
+                        validarTextoYNumeros(edtDireccion, "La Dirección es inválido") &&
+                        validarSoloTexto(edtRubro, "El Rubro es inválido(Solo texto)") &&
+                        validarTextoYNumeros(edtNumReg, "El Número de Registro es inválido") &&
+                        validarNIT(edtNIT) &&
+                        validarSoloTexto(edtGiro, "El Giro es inválido")
+                ) {
                     Proveedor proveedor = new Proveedor(
-                            Integer.parseInt(edtId.getText().toString()),
+                            idProveedor,
                             edtNombre.getText().toString(),
                             edtTelefono.getText().toString(),
                             edtDireccion.getText().toString(),
@@ -74,10 +94,14 @@ public class ProveedorActivity extends AppCompatActivity {
                     );
                     proveedorDAO.insertar(proveedor);
                     cargarLista();
-                })
-                .setNegativeButton(getString(R.string.cancel), null)
-                .show();
+                    dialog.dismiss();
+                }
+            });
+        });
+
+        dialog.show();
     }
+
 
 
     private void mostrarDialogoOpciones(Proveedor proveedor) {
@@ -93,8 +117,15 @@ public class ProveedorActivity extends AppCompatActivity {
                     } else if (which == 1) {
                         mostrarDialogoEditar(proveedor);
                     } else {
-                        proveedorDAO.eliminar(proveedor.getIdProveedor());
-                        cargarLista();
+                        new AlertDialog.Builder(this)
+                                .setTitle("Confirmación")
+                                .setMessage("¿Está seguro de querer eliminar este proveedor?")
+                                .setPositiveButton("Sí", (dialogInterface, i) -> {
+                                    proveedorDAO.eliminar(proveedor.getIdProveedor());
+                                    cargarLista();
+                                })
+                                .setNegativeButton("No", null)
+                                .show();
                     }
                 })
                 .show();
@@ -153,6 +184,7 @@ public class ProveedorActivity extends AppCompatActivity {
         EditText edtGiro = dialogView.findViewById(R.id.edtGiro);
 
         edtId.setText(String.valueOf(proveedor.getIdProveedor()));
+        edtId.setEnabled(false);
         edtNombre.setText(proveedor.getNombreProveedor());
         edtTelefono.setText(proveedor.getTelefonoProveedor());
         edtDireccion.setText(proveedor.getDireccionProveedor());
@@ -161,10 +193,24 @@ public class ProveedorActivity extends AppCompatActivity {
         edtNIT.setText(proveedor.getNitProveedor());
         edtGiro.setText(proveedor.getGiroProveedor());
 
-        new AlertDialog.Builder(this)
+        AlertDialog dialog = new AlertDialog.Builder(this)
                 .setTitle(getString(R.string.editSupplierDialog))
                 .setView(dialogView)
-                .setPositiveButton(getString(R.string.update), (dialog, which) -> {
+                .setPositiveButton(getString(R.string.update), null)
+                .setNegativeButton(getString(R.string.cancel), null)
+                .create();
+
+        dialog.setOnShowListener(dialogInterface -> {
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(view -> {
+                if (validarCampos(edtNombre, edtTelefono, edtDireccion, edtRubro, edtNumReg, edtNIT, edtGiro) &&
+                        validarSoloTexto(edtNombre, "El Nombre es inválido") &&
+                        validarSoloNumeros(edtTelefono, "El Teléfono es inválido") &&
+                        validarTextoYNumeros(edtDireccion, "La Dirección es inválido") &&
+                        validarSoloTexto(edtRubro, "El Rubro es inválido(Solo texto)") &&
+                        validarTextoYNumeros(edtNumReg, "El Número de Registro es inválido") &&
+                        validarNIT(edtNIT) &&
+                        validarSoloTexto(edtGiro, "El Giro es inválido")
+                ) {
                     proveedorDAO.actualizar(new Proveedor(
                             proveedor.getIdProveedor(),
                             edtNombre.getText().toString(),
@@ -174,12 +220,73 @@ public class ProveedorActivity extends AppCompatActivity {
                             edtNumReg.getText().toString(),
                             edtNIT.getText().toString(),
                             edtGiro.getText().toString()
-
                     ));
                     cargarLista();
-                })
-                .setNegativeButton(getString(R.string.cancel), null)
-                .show();
+                    dialog.dismiss();
+                }
+            });
+        });
+
+        dialog.show();
     }
+
+
+    private boolean validarCampos(EditText... campos) {
+        for (EditText campo : campos) {
+            if (campo.getText().toString().trim().isEmpty()) {
+                campo.setError("Este campo es obligatorio");
+                campo.requestFocus();
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean validarSoloTexto(EditText campo, String nombreCampo) {
+        if (!campo.getText().toString().matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
+            campo.setError(nombreCampo + " solo debe contener letras");
+            campo.requestFocus();
+            return false;
+        }
+        return true;
+    }
+
+    private boolean validarSoloNumeros(EditText campo, String nombreCampo) {
+        if (!campo.getText().toString().matches("\\d+")) {
+            campo.setError(nombreCampo + " solo debe contener números");
+            campo.requestFocus();
+            return false;
+        }
+        return true;
+    }
+
+    private boolean validarNIT(EditText campo) {
+        String nit = campo.getText().toString().trim();
+        if (!nit.matches("\\d{4}-\\d{6}-\\d{3}-\\d")) {
+            campo.setError("El NIT debe tener el formato ####-######-###-#");
+            campo.requestFocus();
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean validarTextoYNumeros(EditText campo, String nombreCampo) {
+        String texto = campo.getText().toString().trim();
+        String regex = "^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\\s]+$"; // Letras, números y espacios
+
+        if (texto.isEmpty()) {
+            campo.setError("El campo " + nombreCampo + " no puede estar vacío.");
+            campo.requestFocus();
+            return false;
+        } else if (!texto.matches(regex)) {
+            campo.setError("El campo " + nombreCampo + " solo debe contener letras y números.");
+            campo.requestFocus();
+            return false;
+        }
+
+        return true;
+    }
+
+
 
 }
