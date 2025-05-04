@@ -12,13 +12,13 @@
         android:text="@string/view" />
 
     <Button
-        android:id="@+id/buttonUpdate"
+        android:id="@+id/buttonEdit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/update" />
 
     <Button
-        android:id="@+id/buttonEdit"
+        android:id="@+id/buttonDelete"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/delete"

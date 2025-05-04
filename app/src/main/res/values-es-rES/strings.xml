@@ -60,7 +60,6 @@
     <string name="field_empty">No puede estar vacío.</string>
     <string name="only_letters_and_numbers">Solo debe contener letras y números.</string>
     <string name="clear">Limpiar</string>
-    <string name="clear">L</string>
     <string name="id_forma_farmaceutica">ID Forma Farmaceutica</string>
     <string name="tipo_forma_farmaceutica">Tipo Forma Farmaceutica</string>
 </resources>

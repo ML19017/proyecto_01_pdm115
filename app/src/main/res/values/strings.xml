@@ -70,8 +70,9 @@
     <string name="field">The field</string>
     <string name="field_empty">Cannot be empty.</string>
     <string name="only_letters_and_numbers">Must contain only letters and numbers.</string>
-
     <string name="clear">Clear</string>
     <string name="id_forma_farmaceutica">ID Forma Farmaceutica</string>
-    <string name="tipo_forma_farmaceutica">Tipo Forma Farmaceutica</string>
+    <string name="tipo_forma_farmaceutica">Type</string>
+    <string name="options">Options</string>
+
 </resources>

@@ -40,11 +40,23 @@ public class FormaFarmaceuticaActivity extends AppCompatActivity {
                 showOptionsDialog(formaFarmaceutica);
             }
         });
+
+        boton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                builder.setTitle(R.string.add);
+                View dialogView = getLayoutInflater().inflate(R.layout.dialog_forma_farmaceutica, null);
+                builder.setView(dialogView);
+                final AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
     }
 
     private void showOptionsDialog(final FormaFarmaceutica formaFarmaceutica) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Options");
+        builder.setTitle(R.string.options);
 
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_options, null);
         builder.setView(dialogView);
