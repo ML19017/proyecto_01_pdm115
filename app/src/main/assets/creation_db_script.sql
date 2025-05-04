@@ -213,8 +213,6 @@ create table DETALLEEXISTENCIA  (
 );
 
 -- comment on table DETALLEEXISTENCIA is
-'cambiar a compuesta si tenemos dos dependencias
-';
 
 /*==============================================================*/
 /* Index: DETALLA_FK                                            */
@@ -387,7 +385,6 @@ create table MUNICIPIO  (
 );
 
 -- comment on table MUNICIPIO is
-'Es un municipio';
 
 /*==============================================================*/
 /* Index: RELATIONSHIP_3_FK                                     */

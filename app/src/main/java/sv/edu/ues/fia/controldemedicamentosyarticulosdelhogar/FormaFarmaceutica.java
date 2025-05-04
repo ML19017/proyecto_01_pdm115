@@ -5,6 +5,7 @@ import android.content.Context;
 public class FormaFarmaceutica {
     private int idFormaFarmaceutica;
     private String tipoFormaFarmaceutica;
+    private Context context;
 
     public FormaFarmaceutica(int idFormaFarmaceutica, String tipoFormaFarmaceutica) {
         this.idFormaFarmaceutica = idFormaFarmaceutica;
@@ -29,7 +30,7 @@ public class FormaFarmaceutica {
 
     @Override
     public String toString() {
-        return R.string.id_forma_farmaceutica + getIdFormaFarmaceutica()
-            +  R.string.tipo_forma_farmaceutica + getTipoFormaFarmaceutica();
+        return  getIdFormaFarmaceutica() + "\n"
+           + getTipoFormaFarmaceutica();
     }
 }
