@@ -62,4 +62,5 @@
     <string name="clear">Limpiar</string>
     <string name="id_forma_farmaceutica">ID Forma Farmaceutica</string>
     <string name="tipo_forma_farmaceutica">Tipo Forma Farmaceutica</string>
+    <string name="options">Opciones</string>
 </resources>
