@@ -48,6 +48,7 @@ public class LoginActivity extends AppCompatActivity {
 
             if (isValid) {
                 cursor.moveToFirst();
+                Log.d("LoginActivity", "UserID: " + cursor.getString(cursor.getColumnIndexOrThrow("IDUSUARIO")));
                 // Obtener permisos
                 Cursor permisosMenuCursor = conexionDB.rawQuery("SELECT IDOPCION FROM ACCESOUSUARIO WHERE IDUSUARIO = ?"
                         , new String[]{cursor.getString(cursor.getColumnIndexOrThrow("IDUSUARIO"))});

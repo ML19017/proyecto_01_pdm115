@@ -45,12 +45,8 @@
     <string name="editSupplierDialog">Edit Supplier</string>
     <!-- Fin Compra -->
 
-<<<<<<< Updated upstream
     <!-- Para Comunismo -->
-=======
-    <!-- Para botones -->
     <string name="add">Add</string>
->>>>>>> Stashed changes
     <string name="view">View</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
