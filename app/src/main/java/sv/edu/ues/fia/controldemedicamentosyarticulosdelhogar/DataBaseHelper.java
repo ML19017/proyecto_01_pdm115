@@ -11,7 +11,7 @@ import android.util.Log;
 import java.io.IOException;
 import java.io.InputStream;
 public class DataBaseHelper extends SQLiteOpenHelper {
-    private static final String NOMBRE_BASE_DATOS = "control_medicamentosv2.s3db";
+    private static final String NOMBRE_BASE_DATOS = "control_medicamentos.s3db";
     private static final String [] SCRIPTS = {
             "creation_db_script.sql",
             "user_table_filling_script.sql",
