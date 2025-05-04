@@ -100,6 +100,6 @@ public class Proveedor {
     // esto devuelve algunos atributos de la tabla y los muestra en el listview
     @Override
     public String toString() {
-        return "# " + getIdProveedor() + " " + getNombreProveedor() + " - " + getTelefonoProveedor();
+        return "# " + getIdProveedor() + " " + getNombreProveedor() + " - " + getNitProveedor();
     }
 }

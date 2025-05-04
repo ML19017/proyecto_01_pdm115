@@ -33,16 +33,17 @@
 
     <!-- Compras -->
     <string name="add_supplier">Add Supplier</string>
-    <string name="nameSupplier">Name</string>
-    <string name="phoneSupplier">Phone</string>
-    <string name="addressSupplier">Address</string>
-    <string name="industrySupplier">Industry</string>
-    <string name="registrationNumberSupplier">Registration Number</string>
-    <string name="taxIdSupplier">Tax ID</string>
-    <string name="businessTypeSupplier">Business Type</string>
-    <string name="addSupplierDialog">Add Supplier</string>
-    <string name="supplierDetailsDialog">Supplier Details</string>
-    <string name="editSupplierDialog">Edit Supplier</string>
+    <string name="name_supplier">Name</string>
+    <string name="phone_supplier">Phone</string>
+    <string name="address_supplier">Address</string>
+    <string name="industry_supplier">Industry</string>
+    <string name="registration_number_supplier">Registration Number</string>
+    <string name="tax_id_supplier">Tax ID</string>
+    <string name="business_type_supplier">Business Type</string>
+    <string name="add_supplier_dialog">Add Supplier</string>
+    <string name="supplier_details_dialog">Supplier Details</string>
+    <string name="edit_supplier_dialog">Edit Supplier</string>
+    <string name="provider">provider?</string>
     <!-- Fin Compra -->
 
     <!-- Para Comunismo -->
@@ -56,5 +57,20 @@
     <string name="close">Close</string>
     <string name="update">Update</string>
     <string name="id">ID</string>
+    <string name="confirmation">Confirmation</string>
+    <string name="confirmation_message">Are you sure you want to delete this</string>
+    <string name="yes">YES</string>
+    <string name="no">NO</string>
+
     <!-- Fin comunismo -->
+    // campos requeridos
+    <string name="required_field">This field is required</string>
+    <string name="only_letters">" Only letters are allowed"</string>
+    <string name="only_numbers">" Only numbers are allowed"</string>
+    <string name="nit_format">" The NIT must have the format ####-######-###-#"</string>
+    <string name="field">The field</string>
+    <string name="field_empty">Cannot be empty.</string>
+    <string name="only_letters_and_numbers">Must contain only letters and numbers.</string>
+
+
 </resources>

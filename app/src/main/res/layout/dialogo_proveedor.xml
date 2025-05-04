@@ -19,7 +19,7 @@
             android:id="@+id/edtNombre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/nameSupplier"
+            android:hint="@string/name_supplier"
             android:inputType="text"
             tools:ignore="TouchTargetSizeCheck" />
 
@@ -27,7 +27,7 @@
             android:id="@+id/edtTelefono"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/phoneSupplier"
+            android:hint="@string/phone_supplier"
             android:inputType="number"
             tools:ignore="TouchTargetSizeCheck" />
 
@@ -35,7 +35,7 @@
             android:id="@+id/edtDireccion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/addressSupplier"
+            android:hint="@string/address_supplier"
             android:inputType="text"
             tools:ignore="TouchTargetSizeCheck" />
 
@@ -43,7 +43,7 @@
             android:id="@+id/edtRubro"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/industrySupplier"
+            android:hint="@string/industry_supplier"
             android:inputType="text"
             tools:ignore="TouchTargetSizeCheck" />
 
@@ -51,7 +51,7 @@
             android:id="@+id/edtNumReg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/registrationNumberSupplier"
+            android:hint="@string/registration_number_supplier"
             android:inputType="text"
             tools:ignore="TouchTargetSizeCheck" />
 
@@ -59,7 +59,7 @@
             android:id="@+id/edtNIT"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/taxIdSupplier"
+            android:hint="@string/tax_id_supplier"
             android:inputType="text"
             tools:ignore="TouchTargetSizeCheck" />
 
@@ -67,7 +67,7 @@
             android:id="@+id/edtGiro"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/businessTypeSupplier"
+            android:hint="@string/business_type_supplier"
             android:inputType="text"
             tools:ignore="TouchTargetSizeCheck" />
 
