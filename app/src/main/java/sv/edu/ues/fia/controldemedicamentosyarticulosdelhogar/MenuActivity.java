@@ -52,7 +52,6 @@ public class MenuActivity extends ListActivity {
                 iconosFiltrados.add(todosIconos[i]);
             }
         }
-
         Log.d("MenuActivity", "Opciones filtradas: " + opcionesFiltradas);
         Log.d("MenuActivity", "Iconos filtrados: " + iconosFiltrados);
 
@@ -63,9 +62,10 @@ public class MenuActivity extends ListActivity {
     protected void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
         try {
-            SharedPreferences opcion = getSharedPreferences("PREFERENCIAS_APP", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = opcion.edit();
-
+            String[] idMenu = getResources().getStringArray(R.array.id_menu); // Lista de todas las opciones
+            SharedPreferences preferencias = getSharedPreferences("PERMISOS_APP", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferencias.edit();
+            editor.putString("seleccion", idMenu[position]);
             String nombreClase = ACTIVIDADES[position];
             Class<?> clase = Class.forName("sv.edu.ues.fia.controldemedicamentosyarticulosdelhogar." + nombreClase);
             Intent inte = new Intent(this, clase);

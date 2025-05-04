@@ -2,6 +2,8 @@ package sv.edu.ues.fia.controldemedicamentosyarticulosdelhogar;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
+
 import java.sql.SQLException;
 
 public class ControlBD {
@@ -14,11 +16,11 @@ public class ControlBD {
         DBHelper = new DataBaseHelper(context);
     }
 
-    public SQLiteDatabase getConnection() throws SQLException{
+    public SQLiteDatabase getConnection() throws SQLiteException {
         return DBHelper.getWritableDatabase();
     }
 
-    public void closeConnection() throws SQLException {
+    public void closeConnection() throws SQLiteException {
         DBHelper.close();
     }
 

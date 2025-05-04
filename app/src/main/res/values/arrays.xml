@@ -85,7 +85,6 @@
         <item>@string/category</item>
         <item>@string/subcategory</item>
     </string-array>
-
     <string-array name="main_icons">
         <item>direction</item>
         <item>branch</item>

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -57,18 +58,21 @@ public class LoginActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = preferencias.edit();
                 editor.clear();
 
-                while (permisosMenuCursor.moveToNext()) {
-                    String opcion = permisosMenuCursor.getString(permisosMenuCursor.getColumnIndexOrThrow("IDOPCION"));
-                    editor.putBoolean(opcion, true);
-                    Log.d("LoginActivity", "Permiso guardado: " + opcion);
+                if (permisosMenuCursor.moveToFirst()) {
+                    do {
+                        String opcion = permisosMenuCursor.getString(permisosMenuCursor.getColumnIndexOrThrow("IDOPCION"));
+                        editor.putBoolean(opcion, true);
+                        Log.d("LoginActivity", "Permiso guardado: " + opcion);
+                    } while (permisosMenuCursor.moveToNext());
                 }
+                editor.putString("id_user",cursor.getString(cursor.getColumnIndexOrThrow("IDUSUARIO")));
                 editor.apply();
                 permisosMenuCursor.close();
             }
             cursor.close();
             conexionDB.close();
             return isValid;
-        } catch (SQLException e) {
+        } catch (SQLiteException e) {
             e.printStackTrace();
             Toast.makeText(this, R.string.connection_error, Toast.LENGTH_LONG).show();
         }
