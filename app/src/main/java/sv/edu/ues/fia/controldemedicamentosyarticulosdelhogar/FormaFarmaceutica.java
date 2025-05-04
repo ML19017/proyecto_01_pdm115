@@ -7,9 +7,10 @@ public class FormaFarmaceutica {
     private String tipoFormaFarmaceutica;
     private Context context;
 
-    public FormaFarmaceutica(int idFormaFarmaceutica, String tipoFormaFarmaceutica) {
+    public FormaFarmaceutica(int idFormaFarmaceutica, String tipoFormaFarmaceutica, Context context) {
         this.idFormaFarmaceutica = idFormaFarmaceutica;
         this.tipoFormaFarmaceutica = tipoFormaFarmaceutica;
+        this.context = context;
     }
 
     public int getIdFormaFarmaceutica() {
@@ -30,7 +31,7 @@ public class FormaFarmaceutica {
 
     @Override
     public String toString() {
-        return  getIdFormaFarmaceutica() + "\n"
-           + getTipoFormaFarmaceutica();
+        return context.getString(R.string.id_forma_farmaceutica) + ": " + getIdFormaFarmaceutica() + "\n"
+           + context.getString(R.string.tipo_forma_farmaceutica) + ": " + getTipoFormaFarmaceutica();
     }
 }

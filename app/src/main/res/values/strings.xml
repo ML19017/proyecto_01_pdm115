@@ -80,5 +80,7 @@
     <string name="confirm_delete_message">Delete record</string>
     <string name="update_message">An record was updated</string>
     <string name="action_block">This action is blocked</string>
+    <string name="not_found_message">Reference not found</string>
+    <string name="duplicate_message">The record is duplicated</string>
 
 </resources>

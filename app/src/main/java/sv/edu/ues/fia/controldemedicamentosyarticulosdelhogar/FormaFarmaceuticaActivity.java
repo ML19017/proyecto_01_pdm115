@@ -29,7 +29,7 @@ public class FormaFarmaceuticaActivity extends AppCompatActivity {
 
         // Initialize DAO with SQLite connection
         SQLiteDatabase conexionDB = new ControlBD(this).getConnection();
-        formaFarmaceuticaDAO = new FormaFarmaceuticaDAO(conexionDB);
+        formaFarmaceuticaDAO = new FormaFarmaceuticaDAO(conexionDB, this);
 
         // Comprobacion Inicial de Permisos de Consulta
         Button btnAgregarFormaFarmaceutica = findViewById(R.id.btnAgregarFormaFarmaceutica);
@@ -128,7 +128,7 @@ public class FormaFarmaceuticaActivity extends AppCompatActivity {
         int id = Integer.parseInt(editTextIdFormaFarmaceutica.getText().toString());
         String tipo = editTextTipoFormaFarmaceutica.getText().toString().trim();
 
-        FormaFarmaceutica formaFarmaceutica = new FormaFarmaceutica(id, tipo);
+        FormaFarmaceutica formaFarmaceutica = new FormaFarmaceutica(id, tipo, this);
         formaFarmaceuticaDAO.addFormaFarmaceutica(formaFarmaceutica);
         Toast.makeText(this, R.string.save_message, Toast.LENGTH_SHORT).show();
         fillList(); // Refresh the ListView
