@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class DoctorActivity extends AppCompatActivity {
@@ -42,7 +43,7 @@ public class DoctorActivity extends AppCompatActivity {
         btnBuscarDoctor.setOnClickListener(v -> {
             try {
                 int id = Integer.parseInt(txtBusqueda.getText().toString().trim());
-                searchDoctorById(id);
+                buscarDoctorPorId(id);
             }
             catch (NumberFormatException e) {
                 e.printStackTrace();
@@ -82,19 +83,23 @@ public class DoctorActivity extends AppCompatActivity {
         EditText editTextNombreDoctor = dialogView.findViewById(R.id.edtNombreDoctor);
         EditText editTextEspecialidadDoctor = dialogView.findViewById(R.id.edtEspecialidadDoctor);
         EditText editTextJvpm = dialogView.findViewById(R.id.edtJVPM);
-
         Button btnGuardarDoctor = dialogView.findViewById(R.id.btnGuardarDoctor);
         Button btnLimpiarDoctor = dialogView.findViewById(R.id.btnLimpiarDoctor);
 
+        List<View> vistas = Arrays.asList(editTextIdDoctor, editTextNombreDoctor, editTextEspecialidadDoctor, editTextJvpm);
+        List<String> listaRegex = Arrays.asList("\\d+", "[a-zA-Z]+", "[a-zA-Z]+", "[a-zA-Z]+");
+        List<Integer> mensajesDeError = Arrays.asList(R.string.only_numbers, R.string.only_letters, R.string.only_letters, R.string.only_letters);
+
+        ValidadorDeCampos validadorDeCampos = new ValidadorDeCampos(this, vistas, listaRegex, mensajesDeError);
+
         final AlertDialog dialog = builder.create();
-
         btnGuardarDoctor.setOnClickListener(v -> {
-            saveDoctor(editTextIdDoctor, editTextNombreDoctor, editTextEspecialidadDoctor, editTextJvpm);
-            dialog.dismiss();
+            if (validadorDeCampos.validarCampos()) {
+                guardarDoctor(editTextIdDoctor, editTextNombreDoctor, editTextEspecialidadDoctor, editTextJvpm);
+                dialog.dismiss();
+            }
         });
-
-        btnLimpiarDoctor.setOnClickListener(v -> clearFields(editTextIdDoctor, editTextNombreDoctor, editTextEspecialidadDoctor, editTextJvpm));
-
+        btnLimpiarDoctor.setOnClickListener(v -> limpiarCampos(editTextIdDoctor, editTextNombreDoctor, editTextEspecialidadDoctor, editTextJvpm));
         dialog.show();
     }
 
@@ -121,7 +126,7 @@ public class DoctorActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(vac.validarAcceso(3))
-                    editDoctor(doctor);
+                    editarDoctor(doctor);
                 else
                     Toast.makeText(getApplicationContext(), R.string.action_block, Toast.LENGTH_LONG).show();
                 dialog.dismiss();
@@ -132,7 +137,7 @@ public class DoctorActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(vac.validarAcceso(4))
-                    deleteDoctor(doctor.getIdDoctor());
+                    eliminarDoctor(doctor.getIdDoctor());
                 else
                     Toast.makeText(getApplicationContext(), R.string.action_block, Toast.LENGTH_LONG).show();
                 dialog.dismiss();
@@ -142,7 +147,7 @@ public class DoctorActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    private void saveDoctor(EditText editTextIdDoctor, EditText editTextNombreDoctor, EditText editTextEspecialidadDoctor, EditText editTextJvpm) {
+    private void guardarDoctor(EditText editTextIdDoctor, EditText editTextNombreDoctor, EditText editTextEspecialidadDoctor, EditText editTextJvpm) {
         int id = Integer.parseInt(editTextIdDoctor.getText().toString());
         String nombre = editTextNombreDoctor.getText().toString().trim();
         String especialidad = editTextEspecialidadDoctor.getText().toString().trim();
@@ -156,10 +161,10 @@ public class DoctorActivity extends AppCompatActivity {
 
         fillList(); // Refresh the ListView
 
-        clearFields(editTextIdDoctor, editTextNombreDoctor, editTextEspecialidadDoctor, editTextJvpm);
+        limpiarCampos(editTextIdDoctor, editTextNombreDoctor, editTextEspecialidadDoctor, editTextJvpm);
     }
 
-    private void clearFields(EditText... fields) {
+    private void limpiarCampos(EditText... fields) {
         for (EditText field : fields) {
             field.setText("");
         }
@@ -206,7 +211,7 @@ public class DoctorActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    private void editDoctor(Doctor doctor) {
+    private void editarDoctor(Doctor doctor) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.edit);
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_doctor, null);
@@ -226,23 +231,30 @@ public class DoctorActivity extends AppCompatActivity {
 
         Button btnGuardarDoctor = dialogView.findViewById(R.id.btnGuardarDoctor);
         Button btnLimpiarDoctor = dialogView.findViewById(R.id.btnLimpiarDoctor);
-        // Disable the clear button
         btnLimpiarDoctor.setEnabled(false);
+
+        List<View> vistas = Arrays.asList(editTextNombreDoctor, editTextEspecialidadDoctor, editTextJvpm);
+        List<String> listaRegex = Arrays.asList("[a-zA-Z]+", "[a-zA-Z]+", "[a-zA-Z]+");
+        List<Integer> mensajesDeError = Arrays.asList(R.string.only_letters, R.string.only_letters, R.string.only_letters);
+
+        ValidadorDeCampos validadorDeCampos = new ValidadorDeCampos(this, vistas, listaRegex, mensajesDeError);
 
         final AlertDialog dialog = builder.create();
         btnGuardarDoctor.setOnClickListener(v -> {
-            doctor.setNombreDoctor(editTextNombreDoctor.getText().toString().trim());
-            doctor.setEspecialidadDoctor(editTextEspecialidadDoctor.getText().toString().trim());
-            doctor.setJvpm(editTextJvpm.getText().toString().trim());
-            doctorDAO.updateDoctor(doctor);
-            Toast.makeText(this, R.string.update_message, Toast.LENGTH_SHORT).show();
-            fillList(); // Refresh the ListView
-            dialog.dismiss();
+            if (validadorDeCampos.validarCampos()) {
+                doctor.setNombreDoctor(editTextNombreDoctor.getText().toString().trim());
+                doctor.setEspecialidadDoctor(editTextEspecialidadDoctor.getText().toString().trim());
+                doctor.setJvpm(editTextJvpm.getText().toString().trim());
+                doctorDAO.updateDoctor(doctor);
+                Toast.makeText(this, R.string.update_message, Toast.LENGTH_SHORT).show();
+                fillList(); // Refresh the ListView
+                dialog.dismiss();
+            }
         });
         dialog.show();
     }
 
-    private void deleteDoctor(int id) {
+    private void eliminarDoctor(int id) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.confirm_delete);
         builder.setMessage(getString(R.string.confirm_delete_message) + ": " + id);
@@ -256,7 +268,7 @@ public class DoctorActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    private void searchDoctorById(int id) {
+    private void buscarDoctorPorId(int id) {
         Doctor doctor = doctorDAO.getDoctor(id);
         if (doctor != null) {
             viewDoctor(doctor);

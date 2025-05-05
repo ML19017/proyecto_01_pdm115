@@ -13,21 +13,24 @@
 
     <EditText
         android:id="@+id/edtNombreDoctor"
-        android:hint="@string/doctor_name"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:hint="@string/doctor_name"
+        android:inputType="text|textCapCharacters" />
 
     <EditText
         android:id="@+id/edtEspecialidadDoctor"
-        android:hint="@string/doctor_specialty"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:hint="@string/doctor_specialty"
+        android:inputType="text|textCapCharacters" />
 
     <EditText
         android:id="@+id/edtJVPM"
-        android:hint="@string/doctor_jvpm"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:hint="@string/doctor_jvpm"
+        android:inputType="text|textCapWords" />
 
     <Button
         android:id="@+id/btnGuardarDoctor"
