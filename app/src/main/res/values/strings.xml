@@ -84,14 +84,8 @@
     <string name="duplicate_message">The record is duplicated</string>
 
 
-    <!--Articulo-->
-    <string name="category_prompt"> All </string>
-    <string-array name="category_array">
-        <item>categoria 1</item>
-        <item>categoria 2</item>
-        <item>categoria 3</item>
-        <item>categoria 4</item>
-        <item>categoria 5</item>
-    </string-array>
-    <!--Fin Articulo-->
+    <string name="doctor_name">Name</string>
+    <string name="doctor_specialty">Specialty</string>
+    <string name="doctor_jvpm">Doctor JVPM</string>
+
 </resources>
