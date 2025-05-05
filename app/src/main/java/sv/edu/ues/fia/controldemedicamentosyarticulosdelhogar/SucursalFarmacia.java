@@ -11,6 +11,11 @@ public class SucursalFarmacia {
         this.nombreFarmacia = nombreFarmacia;
     }
 
+    public SucursalFarmacia(int idFarmacia, String nombreFarmacia) {
+        this.idFarmacia = idFarmacia;
+        this.nombreFarmacia = nombreFarmacia;
+    }
+
     public int getIdFarmacia() {
         return idFarmacia;
     }
@@ -33,5 +38,11 @@ public class SucursalFarmacia {
 
     public void setNombreFarmacia(String nombreFarmacia) {
         this.nombreFarmacia = nombreFarmacia;
+    }
+
+    // esto se muestra en la factura compra en el spinner
+    @Override
+    public String toString() {
+        return nombreFarmacia;
     }
 }

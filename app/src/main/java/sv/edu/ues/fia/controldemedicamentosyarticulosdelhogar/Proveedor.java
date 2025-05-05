@@ -32,6 +32,10 @@ public class Proveedor {
         this.nitProveedor = nitProveedor;
         this.giroProveedor = giroProveedor;
     }
+    public Proveedor(int idProveedor, String nombreProveedor) {
+        this.idProveedor = idProveedor;
+        this.nombreProveedor = nombreProveedor;
+    }
 
     public int getIdProveedor() {
         return idProveedor;

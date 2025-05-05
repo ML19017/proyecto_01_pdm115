@@ -9,6 +9,15 @@ public class DetalleCompra {
     private int cantidadCompra;
     private double totalDetalleCompra;
 
+    public DetalleCompra(int idArticulo, int idCompra, String fechaDeCompra, int cantidadCompra, double precioUnitarioCompra, double totalDetalleCompra) {
+        this.idArticulo = idArticulo;
+        this.idCompra = idCompra;
+        this.fechaDeCompra = fechaDeCompra;
+        this.cantidadCompra = cantidadCompra;
+        this.precioUnitarioCompra = precioUnitarioCompra;
+        this.totalDetalleCompra = totalDetalleCompra;
+    }
+
     public DetalleCompra(int idCompra, int idArticulo, int idDetalleCompra, String fechaDeCompra, double precioUnitarioCompra, int cantidadCompra, double totalDetalleCompra) {
         this.idCompra = idCompra;
         this.idArticulo = idArticulo;

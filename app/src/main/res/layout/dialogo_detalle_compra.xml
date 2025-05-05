@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/edtIdDetalleCompra"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="ID Detalle Compra"
+        android:inputType="text"
+        android:enabled="false"/>
+
+    <EditText
+        android:id="@+id/edtIdArticuloDetalleCompra"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="ID Artículo"
+        android:inputType="number"/>
+
+    <EditText
+        android:id="@+id/edtCantidadDetalleCompra"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Cantidad"
+        android:inputType="numberDecimal"/>
+
+    <EditText
+        android:id="@+id/edtPrecioUnitarioDetalleCompra"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Precio Unitario"
+        android:inputType="numberDecimal"/>
+
+    <EditText
+        android:id="@+id/edtFechaDetalleCompra"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Fecha de Compra"
+        android:inputType="date"/>
+
+    <EditText
+        android:id="@+id/edtTotalDetalleCompra"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Total"
+        android:inputType="none"
+        android:enabled="false"/>
+</LinearLayout>

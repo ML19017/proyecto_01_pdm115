@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <EditText
+        android:id="@+id/editTextIdFactura"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="ID Factura"
+        android:minHeight="48dp" />
+
+    <EditText
+        android:id="@+id/editTextFechaCompra"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Fecha de compra"
+        android:minHeight="48dp" />
+
+    <EditText
+        android:id="@+id/editTextTotalCompra"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Total compra"
+        android:minHeight="48dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sucursal Farmacia"
+        android:textSize="18sp"
+        android:layout_marginTop="15dp" />
+
+    <Spinner
+        android:id="@+id/spinnerFarmacia"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Proveedor"
+        android:textSize="18sp"/>
+
+    <Spinner
+        android:id="@+id/spinnerProveedor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp" />
+
+    <Button
+        android:id="@+id/btnGuardarFacturaCompra"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/save" />
+
+    <Button
+        android:id="@+id/btnLimpiarFacturaCompra"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/clear"
+        android:layout_marginTop="8dp" />
+
+
+</LinearLayout>

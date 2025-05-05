@@ -22,6 +22,12 @@
             android:name=".ArticuloActivity"
             android:exported="false" />
         <activity
+            android:name=".FacturaCompraActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DetalleCompraActivity"
+            android:exported="false" />
+        <activity
             android:name=".DoctorActivity"
             android:exported="false" />
         <activity
