@@ -34,6 +34,7 @@ public class DoctorActivity extends AppCompatActivity {
         doctorDAO = new DoctorDAO(conexionDB, this);
 
         TextView txtBusqueda = (TextView) findViewById(R.id.searchDcctor);
+
         Button btnAgregarDoctor = findViewById(R.id.btnAgregarDoctor);
         btnAgregarDoctor.setVisibility(vac.validarAcceso(1) ? View.VISIBLE : View.INVISIBLE);
         btnAgregarDoctor.setOnClickListener(v -> {showAddDialog();});

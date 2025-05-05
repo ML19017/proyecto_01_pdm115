@@ -9,8 +9,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.Arrays;
 import java.util.List;
 
 public class FormaFarmaceuticaActivity extends AppCompatActivity {
@@ -31,10 +34,26 @@ public class FormaFarmaceuticaActivity extends AppCompatActivity {
         SQLiteDatabase conexionDB = new ControlBD(this).getConnection();
         formaFarmaceuticaDAO = new FormaFarmaceuticaDAO(conexionDB, this);
 
+        TextView txtBusqueda = (TextView) findViewById(R.id.busquedaFormaFarmaceutica);
+
         // Comprobacion Inicial de Permisos de Consulta
         Button btnAgregarFormaFarmaceutica = findViewById(R.id.btnAgregarFormaFarmaceutica);
         btnAgregarFormaFarmaceutica.setVisibility(vac.validarAcceso(1) ? View.VISIBLE : View.INVISIBLE);
         btnAgregarFormaFarmaceutica.setOnClickListener(v -> {showAddDialog();});
+
+        Button btnbuscarFormaFarmaceuticaPorId = findViewById(R.id.btnBuscarFormaFarmaceutica);
+        btnbuscarFormaFarmaceuticaPorId.setVisibility(vac.validarAcceso(2) ? View.VISIBLE : View.INVISIBLE);
+        btnbuscarFormaFarmaceuticaPorId.setOnClickListener(v -> {
+            try {
+                int id = Integer.parseInt(txtBusqueda.getText().toString().trim());
+                buscarFormaFarmaceuticaPorId(id);
+            }
+            catch (NumberFormatException e) {
+                e.printStackTrace();
+                Toast.makeText(this, R.string.invalid_search, Toast.LENGTH_LONG).show();
+            }
+        });
+
 
         listViewFormaFaramceutica = findViewById(R.id.lvFormaFarmaceutica);
         listViewFormaFaramceutica.setVisibility(vac.validarAcceso(2) ? View.VISIBLE : View.INVISIBLE);
@@ -71,9 +90,20 @@ public class FormaFarmaceuticaActivity extends AppCompatActivity {
         final AlertDialog dialog = builder.create();
 
         btnGuardarFormaFarmaceutica.setOnClickListener(v -> {
-            saveFormaFarmaceutica(editTextIdFormaFarmaceutica, editTextTipoFormaFarmaceutica);
-            dialog.dismiss();
+            // Initialize the validator
+            List<View> vistas = Arrays.asList(editTextIdFormaFarmaceutica, editTextTipoFormaFarmaceutica);
+            List<String> listaRegex = Arrays.asList("^\\d+$", "^[a-zA-Z\\s]+$"); // Example regex for number and text validation
+            List<Integer> mensajesDeError = Arrays.asList(R.string.only_numbers, R.string.only_letters);
+
+            ValidadorDeCampos validador = new ValidadorDeCampos(this, vistas, listaRegex, mensajesDeError);
+
+            // Validate the fields
+            if (validador.validarCampos()) {
+                saveFormaFarmaceutica(editTextIdFormaFarmaceutica, editTextTipoFormaFarmaceutica);
+                dialog.dismiss();
+            }
         });
+
         btnLimpiarFormaFarmaceutica.setOnClickListener(v -> clearFieldsFormaFarmaceutica(editTextIdFormaFarmaceutica, editTextTipoFormaFarmaceutica));
         dialog.show();
     }
@@ -195,15 +225,26 @@ public class FormaFarmaceuticaActivity extends AppCompatActivity {
         final AlertDialog dialog = builder.create();
 
         btnGuardarFormaFarmaceutica.setOnClickListener(v -> {
-            formaFarmaceutica.setTipoFormaFarmaceutica(editTextTipoFormaFarmaceutica.getText().toString().trim());
-            formaFarmaceuticaDAO.updateFormaFarmaceutica(formaFarmaceutica);
-            Toast.makeText(this, R.string.update_message, Toast.LENGTH_SHORT).show();
-            fillList(); // Refresh the ListView
-            dialog.dismiss();
+            // Initialize the validator
+            List<View> vistas = Arrays.asList(editTextTipoFormaFarmaceutica);
+            List<String> listaRegex = Arrays.asList("^[a-zA-Z\\s]+$"); // Example regex for text validation
+            List<Integer> mensajesDeError = Arrays.asList(R.string.only_letters);
+
+            ValidadorDeCampos validador = new ValidadorDeCampos(this, vistas, listaRegex, mensajesDeError);
+
+            // Validate the fields
+            if (validador.validarCampos()) {
+                formaFarmaceutica.setTipoFormaFarmaceutica(editTextTipoFormaFarmaceutica.getText().toString().trim());
+                formaFarmaceuticaDAO.updateFormaFarmaceutica(formaFarmaceutica);
+                Toast.makeText(this, R.string.update_message, Toast.LENGTH_SHORT).show();
+                fillList(); // Refresh the ListView
+                dialog.dismiss();
+            }
         });
 
         dialog.show();
     }
+
 
     private void deleteFormaFarmaceutica(int id) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -220,5 +261,15 @@ public class FormaFarmaceuticaActivity extends AppCompatActivity {
 
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    private void buscarFormaFarmaceuticaPorId(int id) {
+        FormaFarmaceutica formaFarmaceutica = formaFarmaceuticaDAO.getFormaFarmaceutica(id);
+        if(formaFarmaceutica != null) {
+            viewFormaFarmaceutica(formaFarmaceutica);
+        } 
+        else {
+            Toast.makeText(this, R.string.not_found_message, Toast.LENGTH_SHORT).show();
+        }
     }
 }
