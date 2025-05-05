@@ -47,11 +47,9 @@
         <item>001</item>
         <item>006</item>
         <item>011</item>
-        <item>000</item>
         <item>021</item>
         <item>026</item>
         <item>031</item>
-        <item>000</item>
         <item>041</item>
         <item>046</item>
         <item>051</item>
@@ -68,11 +66,9 @@
         <item>@string/direction</item>
         <item>@string/branch</item>
         <item>@string/existence_detail</item>
-        <item>@string/sale</item>
         <item>@string/sale_detail</item>
         <item>@string/sale_invoice</item>
         <item>@string/client</item>
-        <item>@string/purchase</item>
         <item>@string/purchase_detail</item>
         <item>@string/purchase_invoice</item>
         <item>@string/supplier</item>
@@ -89,11 +85,9 @@
         <item>direction</item>
         <item>branch</item>
         <item>existence_detail</item>
-        <item>sale</item>
         <item>sale_detail</item>
         <item>sale_invoice</item>
         <item>client</item>
-        <item>purchase</item>
         <item>purchase_detail</item>
         <item>purchase_invoice</item>
         <item>supplier</item>
