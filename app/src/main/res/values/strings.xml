@@ -88,4 +88,22 @@
     <string name="doctor_specialty">Specialty</string>
     <string name="doctor_jvpm">Doctor JVPM</string>
 
+
+    <!--Articulo-->
+    <string name="category_prompt"> All </string>
+    <string name="add_doctor">Add Doctor</string>
+    <string name="id_doctor">Id Doctor</string>
+    <string name="nombre_doctor">Nombre</string>
+    <string name="especialidad_doctor">Especialidad</string>
+    <string name="jvpm">JVPM</string>
+    <string name="query">Query</string>
+    <string name="search">Search</string>
+    <string-array name="category_array">
+        <item>categoria 1</item>
+        <item>categoria 2</item>
+        <item>categoria 3</item>
+        <item>categoria 4</item>
+        <item>categoria 5</item>
+    </string-array>
+    <!--Fin Articulo-->
 </resources>

@@ -1,96 +1,244 @@
 package sv.edu.ues.fia.controldemedicamentosyarticulosdelhogar;
 
-import android.content.DialogInterface;
+import android.app.AlertDialog;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.*;
-import androidx.appcompat.app.AlertDialog;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.List;
 
 public class DoctorActivity extends AppCompatActivity {
-
-    private ListView listView;
-    private Button btnAgregar;
+    private final ValidarAccesoCRUD vac = new ValidarAccesoCRUD(this);
     private DoctorDAO doctorDAO;
-    private ArrayAdapter<Doctor> adapter;
+    private ArrayAdapter<Doctor> adaptadorDoctores;
     private List<Doctor> listaDoctores;
+    private ListView listViewDoctores;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_doctor); // Asegúrate de crear este layout
+        setContentView(R.layout.activity_doctor);
 
-        listView = findViewById(R.id.lvDoctor);
-        btnAgregar = findViewById(R.id.btnAgregarDoctor);
+        // Initialize DAO with SQLite connection
+        SQLiteDatabase conexionDB = new ControlBD(this).getConnection();
+        doctorDAO = new DoctorDAO(conexionDB, this);
 
-        SQLiteDatabase db = openOrCreateDatabase("medicamentos", MODE_PRIVATE, null);
-        doctorDAO = new DoctorDAO(db, this);
-        cargarDoctores();
+        // Comprobacion Inicial de Permisos de Consulta
+        Button btnAgregarDoctor = findViewById(R.id.btnAgregarDoctor);
+        btnAgregarDoctor.setVisibility(vac.validarAcceso(1) ? View.VISIBLE : View.INVISIBLE);
+        btnAgregarDoctor.setOnClickListener(v -> {showAddDialog();});
 
-        btnAgregar.setOnClickListener(view -> mostrarDialogo(null));
+        listViewDoctores = findViewById(R.id.lvDoctor);
+        listViewDoctores.setVisibility(vac.validarAcceso(2) ? View.VISIBLE : View.INVISIBLE);
 
-        listView.setOnItemClickListener((parent, view, position, id) -> {
-            Doctor doctor = listaDoctores.get(position);
-            mostrarDialogo(doctor);
-        });
+        // Fill the ListView
+        fillList();
 
-        listView.setOnItemLongClickListener((parent, view, position, id) -> {
-            Doctor doctor = listaDoctores.get(position);
-            new AlertDialog.Builder(this)
-                    .setTitle(R.string.delete)
-                    .setMessage(R.string.confirm_delete)
-                    .setPositiveButton(R.string.yes, (dialog, which) -> {
-                        doctorDAO.deleteDoctor(doctor.getIdDoctor());
-                        cargarDoctores();
-                    })
-                    .setNegativeButton(R.string.no, null)
-                    .show();
-            return true;
+        // Set item click listener for ListView
+        listViewDoctores.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Doctor doctor = (Doctor) parent.getItemAtPosition(position);
+                showOptionsDialog(doctor);
+            }
         });
     }
 
-    private void cargarDoctores() {
+    private void fillList() {
         listaDoctores = doctorDAO.getAllDoctors();
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listaDoctores);
-        listView.setAdapter(adapter);
+        adaptadorDoctores = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listaDoctores);
+        listViewDoctores.setAdapter(adaptadorDoctores);
     }
 
-    private void mostrarDialogo(Doctor doctorExistente) {
+    private void showAddDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.add);
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_doctor, null);
-        EditText etId = dialogView.findViewById(R.id.etIdDoctor);
-        EditText etNombre = dialogView.findViewById(R.id.etNombreDoctor);
-        EditText etEspecialidad = dialogView.findViewById(R.id.etEspecialidadDoctor);
-        EditText etJvpm = dialogView.findViewById(R.id.etJvpm);
+        builder.setView(dialogView);
 
-        if (doctorExistente != null) {
-            etId.setText(String.valueOf(doctorExistente.getIdDoctor()));
-            etId.setEnabled(false);
-            etNombre.setText(doctorExistente.getNombreDoctor());
-            etEspecialidad.setText(doctorExistente.getEspecialidadDoctor());
-            etJvpm.setText(doctorExistente.getJvpm());
+        EditText editTextIdDoctor = dialogView.findViewById(R.id.edtIdDoctor);
+        EditText editTextNombreDoctor = dialogView.findViewById(R.id.edtNombreDoctor);
+        EditText editTextEspecialidadDoctor = dialogView.findViewById(R.id.edtEspecialidadDoctor);
+        EditText editTextJvpm = dialogView.findViewById(R.id.edtJVPM);
+
+        Button btnGuardarDoctor = dialogView.findViewById(R.id.btnGuardarDoctor);
+        Button btnLimpiarDoctor = dialogView.findViewById(R.id.btnLimpiarDoctor);
+
+        final AlertDialog dialog = builder.create();
+
+        btnGuardarDoctor.setOnClickListener(v -> {
+            saveDoctor(editTextIdDoctor, editTextNombreDoctor, editTextEspecialidadDoctor, editTextJvpm);
+            dialog.dismiss();
+        });
+
+        btnLimpiarDoctor.setOnClickListener(v -> clearFields(editTextIdDoctor, editTextNombreDoctor, editTextEspecialidadDoctor, editTextJvpm));
+
+        dialog.show();
+    }
+
+    private void showOptionsDialog(final Doctor doctor) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.options);
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_options, null);
+        builder.setView(dialogView);
+
+        final AlertDialog dialog = builder.create();
+
+        dialogView.findViewById(R.id.buttonView).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(vac.validarAcceso(2))
+                    viewDoctor(doctor);
+                else
+                    Toast.makeText(getApplicationContext(), R.string.action_block, Toast.LENGTH_LONG).show();
+                dialog.dismiss();
+            }
+        });
+
+        dialogView.findViewById(R.id.buttonEdit).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(vac.validarAcceso(3))
+                    editDoctor(doctor);
+                else
+                    Toast.makeText(getApplicationContext(), R.string.action_block, Toast.LENGTH_LONG).show();
+                dialog.dismiss();
+            }
+        });
+
+        dialogView.findViewById(R.id.buttonDelete).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(vac.validarAcceso(4))
+                    deleteDoctor(doctor.getIdDoctor());
+                else
+                    Toast.makeText(getApplicationContext(), R.string.action_block, Toast.LENGTH_LONG).show();
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
+
+    private void saveDoctor(EditText editTextIdDoctor, EditText editTextNombreDoctor, EditText editTextEspecialidadDoctor, EditText editTextJvpm) {
+        int id = Integer.parseInt(editTextIdDoctor.getText().toString());
+        String nombre = editTextNombreDoctor.getText().toString().trim();
+        String especialidad = editTextEspecialidadDoctor.getText().toString().trim();
+        String jvpm = editTextJvpm.getText().toString().trim();
+
+        Doctor doctor = new Doctor(id, nombre, especialidad, jvpm, this);
+
+        doctorDAO.addDoctor(doctor);
+
+        Toast.makeText(this, R.string.save_message, Toast.LENGTH_SHORT).show();
+
+        fillList(); // Refresh the ListView
+
+        clearFields(editTextIdDoctor, editTextNombreDoctor, editTextEspecialidadDoctor, editTextJvpm);
+    }
+
+    private void clearFields(EditText... fields) {
+        for (EditText field : fields) {
+            field.setText("");
+        }
+    }
+
+    private void viewDoctor(Doctor doctor) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle(R.string.view);
+
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_doctor, null);
+
+        builder.setView(dialogView);
+
+        EditText editTextIdDoctor = dialogView.findViewById(R.id.edtIdDoctor);
+
+        EditText editTextNombreDoctor = dialogView.findViewById(R.id.edtNombreDoctor);
+
+        EditText editTextEspecialidadDoctor = dialogView.findViewById(R.id.edtEspecialidadDoctor);
+
+        EditText editTextJvpm = dialogView.findViewById(R.id.edtJVPM);
+
+        editTextIdDoctor.setText(String.valueOf(doctor.getIdDoctor()));
+        editTextNombreDoctor.setText(doctor.getNombreDoctor());
+        editTextEspecialidadDoctor.setText(doctor.getEspecialidadDoctor());
+        editTextJvpm.setText(doctor.getJvpm());
+
+        editTextIdDoctor.setEnabled(false);
+        editTextNombreDoctor.setEnabled(false);
+        editTextEspecialidadDoctor.setEnabled(false);
+        editTextJvpm.setEnabled(false);
+
+        // Disable buttons if they exist in the layout
+        Button btnGuardarDoctor = dialogView.findViewById(R.id.btnGuardarDoctor);
+        Button btnLimpiarDoctor = dialogView.findViewById(R.id.btnLimpiarDoctor);
+        if (btnGuardarDoctor != null) {
+            btnGuardarDoctor.setVisibility(View.GONE);
+        }
+        if (btnLimpiarDoctor != null) {
+            btnLimpiarDoctor.setVisibility(View.GONE);
         }
 
-        new AlertDialog.Builder(this)
-                .setTitle(doctorExistente == null ? R.string.add_doctor : R.string.edit_doctor)
-                .setView(dialogView)
-                .setPositiveButton(R.string.save, (dialog, which) -> {
-                    int id = Integer.parseInt(etId.getText().toString());
-                    String nombre = etNombre.getText().toString();
-                    String especialidad = etEspecialidad.getText().toString();
-                    String jvpm = etJvpm.getText().toString();
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+    }
 
-                    Doctor d = new Doctor(id, nombre, especialidad, jvpm);
-                    if (doctorExistente == null) {
-                        doctorDAO.addDoctor(d);
-                    } else {
-                        doctorDAO.updateDoctor(d);
-                    }
-                    cargarDoctores();
-                })
-                .setNegativeButton(R.string.cancel, null)
-                .show();
+    private void editDoctor(Doctor doctor) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.edit);
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_doctor, null);
+        builder.setView(dialogView);
+
+        EditText editTextIdDoctor = dialogView.findViewById(R.id.edtIdDoctor);
+        EditText editTextNombreDoctor = dialogView.findViewById(R.id.edtNombreDoctor);
+        EditText editTextEspecialidadDoctor = dialogView.findViewById(R.id.edtEspecialidadDoctor);
+        EditText editTextJvpm = dialogView.findViewById(R.id.edtJVPM);
+
+        editTextIdDoctor.setText(String.valueOf(doctor.getIdDoctor()));
+        editTextNombreDoctor.setText(doctor.getNombreDoctor());
+        editTextEspecialidadDoctor.setText(doctor.getEspecialidadDoctor());
+        editTextJvpm.setText(doctor.getJvpm());
+
+        editTextIdDoctor.setEnabled(false);
+
+        Button btnGuardarDoctor = dialogView.findViewById(R.id.btnGuardarDoctor);
+        Button btnLimpiarDoctor = dialogView.findViewById(R.id.btnLimpiarDoctor);
+        // Disable the clear button
+        btnLimpiarDoctor.setEnabled(false);
+
+        final AlertDialog dialog = builder.create();
+        btnGuardarDoctor.setOnClickListener(v -> {
+            doctor.setNombreDoctor(editTextNombreDoctor.getText().toString().trim());
+            doctor.setEspecialidadDoctor(editTextEspecialidadDoctor.getText().toString().trim());
+            doctor.setJvpm(editTextJvpm.getText().toString().trim());
+            doctorDAO.updateDoctor(doctor);
+            Toast.makeText(this, R.string.update_message, Toast.LENGTH_SHORT).show();
+            fillList(); // Refresh the ListView
+            dialog.dismiss();
+        });
+        dialog.show();
+    }
+
+    private void deleteDoctor(int id) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.confirm_delete);
+        builder.setMessage(getString(R.string.confirm_delete_message) + ": " + id);
+        builder.setPositiveButton(R.string.yes, (dialog, which) -> {
+            doctorDAO.deleteDoctor(id);
+            Toast.makeText(this, R.string.delete_message, Toast.LENGTH_SHORT).show();
+            fillList(); // Refresh the ListView
+        });
+        builder.setNegativeButton(R.string.no, (dialog, which) -> dialog.dismiss());
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }

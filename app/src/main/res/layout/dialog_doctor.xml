@@ -5,27 +5,42 @@
     android:layout_height="wrap_content">
 
     <EditText
-        android:id="@+id/etIdDoctor"
+        android:id="@+id/edtIdDoctor"
         android:hint="@string/id"
         android:inputType="number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <EditText
-        android:id="@+id/etNombreDoctor"
+        android:id="@+id/edtNombreDoctor"
         android:hint="@string/doctor_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <EditText
-        android:id="@+id/etEspecialidadDoctor"
+        android:id="@+id/edtEspecialidadDoctor"
         android:hint="@string/doctor_specialty"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <EditText
-        android:id="@+id/etJvpm"
+        android:id="@+id/edtJVPM"
         android:hint="@string/doctor_jvpm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/btnGuardarDoctor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/save"
+        android:layout_marginTop="16dp" />
+
+    <Button
+        android:id="@+id/btnLimpiarDoctor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/clear"
+        android:layout_marginTop="8dp" />
+
 </LinearLayout>
