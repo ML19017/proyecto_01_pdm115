@@ -17,9 +17,9 @@
     <string name="route_of_administration">Route of Administration</string>
     <string name="prescription">Prescription</string>
     <string name="doctor">Doctor</string>
-    <string name="item">Item</string>
+    <string name="item">Items</string>
     <string name="category">Category</string>
-    <string name="subcategory">Subcategory</string>
+    <string name="subcategory">Sub-Category</string>
     <!-- End of menu options -->
 
     <!-- Login -->
@@ -83,4 +83,15 @@
     <string name="not_found_message">Reference not found</string>
     <string name="duplicate_message">The record is duplicated</string>
 
+
+    <!--Articulo-->
+    <string name="category_prompt"> All </string>
+    <string-array name="category_array">
+        <item>categoria 1</item>
+        <item>categoria 2</item>
+        <item>categoria 3</item>
+        <item>categoria 4</item>
+        <item>categoria 5</item>
+    </string-array>
+    <!--Fin Articulo-->
 </resources>
