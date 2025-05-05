@@ -19,7 +19,7 @@
     <string name="doctor">Doctor</string>
     <string name="item">Items</string>
     <string name="category">Category</string>
-    <string name="subcategory">Subcategory</string>
+    <string name="subcategory">Sub-Category</string>
     <!-- End of menu options -->
 
     <!-- Login -->

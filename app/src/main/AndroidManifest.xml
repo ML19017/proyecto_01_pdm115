@@ -13,6 +13,12 @@
         android:theme="@style/Theme.ControlDeMedicamentosYArticulosDelHogar"
         tools:targetApi="31">
         <activity
+            android:name=".SubCategoriaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CategoriaActivity"
+            android:exported="false" />
+        <activity
             android:name=".ArticuloActivity"
             android:exported="false" />
         <activity
