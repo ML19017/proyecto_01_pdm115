@@ -62,4 +62,13 @@
     <string name="clear">Limpiar</string>
     <string name="id_forma_farmaceutica">ID Forma Farmaceutica</string>
     <string name="tipo_forma_farmaceutica">Tipo Forma Farmaceutica</string>
+    <string name="options">Opciones</string>
+    <string name="save_message">Se ha guardado el registro correctamente</string>
+    <string name="confirm_delete">¿Eliminar el registro permanentemente?</string>
+    <string name="delete_message">El registro fue eliminado correctamente</string>
+    <string name="confirm_delete_message">Eliminar Registro</string>
+    <string name="update_message">Se ha actualizado el registro correctamente</string>
+    <string name="action_block">Esta acción esta bloqueada</string>
+    <string name="not_found_message">No se ha encontrado la referencia</string>
+    <string name="duplicate_message">La clave del registro ya existe</string>
 </resources>

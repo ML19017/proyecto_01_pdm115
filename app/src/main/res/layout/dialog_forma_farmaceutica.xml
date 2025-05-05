@@ -31,16 +31,17 @@
         android:inputType="text" />
 
     <Button
-        android:id="@+id/buttonSave"
+        android:id="@+id/btnGuardarFormaFarmaceutica"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/save"
         android:layout_marginTop="16dp" />
 
     <Button
-        android:id="@+id/buttonClear"
+        android:id="@+id/btnLimpiarFormaFarmaceutica"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/clear"
         android:layout_marginTop="8dp" />
+
 </LinearLayout>

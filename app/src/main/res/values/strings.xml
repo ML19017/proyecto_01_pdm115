@@ -71,9 +71,17 @@
     <string name="field_empty">Cannot be empty.</string>
     <string name="only_letters_and_numbers">Must contain only letters and numbers.</string>
     <string name="clear">Clear</string>
-    <string name="id_forma_farmaceutica">ID Forma Farmaceutica</string>
+    <string name="id_forma_farmaceutica">ID Pharmaceutical Form</string>
     <string name="tipo_forma_farmaceutica">Type</string>
     <string name="options">Options</string>
+    <string name="save_message">An item has been saved</string>
+    <string name="confirm_delete">Delete record permanently?</string>
+    <string name="delete_message">An record was deleted</string>
+    <string name="confirm_delete_message">Delete record</string>
+    <string name="update_message">An record was updated</string>
+    <string name="action_block">This action is blocked</string>
+    <string name="not_found_message">Reference not found</string>
+    <string name="duplicate_message">The record is duplicated</string>
 
 
     <!--Articulo-->
