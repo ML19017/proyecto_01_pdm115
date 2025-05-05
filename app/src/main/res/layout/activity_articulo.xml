@@ -52,8 +52,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="7"
-            android:prompt="@array/category_prompt"
-            android:textAlignment="center"
+            android:prompt="@string/category_prompt"
+
             />
     </LinearLayout>
 

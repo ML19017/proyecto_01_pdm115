@@ -77,7 +77,8 @@
 
 
     <!--Articulo-->
-    <string-array name="category_prompt">
+    <string name="category_prompt"> All </string>
+    <string-array name="category_array">
         <item>categoria 1</item>
         <item>categoria 2</item>
         <item>categoria 3</item>
