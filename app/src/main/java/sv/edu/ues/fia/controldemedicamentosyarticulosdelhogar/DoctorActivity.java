@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,13 +32,26 @@ public class DoctorActivity extends AppCompatActivity {
         SQLiteDatabase conexionDB = new ControlBD(this).getConnection();
         doctorDAO = new DoctorDAO(conexionDB, this);
 
-        // Comprobacion Inicial de Permisos de Consulta
+        TextView txtBusqueda = (TextView) findViewById(R.id.searchDcctor);
         Button btnAgregarDoctor = findViewById(R.id.btnAgregarDoctor);
         btnAgregarDoctor.setVisibility(vac.validarAcceso(1) ? View.VISIBLE : View.INVISIBLE);
         btnAgregarDoctor.setOnClickListener(v -> {showAddDialog();});
 
+        Button btnBuscarDoctor = findViewById(R.id.btnBuscarDoctor);
+        btnBuscarDoctor.setVisibility(vac.validarAcceso(2) ? View.VISIBLE : View.INVISIBLE);
+        btnBuscarDoctor.setOnClickListener(v -> {
+            try {
+                int id = Integer.parseInt(txtBusqueda.getText().toString().trim());
+                searchDoctorById(id);
+            }
+            catch (NumberFormatException e) {
+                e.printStackTrace();
+                Toast.makeText(this, R.string.invalid_search, Toast.LENGTH_LONG).show();
+            }
+        });
+
         listViewDoctores = findViewById(R.id.lvDoctor);
-        listViewDoctores.setVisibility(vac.validarAcceso(2) ? View.VISIBLE : View.INVISIBLE);
+        listViewDoctores.setVisibility(vac.validarAcceso(3) || vac.validarAcceso(4) ? View.VISIBLE : View.INVISIBLE);
 
         // Fill the ListView
         fillList();
@@ -240,5 +254,14 @@ public class DoctorActivity extends AppCompatActivity {
         builder.setNegativeButton(R.string.no, (dialog, which) -> dialog.dismiss());
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    private void searchDoctorById(int id) {
+        Doctor doctor = doctorDAO.getDoctor(id);
+        if (doctor != null) {
+            viewDoctor(doctor);
+        } else {
+            Toast.makeText(this, R.string.not_found_message, Toast.LENGTH_SHORT).show();
+        }
     }
 }
