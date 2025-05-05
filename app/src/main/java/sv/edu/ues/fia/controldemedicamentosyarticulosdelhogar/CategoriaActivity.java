@@ -5,7 +5,9 @@ import android.widget.AdapterView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class CategoriaActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+
+//implements AdapterView.OnItemClickListener
+public class CategoriaActivity extends AppCompatActivity  {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
