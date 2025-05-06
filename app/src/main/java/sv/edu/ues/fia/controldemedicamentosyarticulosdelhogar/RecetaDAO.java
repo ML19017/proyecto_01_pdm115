@@ -26,7 +26,7 @@ public class RecetaDAO {
 
         if (!existeCliente(receta.getIdCliente())) {
             Toast.makeText(context, context.getString(R.string.not_found_message) + context.getString(R.string.id_doctor), Toast.LENGTH_SHORT).show();
-            //return;
+            return;
         }
 
         if (isDuplicate(receta.getIdReceta())) {

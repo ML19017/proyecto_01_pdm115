@@ -11,59 +11,81 @@ import java.util.*;
 
 public class RecetaActivity extends AppCompatActivity {
 
+    private final ValidarAccesoCRUD vac = new ValidarAccesoCRUD(this);
     private RecetaDAO recetaDAO;
-    private ListView listViewRecetas;
-    private ArrayAdapter<Receta> adaptador;
-    private List<Receta> listaRecetas;
+    private ArrayAdapter<Receta> adaptadorReceta;
+    private List<Receta> listaReceta;
+    private ListView listverReceta;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_receta);
+        SQLiteDatabase conexionDB = new ControlBD(this).getConnection();
+        recetaDAO = new RecetaDAO(conexionDB, this);
+        TextView txtBusqueda = findViewById(R.id.busquedaReceta);
 
-        SQLiteDatabase db = new ControlBD(this).getConnection();
-        recetaDAO = new RecetaDAO(db, this);
+        Button btnAgregarReceta = findViewById(R.id.btnAgregarReceta);
+        btnAgregarReceta.setVisibility(vac.validarAcceso(1) ? View.VISIBLE : View.INVISIBLE);
+        btnAgregarReceta.setOnClickListener(v -> showAddDialog());
 
-        listViewRecetas = findViewById(R.id.lvReceta);
-        Button btnAgregar = findViewById(R.id.btnAgregarReceta);
+        Button btnBuscarRecetaPorId = findViewById(R.id.btnBuscarReceta);
+        btnBuscarRecetaPorId.setVisibility(vac.validarAcceso(2) ? View.VISIBLE : View.INVISIBLE);
+        btnBuscarRecetaPorId.setOnClickListener(v -> {
+            try {
+                String id = txtBusqueda.getText().toString().trim();
+                int idReceta = Integer.parseInt(id);
+                buscarRecetaPorId(idReceta);
+            } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
+                e.printStackTrace();
+                Toast.makeText(this, R.string.invalid_search, Toast.LENGTH_LONG).show();
+            }
+        });
 
-        btnAgregar.setOnClickListener(v -> showAddDialog());
-
-        cargarLista();
-        listViewRecetas.setOnItemClickListener((parent, view, position, id) -> {
+        listverReceta = findViewById(R.id.lvReceta);
+        listverReceta.setVisibility(vac.validarAcceso(2) ? View.VISIBLE : View.INVISIBLE);
+        llenarLista();
+        listverReceta.setOnItemClickListener((parent, view, position, id) -> {
             Receta receta = (Receta) parent.getItemAtPosition(position);
-            mostrarOpciones(receta);
+            showOptionsDialog(receta);
         });
     }
 
-    private void cargarLista() {
-        listaRecetas = recetaDAO.getAllRecetas();
-        adaptador = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listaRecetas);
-        listViewRecetas.setAdapter(adaptador);
+
+    private void llenarLista() {
+        listaReceta = recetaDAO.getAllRecetas();
+        adaptadorReceta = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listaReceta);
+        listverReceta.setAdapter(adaptadorReceta);
     }
 
-    private void mostrarOpciones(Receta receta) {
+    private void showOptionsDialog(final Receta receta) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.options);
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_options, null);
+        builder.setView(dialogView);
+        final AlertDialog dialog = builder.create();
 
-        View view = getLayoutInflater().inflate(R.layout.dialog_options, null); // reutiliza dialog_options.xml
-        builder.setView(view);
-
-        AlertDialog dialog = builder.create();
-
-        view.findViewById(R.id.buttonView).setOnClickListener(v -> {
-            verReceta(receta);
+        dialogView.findViewById(R.id.buttonView).setOnClickListener(v -> {
+            if (vac.validarAcceso(2))
+                verReceta(receta);
+            else
+                Toast.makeText(getApplicationContext(), R.string.action_block, Toast.LENGTH_LONG).show();
             dialog.dismiss();
         });
 
-        view.findViewById(R.id.buttonEdit).setOnClickListener(v -> {
-            editarReceta(receta);
+        dialogView.findViewById(R.id.buttonEdit).setOnClickListener(v -> {
+            if (vac.validarAcceso(3))
+                editarReceta(receta);
+            else
+                Toast.makeText(getApplicationContext(), R.string.action_block, Toast.LENGTH_LONG).show();
             dialog.dismiss();
         });
 
-        view.findViewById(R.id.buttonDelete).setOnClickListener(v -> {
-            recetaDAO.deleteReceta(receta.getIdReceta());
-            cargarLista();
+        dialogView.findViewById(R.id.buttonDelete).setOnClickListener(v -> {
+            if (vac.validarAcceso(4))
+                eliminarReceta(receta.getIdDoctor(), receta.getIdCliente(), receta.getIdReceta());
+            else
+                Toast.makeText(getApplicationContext(), R.string.action_block, Toast.LENGTH_LONG).show();
             dialog.dismiss();
         });
 
@@ -111,7 +133,7 @@ public class RecetaActivity extends AppCompatActivity {
 
                 Receta receta = new Receta(idDoctor, idCliente, idReceta, fecha, descripcion);
                 recetaDAO.addReceta(receta);
-                cargarLista();
+                llenarLista();
                 dialog.dismiss();
             }
         });
@@ -211,11 +233,35 @@ public class RecetaActivity extends AppCompatActivity {
                 receta.setDescripcion(etDescripcion.getText().toString().trim());
 
                 recetaDAO.updateReceta(receta);
-                cargarLista();
+                llenarLista();
                 dialog.dismiss();
             }
         });
 
         dialog.show();
     }
+    
+    private void buscarRecetaPorId(int idReceta) {
+        Receta receta = recetaDAO.getReceta(idReceta);
+        if (receta != null) {
+            verReceta(receta);
+        } else {
+            Toast.makeText(this, R.string.not_found_message, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void eliminarReceta(int idDoctor, int idCliente, int idReceta) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.confirm_delete);
+        builder.setMessage(getString(R.string.confirm_delete_message) + ": " + idDoctor + ", " + idCliente + ", " + idReceta);
+        builder.setPositiveButton(R.string.yes, (dialog, which) -> {
+            recetaDAO.deleteReceta(idReceta);
+            Toast.makeText(this, R.string.delete_message, Toast.LENGTH_SHORT).show();
+            llenarLista(); // Refresh the ListView
+        });
+        builder.setNegativeButton(R.string.no, (dialog, which) -> dialog.dismiss());
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
 }
