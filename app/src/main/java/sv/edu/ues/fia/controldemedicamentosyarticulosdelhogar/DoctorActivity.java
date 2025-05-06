@@ -74,7 +74,7 @@ public class DoctorActivity extends AppCompatActivity {
         }
 
         new AlertDialog.Builder(this)
-                .setTitle(doctorExistente == null ? R.string.add_doctor : R.string.edit_doctor)
+                //.setTitle(doctorExistente == null ? R.string.add_doctor : R.string.edit_doctor)
                 .setView(dialogView)
                 .setPositiveButton(R.string.save, (dialog, which) -> {
                     int id = Integer.parseInt(etId.getText().toString());

@@ -1,25 +1,77 @@
 package sv.edu.ues.fia.controldemedicamentosyarticulosdelhogar;
 
 import android.content.ContentValues;
+import android.content.Context;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.Cursor;
+import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class CategoriaDAO {
 
     private SQLiteDatabase dbConection;
+    private Context context;
 
-    public CategoriaDAO(SQLiteDatabase dbConection) {
+    public CategoriaDAO(SQLiteDatabase dbConection, Context context) {
         this.dbConection = dbConection;
+        this.context = context;
     }
 
     //Create
 
-    public void createCategoria(Categoria categoria){
-        long contador = 0;
-        Cursor cursor = dbConection.rawQuery("SELECT COUNT(*) FROM CATEGORIA", null);
-        if (cursor.moveToFirst()){
-            contador = cursor.getInt(0);
-        }
+    public boolean insertarCategoria(Categoria categoria){
+        long insercion = 0;
         ContentValues category = new ContentValues();
+        category.put("IDCATEGORIA", categoria.getIdCategoria());
         category.put("NOMBRECATEGORIA", categoria.getNombreCategoria());
+        try {
+            insercion = dbConection.insert("CATEGORIA", null, category);
+            if (insercion == -1){
+                Toast.makeText(this.context, "Registro con id duplicado", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+            return true;
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public ArrayList<Categoria> getAllRows(){
+        ArrayList<Categoria> listado = new ArrayList<Categoria>();
+        Cursor listadoDB = getDbConection().query("CATEGORIA",null,null,null,null,null,null);
+        if (listadoDB.moveToFirst()) {
+            listadoDB.moveToFirst();
+            for (int i = 0; i < listadoDB.getCount(); i++) {
+                Categoria categoria = new Categoria();
+                categoria.setIdCategoria(listadoDB.getInt(0));
+                categoria.setNombreCategoria(listadoDB.getString(1));
+                listado.add(categoria);
+                listadoDB.moveToNext();
+            }
+        }
+
+        return listado;
+    }
+
+    public SQLiteDatabase getDbConection() {
+        return dbConection;
+    }
+
+    public void setDbConection(SQLiteDatabase dbConection) {
+        this.dbConection = dbConection;
+    }
+
+    public Context getContext() {
+        return context;
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
     }
 }

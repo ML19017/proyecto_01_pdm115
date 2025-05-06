@@ -13,19 +13,19 @@
 
     <EditText
         android:id="@+id/etNombreDoctor"
-        android:hint="@string/doctor_name"
+        android:hint="doctor_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <EditText
         android:id="@+id/etEspecialidadDoctor"
-        android:hint="@string/doctor_specialty"
+        android:hint="doctor_specialty"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <EditText
         android:id="@+id/etJvpm"
-        android:hint="@string/doctor_jvpm"
+        android:hint="doctor_jvpm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 </LinearLayout>
