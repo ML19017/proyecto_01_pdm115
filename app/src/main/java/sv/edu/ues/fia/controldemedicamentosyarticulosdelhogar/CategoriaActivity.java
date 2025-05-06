@@ -3,6 +3,7 @@ package sv.edu.ues.fia.controldemedicamentosyarticulosdelhogar;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -16,7 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoriaActivity extends AppCompatActivity {//implements AdapterView.OnItemClickListener {
+public class CategoriaActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
     private CategoriaDAO categoriaDAO;
     private ArrayAdapter<Categoria> adaptador;
     private List<Categoria> values = new ArrayList<>();
@@ -32,12 +33,8 @@ public class CategoriaActivity extends AppCompatActivity {//implements AdapterVi
         ListView listV = (ListView)findViewById(R.id.categoryListv);
         listV.setAdapter(adaptador);
         actualizarListView();
-
-
-
-
+        listV.setOnItemClickListener(this);
         Button btnInsertarCategoria = (Button)findViewById(R.id.btnAgregarCategoria);
-
         btnInsertarCategoria.setOnClickListener(v -> {showAddDialog();});
 
     }
@@ -92,4 +89,12 @@ public class CategoriaActivity extends AppCompatActivity {//implements AdapterVi
         values.addAll(categoriaDAO.getAllRows());
         adaptador.notifyDataSetChanged();
     }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id){
+            Categoria categoria = (Categoria)parent.getItemAtPosition(position);
+        Log.d("Seleccionado", categoria.getNombreCategoria());
+            //showOptionsDialog(formaFarmaceutica);
+        }
+
 }
