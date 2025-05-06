@@ -9,12 +9,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class DoctorActivity extends AppCompatActivity {
@@ -33,27 +31,13 @@ public class DoctorActivity extends AppCompatActivity {
         SQLiteDatabase conexionDB = new ControlBD(this).getConnection();
         doctorDAO = new DoctorDAO(conexionDB, this);
 
-        TextView txtBusqueda = (TextView) findViewById(R.id.searchDcctor);
-
+        // Comprobacion Inicial de Permisos de Consulta
         Button btnAgregarDoctor = findViewById(R.id.btnAgregarDoctor);
         btnAgregarDoctor.setVisibility(vac.validarAcceso(1) ? View.VISIBLE : View.INVISIBLE);
         btnAgregarDoctor.setOnClickListener(v -> {showAddDialog();});
 
-        Button btnBuscarDoctor = findViewById(R.id.btnBuscarDoctor);
-        btnBuscarDoctor.setVisibility(vac.validarAcceso(2) ? View.VISIBLE : View.INVISIBLE);
-        btnBuscarDoctor.setOnClickListener(v -> {
-            try {
-                int id = Integer.parseInt(txtBusqueda.getText().toString().trim());
-                buscarDoctorPorId(id);
-            }
-            catch (NumberFormatException e) {
-                e.printStackTrace();
-                Toast.makeText(this, R.string.invalid_search, Toast.LENGTH_LONG).show();
-            }
-        });
-
         listViewDoctores = findViewById(R.id.lvDoctor);
-        listViewDoctores.setVisibility(vac.validarAcceso(3) || vac.validarAcceso(4) ? View.VISIBLE : View.INVISIBLE);
+        listViewDoctores.setVisibility(vac.validarAcceso(2) ? View.VISIBLE : View.INVISIBLE);
 
         // Fill the ListView
         fillList();
@@ -84,23 +68,19 @@ public class DoctorActivity extends AppCompatActivity {
         EditText editTextNombreDoctor = dialogView.findViewById(R.id.edtNombreDoctor);
         EditText editTextEspecialidadDoctor = dialogView.findViewById(R.id.edtEspecialidadDoctor);
         EditText editTextJvpm = dialogView.findViewById(R.id.edtJVPM);
+
         Button btnGuardarDoctor = dialogView.findViewById(R.id.btnGuardarDoctor);
         Button btnLimpiarDoctor = dialogView.findViewById(R.id.btnLimpiarDoctor);
 
-        List<View> vistas = Arrays.asList(editTextIdDoctor, editTextNombreDoctor, editTextEspecialidadDoctor, editTextJvpm);
-        List<String> listaRegex = Arrays.asList("\\d+", "[a-zA-Z]+", "[a-zA-Z]+", "[a-zA-Z]+");
-        List<Integer> mensajesDeError = Arrays.asList(R.string.only_numbers, R.string.only_letters, R.string.only_letters, R.string.only_letters);
-
-        ValidadorDeCampos validadorDeCampos = new ValidadorDeCampos(this, vistas, listaRegex, mensajesDeError);
-
         final AlertDialog dialog = builder.create();
+
         btnGuardarDoctor.setOnClickListener(v -> {
-            if (validadorDeCampos.validarCampos()) {
-                guardarDoctor(editTextIdDoctor, editTextNombreDoctor, editTextEspecialidadDoctor, editTextJvpm);
-                dialog.dismiss();
-            }
+            saveDoctor(editTextIdDoctor, editTextNombreDoctor, editTextEspecialidadDoctor, editTextJvpm);
+            dialog.dismiss();
         });
-        btnLimpiarDoctor.setOnClickListener(v -> limpiarCampos(editTextIdDoctor, editTextNombreDoctor, editTextEspecialidadDoctor, editTextJvpm));
+
+        btnLimpiarDoctor.setOnClickListener(v -> clearFields(editTextIdDoctor, editTextNombreDoctor, editTextEspecialidadDoctor, editTextJvpm));
+
         dialog.show();
     }
 
@@ -127,7 +107,7 @@ public class DoctorActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(vac.validarAcceso(3))
-                    editarDoctor(doctor);
+                    editDoctor(doctor);
                 else
                     Toast.makeText(getApplicationContext(), R.string.action_block, Toast.LENGTH_LONG).show();
                 dialog.dismiss();
@@ -138,7 +118,7 @@ public class DoctorActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(vac.validarAcceso(4))
-                    eliminarDoctor(doctor.getIdDoctor());
+                    deleteDoctor(doctor.getIdDoctor());
                 else
                     Toast.makeText(getApplicationContext(), R.string.action_block, Toast.LENGTH_LONG).show();
                 dialog.dismiss();
@@ -148,7 +128,7 @@ public class DoctorActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    private void guardarDoctor(EditText editTextIdDoctor, EditText editTextNombreDoctor, EditText editTextEspecialidadDoctor, EditText editTextJvpm) {
+    private void saveDoctor(EditText editTextIdDoctor, EditText editTextNombreDoctor, EditText editTextEspecialidadDoctor, EditText editTextJvpm) {
         int id = Integer.parseInt(editTextIdDoctor.getText().toString());
         String nombre = editTextNombreDoctor.getText().toString().trim();
         String especialidad = editTextEspecialidadDoctor.getText().toString().trim();
@@ -162,10 +142,10 @@ public class DoctorActivity extends AppCompatActivity {
 
         fillList(); // Refresh the ListView
 
-        limpiarCampos(editTextIdDoctor, editTextNombreDoctor, editTextEspecialidadDoctor, editTextJvpm);
+        clearFields(editTextIdDoctor, editTextNombreDoctor, editTextEspecialidadDoctor, editTextJvpm);
     }
 
-    private void limpiarCampos(EditText... fields) {
+    private void clearFields(EditText... fields) {
         for (EditText field : fields) {
             field.setText("");
         }
@@ -212,7 +192,7 @@ public class DoctorActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    private void editarDoctor(Doctor doctor) {
+    private void editDoctor(Doctor doctor) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.edit);
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_doctor, null);
@@ -232,30 +212,23 @@ public class DoctorActivity extends AppCompatActivity {
 
         Button btnGuardarDoctor = dialogView.findViewById(R.id.btnGuardarDoctor);
         Button btnLimpiarDoctor = dialogView.findViewById(R.id.btnLimpiarDoctor);
+        // Disable the clear button
         btnLimpiarDoctor.setEnabled(false);
-
-        List<View> vistas = Arrays.asList(editTextNombreDoctor, editTextEspecialidadDoctor, editTextJvpm);
-        List<String> listaRegex = Arrays.asList("[a-zA-Z]+", "[a-zA-Z]+", "[a-zA-Z]+");
-        List<Integer> mensajesDeError = Arrays.asList(R.string.only_letters, R.string.only_letters, R.string.only_letters);
-
-        ValidadorDeCampos validadorDeCampos = new ValidadorDeCampos(this, vistas, listaRegex, mensajesDeError);
 
         final AlertDialog dialog = builder.create();
         btnGuardarDoctor.setOnClickListener(v -> {
-            if (validadorDeCampos.validarCampos()) {
-                doctor.setNombreDoctor(editTextNombreDoctor.getText().toString().trim());
-                doctor.setEspecialidadDoctor(editTextEspecialidadDoctor.getText().toString().trim());
-                doctor.setJvpm(editTextJvpm.getText().toString().trim());
-                doctorDAO.updateDoctor(doctor);
-                Toast.makeText(this, R.string.update_message, Toast.LENGTH_SHORT).show();
-                fillList(); // Refresh the ListView
-                dialog.dismiss();
-            }
+            doctor.setNombreDoctor(editTextNombreDoctor.getText().toString().trim());
+            doctor.setEspecialidadDoctor(editTextEspecialidadDoctor.getText().toString().trim());
+            doctor.setJvpm(editTextJvpm.getText().toString().trim());
+            doctorDAO.updateDoctor(doctor);
+            Toast.makeText(this, R.string.update_message, Toast.LENGTH_SHORT).show();
+            fillList(); // Refresh the ListView
+            dialog.dismiss();
         });
         dialog.show();
     }
 
-    private void eliminarDoctor(int id) {
+    private void deleteDoctor(int id) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.confirm_delete);
         builder.setMessage(getString(R.string.confirm_delete_message) + ": " + id);
@@ -267,14 +240,5 @@ public class DoctorActivity extends AppCompatActivity {
         builder.setNegativeButton(R.string.no, (dialog, which) -> dialog.dismiss());
         AlertDialog dialog = builder.create();
         dialog.show();
-    }
-
-    private void buscarDoctorPorId(int id) {
-        Doctor doctor = doctorDAO.getDoctor(id);
-        if (doctor != null) {
-            viewDoctor(doctor);
-        } else {
-            Toast.makeText(this, R.string.not_found_message, Toast.LENGTH_SHORT).show();
-        }
     }
 }
