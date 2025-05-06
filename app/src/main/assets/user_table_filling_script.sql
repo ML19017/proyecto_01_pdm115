@@ -143,7 +143,7 @@ INSERT INTO ACCESOUSUARIO (IDUSUARIO, IDOPCION) VALUES
 ('01', '047'), -- Purchase Invoice Create
 ('01', '048'), -- Purchase Invoice Read
 ('01', '049'), -- Purchase Invoice Update
-('01', '050'), 11-- Purchase Invoice Delete
+('01', '050'), -- Purchase Invoice Delete
 ('01', '051'), -- Menu Supplier
 ('01', '052'), -- Supplier Create
 ('01', '053'), -- Supplier Read
