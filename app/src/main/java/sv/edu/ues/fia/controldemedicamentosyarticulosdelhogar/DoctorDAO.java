@@ -41,7 +41,8 @@ public class DoctorDAO {
                     cursor.getInt(cursor.getColumnIndexOrThrow("IDDOCTOR")),
                     cursor.getString(cursor.getColumnIndexOrThrow("NOMBREDOCTOR")),
                     cursor.getString(cursor.getColumnIndexOrThrow("ESPECIALIDADDOCTOR")),
-                    cursor.getString(cursor.getColumnIndexOrThrow("JVPM"))
+                    cursor.getString(cursor.getColumnIndexOrThrow("JVPM")),
+                    context
             );
             cursor.close();
             return doctor;
@@ -59,7 +60,8 @@ public class DoctorDAO {
                     cursor.getInt(cursor.getColumnIndexOrThrow("IDDOCTOR")),
                     cursor.getString(cursor.getColumnIndexOrThrow("NOMBREDOCTOR")),
                     cursor.getString(cursor.getColumnIndexOrThrow("ESPECIALIDADDOCTOR")),
-                    cursor.getString(cursor.getColumnIndexOrThrow("JVPM"))
+                    cursor.getString(cursor.getColumnIndexOrThrow("JVPM")),
+                    context
             ));
         }
         cursor.close();

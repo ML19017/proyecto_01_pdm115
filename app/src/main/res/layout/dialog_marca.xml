@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:padding="16dp"
     android:orientation="vertical"
@@ -5,42 +6,28 @@
     android:layout_height="wrap_content">
 
     <EditText
-        android:id="@+id/edtIdDoctor"
+        android:id="@+id/edtIdMarca"
         android:hint="@string/id"
         android:inputType="number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <EditText
-        android:id="@+id/edtNombreDoctor"
+        android:id="@+id/edtNombreMarca"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/doctor_name"
+        android:hint="@string/nombre_marca"
         android:inputType="text|textCapCharacters" />
-
-    <EditText
-        android:id="@+id/edtEspecialidadDoctor"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/doctor_specialty"
-        android:inputType="text|textCapCharacters" />
-
-    <EditText
-        android:id="@+id/edtJVPM"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/doctor_jvpm"
-        android:inputType="text|textCapWords" />
 
     <Button
-        android:id="@+id/btnGuardarDoctor"
+        android:id="@+id/btnGuardarMarca"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/save"
         android:layout_marginTop="16dp" />
 
     <Button
-        android:id="@+id/btnLimpiarDoctor"
+        android:id="@+id/btnLimpiarMarca"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/clear"

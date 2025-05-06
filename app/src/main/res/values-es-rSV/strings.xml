@@ -71,6 +71,8 @@
     <string name="action_block">Esta acción esta bloqueada</string>
     <string name="not_found_message">No se ha encontrado la referencia</string>
     <string name="duplicate_message">La clave del registro ya existe</string>
-
+    <string name="doctor_name">Nombre</string>
+    <string name="doctor_specialty">Especialidad</string>
+    <string name="doctor_jvpm">Doctor JVPM</string>
 
 </resources>

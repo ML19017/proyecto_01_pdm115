@@ -164,44 +164,6 @@ create table DEPARTAMENTO  (
 );
 
 /*==============================================================*/
-/* Table: MUNICIPIO                                             */
-/*==============================================================*/
-create table MUNICIPIO  (
-   IDMUNICIPIO          INTEGER                         not null,
-   IDDEPARTAMENTO       INTEGER                         not null,
-   NOMBREMUNICIPIO      TEXT(30)                    not null,
-   constraint PK_MUNICIPIO primary key (IDMUNICIPIO)
-);
-
-/*==============================================================*/
-/* Index: FORMADO_POR_FK                                        */
-/*==============================================================*/
-create index FORMADO_POR_FK on MUNICIPIO (
-   IDDEPARTAMENTO ASC
-);
-
--- comment on table MUNICIPIO is
-
-/*==============================================================*/
-/* Table: DISTRITO                                              */
-/*==============================================================*/
-create table DISTRITO  (
-   IDDISTRITO           INTEGER                         not null,
-   IDMUNICIPIO          INTEGER                         not null,
-   NOMBREDISTRITO       TEXT(30)                    not null,
-   constraint PK_DISTRITO primary key (IDDISTRITO)
-);
-
-/*==============================================================*/
-/* Index: SE_DIVIDE_EN_FK                                       */
-/*==============================================================*/
-create index SE_DIVIDE_EN_FK on DISTRITO (
-   IDMUNICIPIO ASC
-);
-
-
-
-/*==============================================================*/
 /* Table: DETALLECOMPRA                                         */
 /*==============================================================*/
 create table DETALLECOMPRA  (
@@ -304,7 +266,22 @@ create index UBICADA_EN_FK on DIRECCION (
    IDDISTRITO ASC
 );
 
+/*==============================================================*/
+/* Table: DISTRITO                                              */
+/*==============================================================*/
+create table DISTRITO  (
+   IDDISTRITO           INTEGER                         not null,
+   IDMUNICIPIO          INTEGER                         not null,
+   NOMBREDISTRITO       TEXT(30)                    not null,
+   constraint PK_DISTRITO primary key (IDDISTRITO)
+);
 
+/*==============================================================*/
+/* Index: SE_DIVIDE_EN_FK                                       */
+/*==============================================================*/
+create index SE_DIVIDE_EN_FK on DISTRITO (
+   IDMUNICIPIO ASC
+);
 
 /*==============================================================*/
 /* Table: DOCTOR                                                */
@@ -387,9 +364,31 @@ create table MARCA  (
    constraint PK_MARCA primary key (IDMARCA)
 );
 
+/*==============================================================*/
+/* Table: MUNICIPIO                                             */
+/*==============================================================*/
+create table MUNICIPIO  (
+   IDMUNICIPIO          INTEGER not null,
+   IDDEPARTAMENTO       INTEGER not null,
+   NOMBREMUNICIPIO      TEXT(30) not null,
+   constraint PK_MUNICIPIO primary key (IDMUNICIPIO)
+);
 
+-- comment on table MUNICIPIO is
 
+/*==============================================================*/
+/* Index: RELATIONSHIP_3_FK                                     */
+/*==============================================================*/
+create index RELATIONSHIP_3_FK on MUNICIPIO (
+   IDDEPARTAMENTO ASC
+);
 
+/*==============================================================*/
+/* Index: FORMADO_POR_FK                                        */
+/*==============================================================*/
+create index FORMADO_POR_FK on MUNICIPIO (
+   DEP_IDDEPARTAMENTO ASC
+);
 
 /*==============================================================*/
 /* Table: OPCIONCRUD                                            */

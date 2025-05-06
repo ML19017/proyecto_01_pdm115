@@ -1,15 +1,18 @@
 package sv.edu.ues.fia.controldemedicamentosyarticulosdelhogar;
 
-public class Marca {
-    public Marca(int idMarca, String nombreMarca) {
-        this.idMarca = idMarca;
-        this.nombreMarca = nombreMarca;
-    }
+import android.content.Context;
 
+public class Marca {
     private int idMarca;
     private String nombreMarca;
+    private Context context;
 
-    // Getters and Setters
+    public Marca(int idMarca, String nombreMarca, Context context) {
+        this.idMarca = idMarca;
+        this.nombreMarca = nombreMarca;
+        this.context = context;
+    }
+
     public int getIdMarca() {
         return idMarca;
     }
@@ -24,5 +27,11 @@ public class Marca {
 
     public void setNombreMarca(String nombreMarca) {
         this.nombreMarca = nombreMarca;
+    }
+
+    @Override
+    public String toString() {
+        return context.getString(R.string.id_marca) + ": " + idMarca + "\n" +
+                context.getString(R.string.nombre_marca) + ": " + nombreMarca;
     }
 }
