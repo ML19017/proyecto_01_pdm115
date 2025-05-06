@@ -14,7 +14,7 @@ import java.util.List;
 public class MenuActivity extends ListActivity {
     private static final String [] ACTIVIDADES = {
             "DireccionActivity",
-            "SucursalActivity",
+            "SucursalFarmaciaActivity",
             "DetalleExistenciaActivity",
             "DetalleVentaActivity",
             "FacturaActivity",

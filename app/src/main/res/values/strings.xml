@@ -88,6 +88,11 @@
     <string name="doctor_specialty">Specialty</string>
     <string name="doctor_jvpm">Doctor JVPM</string>
 
+    <!-- Branch -->
+    <string name="id_farmacia">Pharmacy Id</string>
+    <string name="id_direccion">Address Id</string>
+    <string name="nombre_farmacia">Pharmacy Name</string>
+    <!-- End of Branch -->
 
     <!--Articulo-->
     <string name="category_prompt"> All </string>
