@@ -1,5 +1,4 @@
--- Inserción de departamentos
-INSERT INTO DEPARTAMENTO (IDDEPARTAMENTO, NOMBREDEPARTAMENTO) VALUES
+-- Inserción de Departamentos
 (1, 'Ahuachapán'),
 (2, 'Santa Ana'),
 (3, 'Sonsonate'),
@@ -15,8 +14,8 @@ INSERT INTO DEPARTAMENTO (IDDEPARTAMENTO, NOMBREDEPARTAMENTO) VALUES
 (13, 'Morazán'),
 (14, 'La Unión');
 
--- Inserción de municipios de El Salvador (1-44)
-INSERT INTO MUNICIPIO (IDMUNICIPIO, IDDEPARTAMENTO, NOMBREMUNICIPIO) VALUES
+
+-- Inserción de Municipios
 (1, 1, 'Ahuachapán Norte'),
 (2, 1, 'Ahuachapán Centro'),
 (3, 1, 'Ahuachapán Sur'),
@@ -62,8 +61,8 @@ INSERT INTO MUNICIPIO (IDMUNICIPIO, IDDEPARTAMENTO, NOMBREMUNICIPIO) VALUES
 (43, 14, 'La Unión Norte'),
 (44, 14, 'La Unión Sur');
 
--- Inserción de distritos de El Salvador (1-100)
-INSERT INTO DISTRITO (IDDISTRITO, IDMUNICIPIO, NOMBREDISTRITO) VALUES
+
+-- Inserción de Distritos
 (1, 1, 'Atiquizaya'),
 (2, 1, 'El Refugio'),
 (3, 1, 'San Lorenzo'),
@@ -165,7 +164,6 @@ INSERT INTO DISTRITO (IDDISTRITO, IDMUNICIPIO, NOMBREDISTRITO) VALUES
 (99, 14, 'San José Villanueva'),
 (100, 14, 'Zaragoza');
 
--- Inserción de distritos de El Salvador (101-150)
 INSERT INTO DISTRITO (IDDISTRITO, IDMUNICIPIO, NOMBREDISTRITO) VALUES
 (101, 14, 'La Libertad'),
 (102, 14, 'Tamanique'),
@@ -218,7 +216,6 @@ INSERT INTO DISTRITO (IDDISTRITO, IDMUNICIPIO, NOMBREDISTRITO) VALUES
 (149, 23, 'Lislique'),
 (150, 23, 'Nueva Esparta');
 
--- Inserción de distritos de El Salvador (151-200)
 INSERT INTO DISTRITO (IDDISTRITO, IDMUNICIPIO, NOMBREDISTRITO) VALUES
 (151, 23, 'Pasaquina'),
 (152, 23, 'Polorós'),
@@ -271,7 +268,6 @@ INSERT INTO DISTRITO (IDDISTRITO, IDMUNICIPIO, NOMBREDISTRITO) VALUES
 (199, 28, 'Moncagua'),
 (200, 28, 'Quelepa');
 
--- Inserción de distritos de El Salvador (201-262)
 INSERT INTO DISTRITO (IDDISTRITO, IDMUNICIPIO, NOMBREDISTRITO) VALUES
 (201, 28, 'San Antonio del Mosco'),
 (202, 28, 'San Miguel'),
