@@ -103,6 +103,8 @@
     <string name="jvpm">JVPM</string>
     <string name="query">Query</string>
     <string name="search">Search</string>
+    <string name="search_error">Search error</string>
+    <string name="invalid_search">Invalid search</string>
     <string-array name="category_array">
         <item>categoria 1</item>
         <item>categoria 2</item>
