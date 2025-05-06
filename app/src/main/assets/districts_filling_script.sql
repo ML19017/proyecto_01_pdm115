@@ -14,7 +14,6 @@
 (13, 'Morazán'),
 (14, 'La Unión');
 
-
 -- Inserción de Municipios
 (1, 1, 'Ahuachapán Norte'),
 (2, 1, 'Ahuachapán Centro'),

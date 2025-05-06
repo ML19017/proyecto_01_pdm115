@@ -12,7 +12,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -30,7 +29,6 @@ public class FormaFarmaceuticaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forma_farmaceutica);
 
-        // Initialize DAO with SQLite connection
         SQLiteDatabase conexionDB = new ControlBD(this).getConnection();
         formaFarmaceuticaDAO = new FormaFarmaceuticaDAO(conexionDB, this);
 
@@ -54,12 +52,9 @@ public class FormaFarmaceuticaActivity extends AppCompatActivity {
             }
         });
 
-
         listViewFormaFaramceutica = findViewById(R.id.lvFormaFarmaceutica);
         listViewFormaFaramceutica.setVisibility(vac.validarAcceso(2) ? View.VISIBLE : View.INVISIBLE);
-        //Fill the listView
-        fillList();
-        // Set item click listener for ListView
+        llenarLista();
         listViewFormaFaramceutica.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -69,7 +64,7 @@ public class FormaFarmaceuticaActivity extends AppCompatActivity {
         });
     }
 
-    private void fillList() {
+    private void llenarLista() {
         listaFormaFarmaceutica = formaFarmaceuticaDAO.getAllFormaFarmaceutica();
         adaptadorFormaFarmaceutica = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listaFormaFarmaceutica);
         listViewFormaFaramceutica.setAdapter(adaptadorFormaFarmaceutica);
@@ -90,16 +85,15 @@ public class FormaFarmaceuticaActivity extends AppCompatActivity {
         final AlertDialog dialog = builder.create();
 
         btnGuardarFormaFarmaceutica.setOnClickListener(v -> {
-            // Initialize the validator
+
             List<View> vistas = Arrays.asList(editTextIdFormaFarmaceutica, editTextTipoFormaFarmaceutica);
             List<String> listaRegex = Arrays.asList("^\\d+$", "^[a-zA-Z\\s]+$"); // Example regex for number and text validation
             List<Integer> mensajesDeError = Arrays.asList(R.string.only_numbers, R.string.only_letters);
 
             ValidadorDeCampos validador = new ValidadorDeCampos(this, vistas, listaRegex, mensajesDeError);
 
-            // Validate the fields
             if (validador.validarCampos()) {
-                saveFormaFarmaceutica(editTextIdFormaFarmaceutica, editTextTipoFormaFarmaceutica);
+                guardarFormaFarmaceutica(editTextIdFormaFarmaceutica, editTextTipoFormaFarmaceutica);
                 dialog.dismiss();
             }
         });
@@ -144,7 +138,7 @@ public class FormaFarmaceuticaActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(vac.validarAcceso(4))
-                    deleteFormaFarmaceutica(formaFarmaceutica.getIdFormaFarmaceutica());
+                    eliminarFormaFarmaceutica(formaFarmaceutica.getIdFormaFarmaceutica());
                 else
                     Toast.makeText(getApplicationContext(), R.string.action_block, Toast.LENGTH_LONG).show();
                 dialog.dismiss();
@@ -153,7 +147,7 @@ public class FormaFarmaceuticaActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    private void saveFormaFarmaceutica(EditText editTextIdFormaFarmaceutica, EditText editTextTipoFormaFarmaceutica) {
+    private void guardarFormaFarmaceutica(EditText editTextIdFormaFarmaceutica, EditText editTextTipoFormaFarmaceutica) {
 
         int id = Integer.parseInt(editTextIdFormaFarmaceutica.getText().toString());
         String tipo = editTextTipoFormaFarmaceutica.getText().toString().trim();
@@ -161,7 +155,7 @@ public class FormaFarmaceuticaActivity extends AppCompatActivity {
         FormaFarmaceutica formaFarmaceutica = new FormaFarmaceutica(id, tipo, this);
         formaFarmaceuticaDAO.addFormaFarmaceutica(formaFarmaceutica);
         Toast.makeText(this, R.string.save_message, Toast.LENGTH_SHORT).show();
-        fillList(); // Refresh the ListView
+        llenarLista();
         clearFieldsFormaFarmaceutica(editTextIdFormaFarmaceutica, editTextIdFormaFarmaceutica);
     }
 
@@ -186,7 +180,6 @@ public class FormaFarmaceuticaActivity extends AppCompatActivity {
         editTextIdFormaFarmaceutica.setEnabled(false);
         editTextTipoFormaFarmaceutica.setEnabled(false);
 
-        // Disable buttons if they exist in the layout
         Button btnGuardarFormaFarmaceutica = dialogView.findViewById(R.id.btnGuardarFormaFarmaceutica);
         Button btnLimpiarFormaFarmaceutica = dialogView.findViewById(R.id.btnLimpiarFormaFarmaceutica);
 
@@ -219,25 +212,22 @@ public class FormaFarmaceuticaActivity extends AppCompatActivity {
         Button btnGuardarFormaFarmaceutica = dialogView.findViewById(R.id.btnGuardarFormaFarmaceutica);
         Button btnLimpiarFormaFarmaceutica = dialogView.findViewById(R.id.btnLimpiarFormaFarmaceutica);
 
-        // Disable the clear button
         btnLimpiarFormaFarmaceutica.setEnabled(false);
 
         final AlertDialog dialog = builder.create();
 
         btnGuardarFormaFarmaceutica.setOnClickListener(v -> {
-            // Initialize the validator
             List<View> vistas = Arrays.asList(editTextTipoFormaFarmaceutica);
             List<String> listaRegex = Arrays.asList("^[a-zA-Z\\s]+$"); // Example regex for text validation
             List<Integer> mensajesDeError = Arrays.asList(R.string.only_letters);
 
             ValidadorDeCampos validador = new ValidadorDeCampos(this, vistas, listaRegex, mensajesDeError);
 
-            // Validate the fields
             if (validador.validarCampos()) {
                 formaFarmaceutica.setTipoFormaFarmaceutica(editTextTipoFormaFarmaceutica.getText().toString().trim());
                 formaFarmaceuticaDAO.updateFormaFarmaceutica(formaFarmaceutica);
                 Toast.makeText(this, R.string.update_message, Toast.LENGTH_SHORT).show();
-                fillList(); // Refresh the ListView
+                llenarLista(); // Refresh the ListView
                 dialog.dismiss();
             }
         });
@@ -246,7 +236,7 @@ public class FormaFarmaceuticaActivity extends AppCompatActivity {
     }
 
 
-    private void deleteFormaFarmaceutica(int id) {
+    private void eliminarFormaFarmaceutica(int id) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.confirm_delete);
         builder.setMessage(getString(R.string.confirm_delete_message) + ": " + id);
@@ -254,7 +244,7 @@ public class FormaFarmaceuticaActivity extends AppCompatActivity {
         builder.setPositiveButton(R.string.yes, (dialog, which) -> {
             formaFarmaceuticaDAO.deleteFormaFarmaceutica(id);
             Toast.makeText(this, R.string.delete_message, Toast.LENGTH_SHORT).show();
-            fillList(); // Refresh the ListView
+            llenarLista();
         });
 
         builder.setNegativeButton(R.string.no, (dialog, which) -> dialog.dismiss());

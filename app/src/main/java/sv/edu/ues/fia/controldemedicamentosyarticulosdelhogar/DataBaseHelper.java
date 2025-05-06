@@ -14,9 +14,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     private static final String NOMBRE_BASE_DATOS = "control_medicamentos.s3db";
     private static final String [] SCRIPTS = {
             "creation_db_script.sql",
-            "constraints.sql",
+            //"constraints.sql",
             "user_table_filling_script.sql",
-            "districts_filling_script",
+            "districts_filling_script.sql",
     };
     private static final int VERSION = 1;
     private final Context context;
