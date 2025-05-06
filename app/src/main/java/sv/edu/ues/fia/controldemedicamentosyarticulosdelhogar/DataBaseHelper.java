@@ -32,20 +32,26 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         try {
             for (String script : SCRIPTS) {
+                Log.d("DB", "Ejecutando script: " + script);
                 String sqlScript = getSqlScript(script);
-                String[] sqlStatements = sqlScript.split(";");
 
-                for (String statement : sqlStatements) {
-                    statement = statement.trim();
-                    if (!statement.isEmpty()) {
-                        try {
-                            db.execSQL(statement);
-                        } catch (SQLException e) {
-                            Log.e("DB ERROR", "Fallo al ejecutar: " + statement, e);
-                        }
+                String[] statements = sqlScript.split(";");
+                for (String rawStatement : statements) {
+                    String statement = rawStatement.trim();
+
+                    // Ignorar líneas vacías y comentarios
+                    if (statement.isEmpty()) {
+                        continue;
+                    }
+                    try {
+                        db.execSQL(statement + ";"); // siempre cerrar con ;
+                        Log.d("DB", "Ejecutado: " + statement);
+                    } catch (SQLException e) {
+                        Log.e("DB ERROR", "Fallo al ejecutar: " + statement + " -SCRIPT: " + script, e);;
                     }
                 }
             }
+
         } catch (SQLiteException | IOException e) {
             e.printStackTrace();
             Log.d("Error", "onCreate:"+e.toString());
