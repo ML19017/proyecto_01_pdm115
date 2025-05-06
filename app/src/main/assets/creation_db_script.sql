@@ -375,19 +375,11 @@ create table MUNICIPIO  (
 );
 
 -- comment on table MUNICIPIO is
-
 /*==============================================================*/
 /* Index: RELATIONSHIP_3_FK                                     */
 /*==============================================================*/
 create index RELATIONSHIP_3_FK on MUNICIPIO (
    IDDEPARTAMENTO ASC
-);
-
-/*==============================================================*/
-/* Index: FORMADO_POR_FK                                        */
-/*==============================================================*/
-create index FORMADO_POR_FK on MUNICIPIO (
-   DEP_IDDEPARTAMENTO ASC
 );
 
 /*==============================================================*/
