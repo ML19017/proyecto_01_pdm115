@@ -10,11 +10,12 @@ import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+
 public class DataBaseHelper extends SQLiteOpenHelper {
     private static final String NOMBRE_BASE_DATOS = "control_medicamentos.s3db";
     private static final String [] SCRIPTS = {
             "creation_db_script.sql",
-            //"constraints.sql",
             "user_table_filling_script.sql",
             "districts_filling_script.sql",
     };
@@ -30,14 +31,18 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
 
         try {
-            for (String script: SCRIPTS) {
+            for (String script : SCRIPTS) {
                 String sqlScript = getSqlScript(script);
                 String[] sqlStatements = sqlScript.split(";");
 
                 for (String statement : sqlStatements) {
                     statement = statement.trim();
                     if (!statement.isEmpty()) {
-                        db.execSQL(statement + ";");
+                        try {
+                            db.execSQL(statement);
+                        } catch (SQLException e) {
+                            Log.e("DB ERROR", "Fallo al ejecutar: " + statement, e);
+                        }
                     }
                 }
             }
@@ -47,7 +52,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    private String getSqlScript(String SCRIPT_NAME) throws IOException{
+    private String getSqlScript(String SCRIPT_NAME) throws IOException {
         AssetManager assetManager = context.getAssets();
         InputStream inputStream = assetManager.open(SCRIPT_NAME);
 
@@ -55,7 +60,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         byte[] buffer = new byte[size];
         inputStream.read(buffer);
         inputStream.close();
-        return new String(buffer);
+
+        return new String(buffer, StandardCharsets.UTF_8); // <- especifica codificación
     }
 
     @Override

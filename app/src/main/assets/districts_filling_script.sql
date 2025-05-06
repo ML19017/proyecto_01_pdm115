@@ -1,4 +1,5 @@
 -- Inserción de Departamentos
+INSERT INTO DEPARTAMENTO (IDDEPARTAMENTO, NOMBREDEPARTAMENTO) VALUES
 (1, 'Ahuachapán'),
 (2, 'Santa Ana'),
 (3, 'Sonsonate'),
@@ -15,6 +16,7 @@
 (14, 'La Unión');
 
 -- Inserción de Municipios
+INSERT INTO MUNICIPIO (IDMUNICIPIO, IDDEPARTAMENTO, NOMBREMUNICIPIO) VALUES
 (1, 1, 'Ahuachapán Norte'),
 (2, 1, 'Ahuachapán Centro'),
 (3, 1, 'Ahuachapán Sur'),
@@ -62,6 +64,7 @@
 
 
 -- Inserción de Distritos
+INSERT INTO DISTRITO (IDDISTRITO, IDMUNICIPIO, NOMBREDISTRITO) VALUES
 (1, 1, 'Atiquizaya'),
 (2, 1, 'El Refugio'),
 (3, 1, 'San Lorenzo'),

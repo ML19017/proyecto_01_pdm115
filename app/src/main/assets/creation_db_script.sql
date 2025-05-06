@@ -159,16 +159,8 @@ create table CLIENTE  (
 /*==============================================================*/
 create table DEPARTAMENTO  (
    IDDEPARTAMENTO       INTEGER                         not null,
-   IDDISTRITO           INTEGER,
    NOMBREDEPARTAMENTO   TEXT(30)                    not null,
    constraint PK_DEPARTAMENTO primary key (IDDEPARTAMENTO)
-);
-
-/*==============================================================*/
-/* Index: RELATIONSHIP_4_FK                                     */
-/*==============================================================*/
-create index RELATIONSHIP_4_FK on DEPARTAMENTO (
-   IDDISTRITO ASC
 );
 
 /*==============================================================*/
@@ -376,10 +368,9 @@ create table MARCA  (
 /* Table: MUNICIPIO                                             */
 /*==============================================================*/
 create table MUNICIPIO  (
-   IDMUNICIPIO          INTEGER                         not null,
-   IDDEPARTAMENTO       INTEGER,
-   DEP_IDDEPARTAMENTO   INTEGER                         not null,
-   NOMBREMUNICIPIO      TEXT(30)                    not null,
+   IDMUNICIPIO          INTEGER not null,
+   IDDEPARTAMENTO       INTEGER not null,
+   NOMBREMUNICIPIO      TEXT(30) not null,
    constraint PK_MUNICIPIO primary key (IDMUNICIPIO)
 );
 

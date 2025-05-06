@@ -175,4 +175,3 @@ INSERT INTO ACCESOUSUARIO (IDUSUARIO, IDOPCION) VALUES
 ('03', '018'), -- Sales Read
 ('03', '019'), -- Sales Update
 ('03', '020'); -- Sales Delete
-
