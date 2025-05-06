@@ -80,8 +80,8 @@
     <string name="confirm_delete_message">Delete record</string>
     <string name="update_message">An record was updated</string>
     <string name="action_block">This action is blocked</string>
-    <string name="not_found_message">Reference not found</string>
-    <string name="duplicate_message">The record is duplicated</string>
+    <string name="not_found_message">Reference not found: </string>
+    <string name="duplicate_message">The record already exists</string>
 
 
     <string name="doctor_name">Name</string>
@@ -107,6 +107,12 @@
     <string name="invalid_search">Invalid search</string>
     <string name="nombre_marca">Brand name</string>
     <string name="id_marca">ID Brand</string>
+    <string name="date">dd - mm - yyyy</string>
+    <string name="description">Description</string>
+    <string name="id_cliente">ID Client</string>
+    <string name="id_receta">ID Prescription</string>
+    <string name="fecha_receta">Date prescription</string>
+    <string name="invalid_date_format">Invalid date format</string>
     <string-array name="category_array">
         <item>categoria 1</item>
         <item>categoria 2</item>

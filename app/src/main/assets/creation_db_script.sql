@@ -410,20 +410,13 @@ create table PROVEEDOR  (
 /*==============================================================*/
 /* Table: RECETA                                                */
 /*==============================================================*/
-create table RECETA  (
-   IDDOCTOR             INTEGER                         not null,
-   IDCLIENTE            INTEGER                         not null,
-   IDRECETA             INTEGER                         not null,
-   DOC_IDDOCTOR         INTEGER,
-   FECHAEXPEDIDA        TEXT                            not null,
-   constraint PK_RECETA primary key (IDDOCTOR, IDCLIENTE, IDRECETA)
-);
-
-/*==============================================================*/
-/* Index: RELATIONSHIP_7_FK                                     */
-/*==============================================================*/
-create index RELATIONSHIP_7_FK on RECETA (
-   DOC_IDDOCTOR ASC
+CREATE TABLE RECETA (
+   IDDOCTOR       INTEGER NOT NULL,
+   IDCLIENTE      INTEGER NOT NULL,
+   IDRECETA       INTEGER NOT NULL,
+   FECHAEXPEDIDA  TEXT    NOT NULL,
+   DESCRIPCION    TEXT(100),
+   CONSTRAINT PK_RECETA PRIMARY KEY (IDDOCTOR, IDCLIENTE, IDRECETA)
 );
 
 /*==============================================================*/
