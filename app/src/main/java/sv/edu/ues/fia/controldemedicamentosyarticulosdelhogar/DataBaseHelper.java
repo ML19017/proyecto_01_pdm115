@@ -18,6 +18,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             "creation_db_script.sql",
             "user_table_filling_script.sql",
             "districts_filling_script.sql",
+            "triggers.sql",
     };
     private static final int VERSION = 1;
     private final Context context;
