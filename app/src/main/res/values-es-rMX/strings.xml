@@ -74,5 +74,26 @@
     <string name="doctor_name">Nombre</string>
     <string name="doctor_specialty">Especialidad</string>
     <string name="doctor_jvpm">Doctor JVPM</string>
+    <string name="id_farmacia">Id Farmacia</string>
+    <string name="id_direccion">Id Dirección</string>
+    <string name="nombre_farmacia">Nombre de la Farmacia</string>
+    <string name="category_prompt">Todos</string>
+    <string name="id_doctor">Id Doctor</string>
+    <string name="nombre_doctor">Nombre</string>
+    <string name="tipo_via_administracion">Tipo de via de administración</string>
+    <string name="especialidad_doctor">Especialidad</string>
+    <string name="jvpm">JVPM</string>
+    <string name="query">Consulta</string>
+    <string name="search">Búsqueda</string>
+    <string name="search_error">Ha ocurrido un error en la búsqueda</string>
+    <string name="invalid_search">Búsqueda invalida</string>
+    <string name="nombre_marca">Nombre de la marca</string>
+    <string name="id_marca">Id Marca</string>
+    <string name="description">Desctipción</string>
+    <string name="id_cliente">Id Cliente</string>
+    <string name="id_receta">Id Receta</string>
+    <string name="fecha_receta">Fecha de la receta</string>
+    <string name="invalid_date_format">Formato invalido de fecha</string>
+    <string name="id_via_administracion">Id Via de administración</string>
 
 </resources>

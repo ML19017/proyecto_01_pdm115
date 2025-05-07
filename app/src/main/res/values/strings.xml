@@ -96,10 +96,8 @@
 
     <!--Articulo-->
     <string name="category_prompt"> All </string>
-    <string name="add_doctor">Add Doctor</string>
     <string name="id_doctor">Id Doctor</string>
-    <string name="nombre_doctor">Nombre</string>
-    <string name="especialidad_doctor">Especialidad</string>
+    <string name="nombre_doctor">Name</string>
     <string name="jvpm">JVPM</string>
     <string name="query">Query</string>
     <string name="search">Search</string>
@@ -107,7 +105,7 @@
     <string name="invalid_search">Invalid search</string>
     <string name="nombre_marca">Brand name</string>
     <string name="id_marca">ID Brand</string>
-    <string name="date">dd - mm - yyyy</string>
+    <string name="date" translatable="false">dd - mm - yyyy</string>
     <string name="description">Description</string>
     <string name="id_cliente">ID Client</string>
     <string name="id_receta">ID Prescription</string>
@@ -115,6 +113,8 @@
     <string name="invalid_date_format">Invalid date format</string>
     <string name="id_via_administracion">Id route of administration</string>
     <string name="tipo_via_administracion">Type</string>
+    <string name="especialidad_doctor">Specialization</string>
+
     <string-array name="category_array">
         <item>categoria 1</item>
         <item>categoria 2</item>
