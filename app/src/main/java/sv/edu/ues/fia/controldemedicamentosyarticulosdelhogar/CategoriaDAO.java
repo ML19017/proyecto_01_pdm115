@@ -59,6 +59,26 @@ public class CategoriaDAO {
         return listado;
     }
 
+    public boolean updateCategoria(Categoria categoria){
+        String [] id = {Integer.toString(categoria.getIdCategoria())};
+        ContentValues cambios = new ContentValues();
+        cambios.put("NOMBRECATEGORIA", categoria.getNombreCategoria());
+        int control = dbConection.update("CATEGORIA",cambios,"IDCATEGORIA = ?",id);
+        if(control == 1){
+            return true;
+        }else{
+            return false;
+        }
+
+    }
+
+    public int deleteCategoria(Categoria categoria){
+        String [] id = {Integer.toString(categoria.getIdCategoria())};
+        int registros = dbConection.delete("CATEGORIA","IDCATEGORIA = ?", id);
+        return registros;
+
+    }
+
     public SQLiteDatabase getDbConection() {
         return dbConection;
     }

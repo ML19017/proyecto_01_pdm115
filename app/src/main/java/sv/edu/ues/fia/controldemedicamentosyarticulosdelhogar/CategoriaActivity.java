@@ -1,5 +1,7 @@
 package sv.edu.ues.fia.controldemedicamentosyarticulosdelhogar;
 
+import static android.view.View.GONE;
+
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -10,6 +12,8 @@ import android.widget.Button;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -82,6 +86,32 @@ public class CategoriaActivity extends AppCompatActivity implements AdapterView.
 
     }
 
+    public void showOptionsDialog(Categoria categoria){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.options);
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_options, null);
+        builder.setView(dialogView);
+
+        Button btnView = dialogView.findViewById(R.id.buttonView);
+        Button btnUpdate = dialogView.findViewById(R.id.buttonEdit);
+        Button btnDelete = dialogView.findViewById(R.id.buttonDelete);
+
+        AlertDialog dialog = builder.create();
+
+        btnView.setOnClickListener(v -> {
+            verCategoria(categoria);
+        });
+
+        btnUpdate.setOnClickListener(v -> {
+            editCategoria(categoria, dialog);
+        });
+
+        btnDelete.setOnClickListener(v -> {
+            eliminarCategoria(categoria,dialog);
+        });
+        dialog.show();
+
+    }
     public void actualizarListView(){
         if(!values.isEmpty()){
         values.clear();
@@ -94,7 +124,97 @@ public class CategoriaActivity extends AppCompatActivity implements AdapterView.
     public void onItemClick(AdapterView<?> parent, View view, int position, long id){
             Categoria categoria = (Categoria)parent.getItemAtPosition(position);
         Log.d("Seleccionado", categoria.getNombreCategoria());
-            //showOptionsDialog(formaFarmaceutica);
-        }
+            showOptionsDialog(categoria);
+    }
+
+    public void verCategoria(Categoria categoria){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.view);
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_categoria, null);
+        builder.setView(dialogView);
+        AlertDialog dialog = builder.create();
+
+        EditText idNewCategoria = dialogView.findViewById(R.id.editTextNewCategoriaId);
+        EditText nameNewCategoria = dialogView.findViewById(R.id.editTextNewCategoriaNombre);
+        Button btnSaveCategoria = dialogView.findViewById(R.id.btnGuardarCategoria);
+        Button btnClear = dialogView.findViewById(R.id.btnLimpiarNewCategoria);
+
+        idNewCategoria.setText(Integer.toString(categoria.getIdCategoria()));
+        idNewCategoria.setEnabled(false);
+        nameNewCategoria.setText(categoria.getNombreCategoria());
+        nameNewCategoria.setEnabled(false);
+        btnSaveCategoria.setVisibility(GONE);
+        btnClear.setVisibility(GONE);
+
+        dialog.show();
+    }
+
+    public void editCategoria(Categoria categoria, AlertDialog dialogoPadre){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.edit);
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_categoria,null);
+        builder.setView(dialogView);
+        AlertDialog dialog = builder.create();
+
+        EditText idNewCategoria = dialogView.findViewById(R.id.editTextNewCategoriaId);
+        EditText nameNewCategoria = dialogView.findViewById(R.id.editTextNewCategoriaNombre);
+        Button btnSaveCategoria = dialogView.findViewById(R.id.btnGuardarCategoria);
+        Button btnClear = dialogView.findViewById(R.id.btnLimpiarNewCategoria);
+
+        idNewCategoria.setText(Integer.toString(categoria.getIdCategoria()));
+        idNewCategoria.setEnabled(false);
+        nameNewCategoria.setText(categoria.getNombreCategoria());
+
+        btnSaveCategoria.setOnClickListener(v -> {
+            String nombreEditado = String.valueOf(nameNewCategoria.getText());
+            categoria.setNombreCategoria(nombreEditado);
+            boolean exito = categoriaDAO.updateCategoria(categoria);
+            if(exito){
+            actualizarListView();
+            dialog.dismiss();
+            dialogoPadre.dismiss();
+            }else{
+                Log.d("UPDATE_FAIL", "No se actualizo");
+            }
+
+        });
+
+        dialog.show();
+    }
+
+    public void eliminarCategoria(Categoria categoria, AlertDialog dialogoPadre){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("WARNING");
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_confirmation,null);
+        builder.setView(dialogView);
+        AlertDialog dialog = builder.create();
+
+        TextView advertencia = dialogView.findViewById(R.id.confirmationText);
+        Button btnConfirmar = dialogView.findViewById(R.id.btnConfirm);
+        Button btnCancelar = dialogView.findViewById(R.id.btnDecline);
+
+        advertencia.setText("Está apunto de eliminar la categoria con id:" + categoria.getIdCategoria() + "\n Esta acción no se puede revertir, ¿Desea continuar?");
+
+        btnConfirmar.setOnClickListener(v -> {
+            int filasAfectadas = categoriaDAO.deleteCategoria(categoria);
+            if (filasAfectadas > 0){
+                actualizarListView();
+                Toast.makeText(this,"Se ha eliminado: categoria id: "+categoria.getIdCategoria(),Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+                dialogoPadre.dismiss();
+            }else{
+                Log.d("DELETE_ERROR", "No se elimino");
+            }
+        });
+
+        btnCancelar.setOnClickListener(v -> {
+            dialog.dismiss();
+        });
+
+        dialog.show();
+
+
+    }
+
 
 }
