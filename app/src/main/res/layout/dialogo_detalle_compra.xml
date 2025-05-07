@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="Factura de compra"
-        android:textSize="18sp"/>
+        android:textSize="19sp"/>
 
     <Spinner
         android:id="@+id/spinnerFacturaCompra"
@@ -60,26 +60,41 @@
         android:inputType="numberDecimal"
         android:digits="0123456789."/>
 
-    <EditText
-        android:id="@+id/editTextArticulos"
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Articulos"
+        android:textSize="19sp"/>
+
+    <Spinner
+        android:id="@+id/spinnerArticuloCompra"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Seleccione articulos"
-        android:minHeight="48dp"
-        android:digits="0123456789."/>
+        android:minHeight="48dp"/>
 
-    <Button
-        android:id="@+id/btnGuardarDetalleCompra"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/save" />
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        android:weightSum="2">
 
-    <Button
-        android:id="@+id/btnLimpiarDetalleCompra"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/clear"
-        android:layout_marginTop="8dp" />
+        <Button
+            android:id="@+id/btnGuardarDetalleCompra"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:text="@string/save" />
 
+        <Button
+            android:id="@+id/btnLimpiarDetalleCompra"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:text="@string/clear" />
+
+    </LinearLayout>
 
 </LinearLayout>
