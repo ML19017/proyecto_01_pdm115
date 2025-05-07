@@ -113,6 +113,8 @@
     <string name="id_receta">ID Prescription</string>
     <string name="fecha_receta">Date prescription</string>
     <string name="invalid_date_format">Invalid date format</string>
+    <string name="id_via_administracion">Id route of administration</string>
+    <string name="tipo_via_administracion">Type</string>
     <string-array name="category_array">
         <item>categoria 1</item>
         <item>categoria 2</item>

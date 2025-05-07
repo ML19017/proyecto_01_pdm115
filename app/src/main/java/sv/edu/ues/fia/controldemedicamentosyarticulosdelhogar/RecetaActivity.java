@@ -131,7 +131,7 @@ public class RecetaActivity extends AppCompatActivity {
                 String fecha = tvFecha.getText().toString().trim();
                 String descripcion = etDescripcion.getText().toString().trim();
 
-                Receta receta = new Receta(idDoctor, idCliente, idReceta, fecha, descripcion);
+                Receta receta = new Receta(idDoctor, idCliente, idReceta, fecha, descripcion, this);
                 recetaDAO.addReceta(receta);
                 llenarLista();
                 dialog.dismiss();
@@ -240,7 +240,7 @@ public class RecetaActivity extends AppCompatActivity {
 
         dialog.show();
     }
-    
+
     private void buscarRecetaPorId(int idReceta) {
         Receta receta = recetaDAO.getReceta(idReceta);
         if (receta != null) {

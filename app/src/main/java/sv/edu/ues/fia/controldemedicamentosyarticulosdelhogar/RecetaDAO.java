@@ -58,7 +58,8 @@ public class RecetaDAO {
                     cursor.getInt(cursor.getColumnIndexOrThrow("IDCLIENTE")),
                     cursor.getInt(cursor.getColumnIndexOrThrow("IDRECETA")),
                     cursor.getString(cursor.getColumnIndexOrThrow("FECHAEXPEDIDA")),
-                    cursor.getString(cursor.getColumnIndexOrThrow("DESCRIPCION"))
+                    cursor.getString(cursor.getColumnIndexOrThrow("DESCRIPCION")),
+                    context
             );
             cursor.close();
             return receta;
@@ -79,7 +80,8 @@ public class RecetaDAO {
                     cursor.getInt(cursor.getColumnIndexOrThrow("IDCLIENTE")),
                     cursor.getInt(cursor.getColumnIndexOrThrow("IDRECETA")),
                     cursor.getString(cursor.getColumnIndexOrThrow("FECHAEXPEDIDA")),
-                    cursor.getString(cursor.getColumnIndexOrThrow("DESCRIPCION"))
+                    cursor.getString(cursor.getColumnIndexOrThrow("DESCRIPCION")),
+                    context
             );
             lista.add(receta);
         }
