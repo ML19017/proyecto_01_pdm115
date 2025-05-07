@@ -10,45 +10,62 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProveedorDAO {
-    private SQLiteDatabase db;
+    private SQLiteDatabase conexionDB;
     private Context context;
 
-    public ProveedorDAO(Context context) {
+    public ProveedorDAO(SQLiteDatabase conexionDB, Context context) {
+        this.conexionDB = conexionDB;
         this.context = context;
-        DataBaseHelper helper = new DataBaseHelper(context);
-        db = helper.getWritableDatabase();
     }
 
-    public List<Proveedor> obtenerTodos() {
-        List<Proveedor> lista = new ArrayList<>();
-        lista.clear();
-        Cursor cursor = db.rawQuery("SELECT * FROM PROVEEDOR", null);
-
-        if(cursor !=null && cursor.getCount()>0){
-            cursor.moveToFirst();
-            do {
-                lista.add(new Proveedor(
-                        cursor.getInt(0),
-                        cursor.getString(1),
-                        cursor.getString(2),
-                        cursor.getString(3),
-                        cursor.getString(4),
-                        cursor.getString(5),
-                        cursor.getString(6),
-                        cursor.getString(7)));
-
-            } while (cursor.moveToNext());
+    public List<Proveedor> getAllProveedores() {
+        List<Proveedor> proveedores = new ArrayList<>();
+        String sql = "SELECT * FROM PROVEEDOR";
+        Cursor cursor = conexionDB.rawQuery(sql, null);
+        while (cursor.moveToNext()) {
+            proveedores.add(new Proveedor(
+                    cursor.getInt(cursor.getColumnIndexOrThrow("IDPROVEEDOR")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("NOMBREPROVEEDOR")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("TELEFONOPROVEEDOR")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("DIRECCIONPROVEEDOR")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("RUBROPROVEEDOR")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("NUMREGPROVEEDOR")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("NIT")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("GIROPROVEEDOR")),
+                    context
+            ));
         }
         cursor.close();
-        return lista;
+        return proveedores;
     }
 
-    public void insertar(Proveedor proveedor) {
-        // verifica si hay un proveedor con el mismo nit
-        if (proveedorDuplicado(proveedor.getIdProveedor(), proveedor.getNitProveedor())) {
-            Toast.makeText(context, "Ya existe un proveedor con este ID o NIT", Toast.LENGTH_SHORT).show();
+    public Proveedor getProveedorById(int idProveedor) {
+        Proveedor proveedor = null;
+        String sql = "SELECT * FROM PROVEEDOR WHERE IDPROVEEDOR = ?";
+        Cursor cursor = conexionDB.rawQuery(sql, new String[]{String.valueOf(idProveedor)});
+        if (cursor.moveToFirst()) {
+            proveedor = new Proveedor(
+                    cursor.getInt(cursor.getColumnIndexOrThrow("IDPROVEEDOR")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("NOMBREPROVEEDOR")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("TELEFONOPROVEEDOR")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("DIRECCIONPROVEEDOR")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("RUBROPROVEEDOR")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("NUMREGPROVEEDOR")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("NIT")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("GIROPROVEEDOR")),
+                    context
+            );
+        }
+        cursor.close();
+        return proveedor;
+    }
+
+    public void addProveedor(Proveedor proveedor) {
+        if (isDuplicate(proveedor.getIdProveedor(), proveedor.getNitProveedor())) {
+            Toast.makeText(context, context.getString(R.string.provider_exists), Toast.LENGTH_SHORT).show();
             return;
         }
+
         ContentValues values = new ContentValues();
         values.put("IDPROVEEDOR", proveedor.getIdProveedor());
         values.put("NOMBREPROVEEDOR", proveedor.getNombreProveedor());
@@ -58,16 +75,11 @@ public class ProveedorDAO {
         values.put("NUMREGPROVEEDOR", proveedor.getNumRegProveedor());
         values.put("NIT", proveedor.getNitProveedor());
         values.put("GIROPROVEEDOR", proveedor.getGiroProveedor());
-        db.insert("PROVEEDOR", null, values);
+        conexionDB.insert("PROVEEDOR", null, values);
+        Toast.makeText(context, R.string.save_message, Toast.LENGTH_SHORT).show();
     }
 
-    public void actualizar(Proveedor proveedor) {
-        // validar si hay duplicados, es decir si ponen el nit de otra persona
-
-        if (proveedorDuplicadoEditar(proveedor.getIdProveedor(), proveedor.getNitProveedor())) {
-            Toast.makeText(context, "Ya existe otro proveedor con este NIT", Toast.LENGTH_SHORT).show();
-            return;
-        }
+    public void updateProveedor(Proveedor proveedor) {
         ContentValues values = new ContentValues();
         values.put("NOMBREPROVEEDOR", proveedor.getNombreProveedor());
         values.put("TELEFONOPROVEEDOR", proveedor.getTelefonoProveedor());
@@ -76,55 +88,36 @@ public class ProveedorDAO {
         values.put("NUMREGPROVEEDOR", proveedor.getNumRegProveedor());
         values.put("NIT", proveedor.getNitProveedor());
         values.put("GIROPROVEEDOR", proveedor.getGiroProveedor());
-        db.update("PROVEEDOR", values, "IDPROVEEDOR = ?", new String[]{String.valueOf(proveedor.getIdProveedor())});
-    }
 
-    public void eliminar(int id) {
-        db.delete("PROVEEDOR", "IDPROVEEDOR = ?", new String[]{String.valueOf(id)});
-    }
-
-    // Id autoincrementable pq no deja el PRIMARY KEY AUTOICREMENT XD
-    public int obtenerIdProveedor() {
-        Cursor cursor = db.rawQuery("SELECT MAX(IDPROVEEDOR) FROM PROVEEDOR", null);
-        if (cursor.moveToFirst()) {
-            int ultimoId = cursor.getInt(0);
-            cursor.close();
-            return ultimoId + 1;
+        int rows = conexionDB.update("PROVEEDOR", values, "IDPROVEEDOR = ?", new String[]{String.valueOf(proveedor.getIdProveedor())});
+        if (rows == 0) {
+            Toast.makeText(context, R.string.not_found_message, Toast.LENGTH_SHORT).show();
         } else {
-            cursor.close();
-            return 1; // si no hay uno creado le mete por defecto 1
+            Toast.makeText(context, R.string.update_message, Toast.LENGTH_SHORT).show();
         }
     }
 
-    public boolean proveedorDuplicado(int idProveedor, String nit) {
-        Cursor cursor = db.rawQuery(
+    public void deleteProveedor(int idProveedor) {
+        int rows = conexionDB.delete("PROVEEDOR", "IDPROVEEDOR = ?", new String[]{String.valueOf(idProveedor)});
+        if (rows == 0) {
+            Toast.makeText(context, R.string.not_found_message, Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, R.string.delete_message, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private boolean isDuplicate(int idProveedor, String nit) {
+        Cursor cursor = conexionDB.rawQuery(
                 "SELECT COUNT(*) FROM PROVEEDOR WHERE IDPROVEEDOR = ? OR NIT = ?",
                 new String[]{String.valueOf(idProveedor), nit}
         );
-
-        boolean duplicado  = false;
+        boolean exists = false;
         if (cursor.moveToFirst()) {
-            int count = cursor.getInt(0);
-            duplicado  = count > 0;
+            exists = cursor.getInt(0) > 0;
         }
-
         cursor.close();
-        return duplicado;
+        return exists;
     }
 
-    public boolean proveedorDuplicadoEditar(int idProveedor, String nit) {
-        Cursor cursor = db.rawQuery(
-                "SELECT COUNT(*) FROM PROVEEDOR WHERE NIT = ? AND IDPROVEEDOR != ?",
-                new String[]{nit, String.valueOf(idProveedor)}
-        );
-
-        boolean duplicado = false;
-        if (cursor.moveToFirst()) {
-            int count = cursor.getInt(0);
-            duplicado = count > 0;
-        }
-
-        cursor.close();
-        return duplicado;
-    }
 }
+

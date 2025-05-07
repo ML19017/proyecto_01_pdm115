@@ -1,5 +1,7 @@
 package sv.edu.ues.fia.controldemedicamentosyarticulosdelhogar;
 
+import android.content.Context;
+
 public class FacturaCompra {
     private int idCompra;
     private int idFarmacia;
@@ -7,12 +9,15 @@ public class FacturaCompra {
     private String fechaCompra;
     private double totalCompra;
 
-    public FacturaCompra(int idCompra, int idFarmacia, int idProveedor, String fechaCompra, double totalCompra) {
+    private Context context;
+
+    public FacturaCompra(int idCompra, int idFarmacia, int idProveedor, String fechaCompra, double totalCompra, Context context) {
         this.idCompra = idCompra;
         this.idFarmacia = idFarmacia;
         this.idProveedor = idProveedor;
         this.fechaCompra = fechaCompra;
         this.totalCompra = totalCompra;
+        this.context = context;
     }
 
     public int getIdCompra() {
@@ -53,5 +58,18 @@ public class FacturaCompra {
 
     public void setTotalCompra(double totalCompra) {
         this.totalCompra = totalCompra;
+    }
+
+    public Context getContext() {
+        return context;
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
+    }
+
+    @Override
+    public String toString() {
+        return context.getString(R.string.invoice_id) +": " + getIdCompra() + "\n" + context.getString(R.string.purchase_date) +":" + getFechaCompra();
     }
 }

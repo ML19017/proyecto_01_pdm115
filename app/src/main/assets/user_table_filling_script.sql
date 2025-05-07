@@ -3,7 +3,11 @@ INSERT INTO USUARIO (IDUSUARIO, NOMBREUSUARIO, CLAVE) VALUES
 ('01', 'gerente', 'gerente123'),
 ('02', 'farmaceutico', 'farmaceutico123'),
 ('03', 'cajero', 'cajero123'),
-('04', 'admin', '1234');
+('04', 'admin', '1234'),
+('05', 'auxiliar', 'auxiliar123'),
+('06', 'consulor', 'consultor123'),
+('07', 'tester', 'tester123'),
+('08', 'editor', 'editor123');
 
 -- Insertar opciones en OPCIONCRUD
 INSERT INTO OPCIONCRUD (IDOPCION, DESOPCION, NUMCRUD) VALUES
@@ -103,75 +107,77 @@ INSERT INTO OPCIONCRUD (IDOPCION, DESOPCION, NUMCRUD) VALUES
 ('094', 'Subcategory Update', 3),
 ('095', 'Subcategory Delete', 4);
 
--- Asignar accesos a los usuarios
+-- Accesos para el usuario 'admin' (acceso total)
+INSERT INTO ACCESOUSUARIO (IDUSUARIO, IDOPCION)
+SELECT '04', IDOPCION FROM OPCIONCRUD;
 
--- Accesos para el usuario 'admin' (acceso a todo)
-INSERT INTO ACCESOUSUARIO (IDUSUARIO, IDOPCION) VALUES
-('04', '001'), ('04', '002'), ('04', '003'), ('04', '004'), ('04', '005'),
-('04', '006'), ('04', '007'), ('04', '008'), ('04', '009'), ('04', '010'),
-('04', '011'), ('04', '012'), ('04', '013'), ('04', '014'), ('04', '015'),
-('04', '016'), ('04', '017'), ('04', '018'), ('04', '019'), ('04', '020'),
-('04', '021'), ('04', '022'), ('04', '023'), ('04', '024'), ('04', '025'),
-('04', '026'), ('04', '027'), ('04', '028'), ('04', '029'), ('04', '030'),
-('04', '031'), ('04', '032'), ('04', '033'), ('04', '034'), ('04', '035'),
-('04', '036'), ('04', '037'), ('04', '038'), ('04', '039'), ('04', '040'),
-('04', '041'), ('04', '042'), ('04', '043'), ('04', '044'), ('04', '045'),
-('04', '046'), ('04', '047'), ('04', '048'), ('04', '049'), ('04', '050'),
-('04', '051'), ('04', '052'), ('04', '053'), ('04', '054'), ('04', '055'),
-('04', '056'), ('04', '057'), ('04', '058'), ('04', '059'), ('04', '060'),
-('04', '061'), ('04', '062'), ('04', '063'), ('04', '064'), ('04', '065'),
-('04', '066'), ('04', '067'), ('04', '068'), ('04', '069'), ('04', '070'),
-('04', '071'), ('04', '072'), ('04', '073'), ('04', '074'), ('04', '075'),
-('04', '076'), ('04', '077'), ('04', '078'), ('04', '079'), ('04', '080'),
-('04', '081'), ('04', '082'), ('04', '083'), ('04', '084'), ('04', '085'),
-('04', '086'), ('04', '087'), ('04', '088'), ('04', '089'), ('04', '090'),
-('04', '091'), ('04', '092'), ('04', '093'), ('04', '094'), ('04', '095');
+-- Asignar accesos solo a menus y lectura (NUMCRUD = 0 o 2)
+INSERT INTO ACCESOUSUARIO (IDUSUARIO, IDOPCION)
+SELECT '06', IDOPCION
+FROM OPCIONCRUD
+WHERE NUMCRUD IN (0, 2);
 
--- Accesos para el usuario 'gerente' (manejo de compras y proveedores)
-INSERT INTO ACCESOUSUARIO (IDUSUARIO, IDOPCION) VALUES
-('01', '036'), -- Menu Purchase
-('01', '037'), -- Purchase Create
-('01', '038'), -- Purchase Read
-('01', '039'), -- Purchase Update
-('01', '040'), -- Purchase Delete
-('01', '041'), -- Menu Purchase Details
-('01', '042'), -- Purchase Details Create
-('01', '043'), -- Purchase Details Read
-('01', '044'), -- Purchase Details Update
-('01', '045'), -- Purchase Details Delete
-('01', '046'), -- Menu Purchase Invoice
-('01', '047'), -- Purchase Invoice Create
-('01', '048'), -- Purchase Invoice Read
-('01', '049'), -- Purchase Invoice Update
-('01', '050'), -- Purchase Invoice Delete
-('01', '051'), -- Menu Supplier
-('01', '052'), -- Supplier Create
-('01', '053'), -- Supplier Read
-('01', '054'), -- Supplier Update
-('01', '055'); -- Supplier Delete
+-- Asignar accesos a tester1: solo Menús, Crear y Leer
+INSERT INTO ACCESOUSUARIO (IDUSUARIO, IDOPCION)
+SELECT '07', IDOPCION
+FROM OPCIONCRUD
+WHERE NUMCRUD IN (0, 1, 2);
 
--- Accesos para el usuario 'farmaceutico' (manejo de artículos)
-INSERT INTO ACCESOUSUARIO (IDUSUARIO, IDOPCION) VALUES
-('02', '081'), -- Menu Item
-('02', '082'), -- Item Create
-('02', '083'), -- Item Read
-('02', '084'), -- Item Update
-('02', '085'), -- Item Delete
-('02', '086'), -- Menu Category
-('02', '087'), -- Category Create
-('02', '088'), -- Category Read
-('02', '089'), -- Category Update
-('02', '090'), -- Category Delete
-('02', '091'), -- Menu Subcategory
-('02', '092'), -- Subcategory Create
-('02', '093'), -- Subcategory Read
-('02', '094'), -- Subcategory Update
-('02', '095'); -- Subcategory Delete
+-- Asignar accesos a editor1: Menú, Leer y Actualizar
+INSERT INTO ACCESOUSUARIO (IDUSUARIO, IDOPCION)
+SELECT '08', IDOPCION
+FROM OPCIONCRUD
+WHERE NUMCRUD IN (0, 2, 3);
 
--- Accesos para el usuario 'cajero' (manejo de ventas)
+-- Accesos para el usuario 'gerente' (manejo de compras, proveedores y lectura de inventario)
 INSERT INTO ACCESOUSUARIO (IDUSUARIO, IDOPCION) VALUES
-('03', '016'), -- Menu Sales
-('03', '017'), -- Sales Create
-('03', '018'), -- Sales Read
-('03', '019'), -- Sales Update
-('03', '020');
+-- Existence Detail (lectura)
+('01', '011'), ('01', '013'),
+-- Purchase
+('01', '036'), ('01', '037'), ('01', '038'), ('01', '039'), ('01', '040'),
+-- Purchase Details
+('01', '041'), ('01', '042'), ('01', '043'), ('01', '044'), ('01', '045'),
+-- Purchase Invoice
+('01', '046'), ('01', '047'), ('01', '048'), ('01', '049'), ('01', '050'),
+-- Supplier
+('01', '051'), ('01', '052'), ('01', '053'), ('01', '054'), ('01', '055'),
+-- Lectura artículos/categorías
+('01', '083'), ('01', '088'), ('01', '093');
+
+-- Accesos para el usuario 'farmaceutico' (manejo de artículos, recetas, doctores, marcas)
+INSERT INTO ACCESOUSUARIO (IDUSUARIO, IDOPCION) VALUES
+-- Item
+('02', '081'), ('02', '082'), ('02', '083'), ('02', '084'), ('02', '085'),
+-- Category
+('02', '086'), ('02', '087'), ('02', '088'), ('02', '089'), ('02', '090'),
+-- Subcategory
+('02', '091'), ('02', '092'), ('02', '093'), ('02', '094'), ('02', '095'),
+-- Prescription
+('02', '071'), ('02', '072'), ('02', '073'), ('02', '074'), ('02', '075'),
+-- Brand
+('02', '061'), ('02', '062'), ('02', '063'), ('02', '064'), ('02', '065'),
+-- Pharmaceutical Form
+('02', '056'), ('02', '057'), ('02', '058'), ('02', '059'), ('02', '060'),
+-- Route of Administration
+('02', '066'), ('02', '067'), ('02', '068'), ('02', '069'), ('02', '070'),
+-- Doctor
+('02', '076'), ('02', '077'), ('02', '078'), ('02', '079'), ('02', '080');
+
+-- Accesos para el usuario 'cajero' (ventas y clientes)
+INSERT INTO ACCESOUSUARIO (IDUSUARIO, IDOPCION) VALUES
+-- Sales
+('03', '016'), ('03', '017'), ('03', '018'), ('03', '019'), ('03', '020'),
+-- Sales Details
+('03', '021'), ('03', '022'), ('03', '023'), ('03', '024'), ('03', '025'),
+-- Sales Invoice
+('03', '026'), ('03', '027'), ('03', '028'), ('03', '029'), ('03', '030'),
+-- Client
+('03', '031'), ('03', '032'), ('03', '033'), ('03', '034'), ('03', '035');
+
+-- Accesos para el usuario 'aux_inventario' (solo lectura inventario y artículos)
+INSERT INTO ACCESOUSUARIO (IDUSUARIO, IDOPCION) VALUES
+('05', '011'), -- Menu Existence Detail
+('05', '013'), -- Existence Detail Read
+('05', '083'), -- Item Read
+('05', '088'), -- Category Read
+('05', '093');
