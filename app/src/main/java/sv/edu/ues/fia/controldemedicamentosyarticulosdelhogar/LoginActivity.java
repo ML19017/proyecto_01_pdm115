@@ -30,6 +30,9 @@ public class LoginActivity extends AppCompatActivity {
             String username = usernameEditText.getText().toString().trim();
             String password = passwordEditText.getText().toString().trim();
 
+            usernameEditText.setText("admin");
+            passwordEditText.setText("1234");
+
             if (validarUsuario(username, password)) {
                 Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
                 startActivity(intent);

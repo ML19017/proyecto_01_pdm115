@@ -106,37 +106,6 @@ public class FacturaCompraDAO {
         return facturasCompra;
     }
 
-    // obtener unas sucursal por us id
-    public SucursalFarmacia getFarmaciaById(int idFarmacia) {
-        SucursalFarmacia farmacia = null;
-        String sql = "SELECT * FROM SUCURSALFARMACIA WHERE IDFARMACIA = ?";
-        Cursor cursor = conexionDB.rawQuery(sql, new String[]{String.valueOf(idFarmacia)});
-        if (cursor.moveToFirst()) {
-            farmacia = new SucursalFarmacia(
-                    cursor.getInt(cursor.getColumnIndexOrThrow("IDFARMACIA")),
-                    cursor.getString(cursor.getColumnIndexOrThrow("NOMBREFARMACIA"))
-            );
-        }
-        cursor.close();
-        return farmacia;
-    }
-
-    // obtener proveedor por su id
-    public Proveedor getProveedorById(int idProveedor) {
-        Proveedor proveedor = null;
-        String sql = "SELECT * FROM PROVEEDOR WHERE IDPROVEEDOR = ?";
-        Cursor cursor = conexionDB.rawQuery(sql, new String[]{String.valueOf(idProveedor)});
-        if (cursor.moveToFirst()) {
-            proveedor = new Proveedor(
-                    cursor.getInt(cursor.getColumnIndexOrThrow("IDPROVEEDOR")),
-                    cursor.getString(cursor.getColumnIndexOrThrow("NOMBREPROVEEDOR")),
-                    context
-            );
-        }
-        cursor.close();
-        return proveedor;
-    }
-
     // obetener las factturas por su id
     public FacturaCompra getFacturaCompra(int id) {
         String sql = "SELECT * FROM FACTURACOMPRA WHERE IDCOMPRA = ?";

@@ -1,5 +1,7 @@
 package sv.edu.ues.fia.controldemedicamentosyarticulosdelhogar;
 
+import android.content.Context;
+
 public class DetalleCompra {
     private int idCompra;
     private int idArticulo;
@@ -8,17 +10,10 @@ public class DetalleCompra {
     private double precioUnitarioCompra;
     private int cantidadCompra;
     private double totalDetalleCompra;
+    private Context context;
 
-    public DetalleCompra(int idArticulo, int idCompra, String fechaDeCompra, int cantidadCompra, double precioUnitarioCompra, double totalDetalleCompra) {
-        this.idArticulo = idArticulo;
-        this.idCompra = idCompra;
-        this.fechaDeCompra = fechaDeCompra;
-        this.cantidadCompra = cantidadCompra;
-        this.precioUnitarioCompra = precioUnitarioCompra;
-        this.totalDetalleCompra = totalDetalleCompra;
-    }
-
-    public DetalleCompra(int idCompra, int idArticulo, int idDetalleCompra, String fechaDeCompra, double precioUnitarioCompra, int cantidadCompra, double totalDetalleCompra) {
+    public DetalleCompra(int idCompra, int idArticulo, int idDetalleCompra, String fechaDeCompra,
+                         double precioUnitarioCompra, int cantidadCompra, double totalDetalleCompra, Context context) {
         this.idCompra = idCompra;
         this.idArticulo = idArticulo;
         this.idDetalleCompra = idDetalleCompra;
@@ -26,6 +21,7 @@ public class DetalleCompra {
         this.precioUnitarioCompra = precioUnitarioCompra;
         this.cantidadCompra = cantidadCompra;
         this.totalDetalleCompra = totalDetalleCompra;
+        this.context = context;
     }
 
     public int getIdCompra() {
@@ -82,6 +78,18 @@ public class DetalleCompra {
 
     public void setTotalDetalleCompra(double totalDetalleCompra) {
         this.totalDetalleCompra = totalDetalleCompra;
+    }
+
+    public Context getContext() {
+        return context;
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
+    }
+
+    public String toString() {
+        return context.getString(R.string.invoice_id) +": " + getIdCompra() + "\n" +"ID DETALLE COMPRA:" + getIdDetalleCompra();
     }
 }
 
