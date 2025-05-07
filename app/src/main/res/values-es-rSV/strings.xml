@@ -107,5 +107,7 @@
     <string name="pharmacy_branch">Sucursal de Farmacia</string>
     <string name="invoice_id">ID Factura</string>
     <string name="purchase_date">Fecha Factura</string>
+    <string name="select_articulo">Por favor, selecciona un artículo</string>
+    <string name="select_factura">Por favor, selecciona una factura</string>
     <!-- Fin Factura Compra -->
 </resources>

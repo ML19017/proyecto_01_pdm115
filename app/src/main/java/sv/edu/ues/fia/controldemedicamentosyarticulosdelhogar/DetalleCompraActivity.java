@@ -85,7 +85,7 @@ public class DetalleCompraActivity extends AppCompatActivity {
         EditText editTextUnitarioDetalleCompra = dialogView.findViewById(R.id.editTextUnitarioDetalleCompra);
         EditText editTextCantidadDetalleCompra = dialogView.findViewById(R.id.editTextCantidadDetalleCompra);
         EditText editTextTotalDetalleCompra = dialogView.findViewById(R.id.editTextTotalDetalleCompra);
-        EditText editTextArticulos = dialogView.findViewById(R.id.editTextArticulos);
+        Spinner spinnerArticuloCompra = dialogView.findViewById(R.id.spinnerArticuloCompra);
         Spinner spinnerFacturaCompra = dialogView.findViewById(R.id.spinnerFacturaCompra);
 
         Button btnGuardar = dialogView.findViewById(R.id.btnGuardarDetalleCompra);
@@ -96,6 +96,12 @@ public class DetalleCompraActivity extends AppCompatActivity {
         ArrayAdapter<FacturaCompra> adapterFactura = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, facturas);
         adapterFactura.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerFacturaCompra.setAdapter(adapterFactura);
+
+        List<Articulo> articulos = detalleCompraDAO.getAllArticulo();
+        articulos.add(0, new Articulo(-1, "Seleccione un artículo", this));
+        ArrayAdapter<Articulo> adapterArticulo = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, articulos);
+        adapterArticulo.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerArticuloCompra.setAdapter(adapterArticulo);
 
         editTextFechaDetalleCompra.setInputType(InputType.TYPE_NULL);
         editTextFechaDetalleCompra.setFocusable(false);
@@ -110,40 +116,55 @@ public class DetalleCompraActivity extends AppCompatActivity {
             dp.show();
         });
 
-        List<View> campos = Arrays.asList(editTextIdDetalleCompra, editTextFechaDetalleCompra, editTextUnitarioDetalleCompra, editTextCantidadDetalleCompra, editTextTotalDetalleCompra, editTextArticulos);
-        List<String> regex = Arrays.asList("\\d+", "\\d{4}-\\d{2}-\\d{2}", "\\d+(\\.\\d{1,2})?", "\\d+", "\\d+(\\.\\d{1,2})?", "\\d+");
-        List<Integer> errores = Arrays.asList(R.string.only_numbers, R.string.invalid_date, R.string.only_numbers, R.string.only_numbers, R.string.only_numbers, R.string.only_numbers);
+        List<View> vistas = Arrays.asList(
+                editTextIdDetalleCompra, editTextFechaDetalleCompra, editTextUnitarioDetalleCompra, editTextCantidadDetalleCompra,
+                editTextTotalDetalleCompra, spinnerArticuloCompra, spinnerFacturaCompra
+        );
 
-        ValidadorDeCampos validador = new ValidadorDeCampos(this, campos, regex, errores);
+        List<String> listaRegex = Arrays.asList(
+                "\\d+", "\\d{4}-\\d{2}-\\d{2}", "\\d+(\\.\\d{1,2})?", "\\d+", "\\d+(\\.\\d{1,2})?",
+                "\\d+", "\\d+"
+        );
+
+        List<Integer> mensajesDeError = Arrays.asList(
+                R.string.only_numbers, R.string.invalid_date, R.string.only_numbers, R.string.only_numbers,
+                R.string.only_numbers, R.string.select_articulo, R.string.select_factura
+        );
+
+        ValidadorDeCampos validadorDeCampos = new ValidadorDeCampos(this, vistas, listaRegex, mensajesDeError);
+
         AlertDialog dialog = builder.create();
 
         btnGuardar.setOnClickListener(v -> {
-            if (validador.validarCampos()) {
-                saveDetalleCompra(editTextIdDetalleCompra, editTextFechaDetalleCompra, editTextUnitarioDetalleCompra,
-                        editTextCantidadDetalleCompra, editTextTotalDetalleCompra, editTextArticulos, spinnerFacturaCompra);
+            if (validadorDeCampos.validarCampos()) {
+                saveDetalleCompra(
+                        editTextIdDetalleCompra, editTextFechaDetalleCompra, editTextUnitarioDetalleCompra, editTextCantidadDetalleCompra,
+                        editTextTotalDetalleCompra, spinnerArticuloCompra, spinnerFacturaCompra
+                );
                 dialog.dismiss();
             }
         });
 
-
         dialog.show();
     }
 
+
     private void saveDetalleCompra(EditText editTextIdDetalleCompra, EditText editTextFechaDetalleCompra, EditText editTextUnitarioDetalleCompra,
-                                   EditText editTextCantidadDetalleCompra, EditText editTextTotalDetalleCompra, EditText editTextArticulos, Spinner spinnerFacturaCompra) {
+                                   EditText editTextCantidadDetalleCompra, EditText editTextTotalDetalleCompra, Spinner spinnerArticuloCompra, Spinner spinnerFacturaCompra) {
 
         int idDetalleCompra = Integer.parseInt(editTextIdDetalleCompra.getText().toString());
         String fecha = editTextFechaDetalleCompra.getText().toString().trim();
         double precioUnitario = Double.parseDouble(editTextUnitarioDetalleCompra.getText().toString());
         int cantidadArticulos = Integer.parseInt(editTextCantidadDetalleCompra.getText().toString());
         double totalDetalle = Double.parseDouble(editTextTotalDetalleCompra.getText().toString());
-        int idArticulo = Integer.parseInt(editTextArticulos.getText().toString());
 
         // obtener todas la factura seleccionada y validar que esa factura guarda el id y no un string
         FacturaCompra facturaSeleccionada = (FacturaCompra) spinnerFacturaCompra.getSelectedItem();
+        Articulo articuloSeleccionado = (Articulo) spinnerArticuloCompra.getSelectedItem();
 
         if (facturaSeleccionada != null && facturaSeleccionada.getIdCompra() != -1) {
             int idCompra = facturaSeleccionada.getIdCompra();
+            int idArticulo = articuloSeleccionado.getIdArticulo();
 
             DetalleCompra detalleCompra = new DetalleCompra(idCompra, idArticulo, idDetalleCompra, fecha, precioUnitario, cantidadArticulos, totalDetalle, this
             );
@@ -156,7 +177,7 @@ public class DetalleCompraActivity extends AppCompatActivity {
         }
 
         clearFieldsDetalleCompra(editTextIdDetalleCompra, editTextFechaDetalleCompra, editTextUnitarioDetalleCompra, editTextCantidadDetalleCompra,
-                editTextTotalDetalleCompra, editTextArticulos, spinnerFacturaCompra
+                editTextTotalDetalleCompra, spinnerArticuloCompra, spinnerFacturaCompra
         );
     }
 
@@ -202,7 +223,7 @@ public class DetalleCompraActivity extends AppCompatActivity {
         EditText editTextUnitarioDetalleCompra = dialogView.findViewById(R.id.editTextUnitarioDetalleCompra);
         EditText editTextCantidadDetalleCompra = dialogView.findViewById(R.id.editTextCantidadDetalleCompra);
         EditText editTextTotalDetalleCompra = dialogView.findViewById(R.id.editTextTotalDetalleCompra);
-        EditText editTextArticulos = dialogView.findViewById(R.id.editTextArticulos);
+        Spinner spinnerArticuloCompra = dialogView.findViewById(R.id.spinnerArticuloCompra);
         Spinner spinnerFacturaCompra = dialogView.findViewById(R.id.spinnerFacturaCompra);
 
         editTextIdDetalleCompra.setEnabled(false);
@@ -210,7 +231,7 @@ public class DetalleCompraActivity extends AppCompatActivity {
         editTextCantidadDetalleCompra.setFocusable(false);
         editTextTotalDetalleCompra.setFocusable(false);
         editTextUnitarioDetalleCompra.setFocusable(false);
-        editTextArticulos.setFocusable(false);
+        spinnerArticuloCompra.setEnabled(false);
         spinnerFacturaCompra.setEnabled(false);
 
         Button btnGuardar = dialogView.findViewById(R.id.btnGuardarDetalleCompra);
@@ -224,7 +245,6 @@ public class DetalleCompraActivity extends AppCompatActivity {
         editTextUnitarioDetalleCompra.setText(String.valueOf(detalleCompra.getPrecioUnitarioCompra()));
         editTextTotalDetalleCompra.setText(String.valueOf(detalleCompra.getTotalDetalleCompra()));
         editTextCantidadDetalleCompra.setText(String.valueOf(detalleCompra.getCantidadCompra()));
-        editTextArticulos.setText(String.valueOf(detalleCompra.getIdArticulo()));
 
         // obtener lista de facturas compra
         List<FacturaCompra> facturas = detalleCompraDAO.getAllFacturaCompra();
@@ -233,10 +253,23 @@ public class DetalleCompraActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerFacturaCompra.setAdapter(adapter);
 
+        List<Articulo> articulos = detalleCompraDAO.getAllArticulo();
+        articulos.add(0, new Articulo(-1, "Seleccione un artículo", this));
+        ArrayAdapter<Articulo> adapterArticulo = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, articulos);
+        adapterArticulo.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerArticuloCompra.setAdapter(adapterArticulo);
+
         // seleccionar factura relacionada
         for (int i = 0; i < facturas.size(); i++) {
             if (facturas.get(i).getIdCompra() == detalleCompra.getIdCompra()) {
                 spinnerFacturaCompra.setSelection(i);
+                break;
+            }
+        }
+
+        for (int i = 0; i < articulos.size(); i++) {
+            if (articulos.get(i).getIdArticulo() == detalleCompra.getIdArticulo()) {
+                spinnerArticuloCompra.setSelection(i);
                 break;
             }
         }
@@ -256,27 +289,39 @@ public class DetalleCompraActivity extends AppCompatActivity {
         EditText editTextUnitarioDetalleCompra = dialogView.findViewById(R.id.editTextUnitarioDetalleCompra);
         EditText editTextCantidadDetalleCompra = dialogView.findViewById(R.id.editTextCantidadDetalleCompra);
         EditText editTextTotalDetalleCompra = dialogView.findViewById(R.id.editTextTotalDetalleCompra);
-        EditText editTextArticulos = dialogView.findViewById(R.id.editTextArticulos);
+        Spinner spinnerArticuloCompra = dialogView.findViewById(R.id.spinnerArticuloCompra);
         Spinner spinnerFacturaCompra = dialogView.findViewById(R.id.spinnerFacturaCompra);
 
         // obtener lista de facturas compra
         List<FacturaCompra> facturas = detalleCompraDAO.getAllFacturaCompra();
-
         ArrayAdapter<FacturaCompra> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, facturas);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerFacturaCompra.setAdapter(adapter);
+
+        List<Articulo> articulos = detalleCompraDAO.getAllArticulo();
+        articulos.add(0, new Articulo(-1, "Seleccione un artículo", this));
+        ArrayAdapter<Articulo> adapterArticulo = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, articulos);
+        adapterArticulo.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerArticuloCompra.setAdapter(adapterArticulo);
 
         editTextIdDetalleCompra.setText(String.valueOf(detalleCompra.getIdDetalleCompra()));
         editTextFechaDetalleCompra.setText(detalleCompra.getFechaDeCompra());
         editTextUnitarioDetalleCompra.setText(String.valueOf(detalleCompra.getPrecioUnitarioCompra()));
         editTextTotalDetalleCompra.setText(String.valueOf(detalleCompra.getTotalDetalleCompra()));
         editTextCantidadDetalleCompra.setText(String.valueOf(detalleCompra.getCantidadCompra()));
-        editTextArticulos.setText(String.valueOf(detalleCompra.getIdArticulo()));
+
 
         // seleccionar factura relacionada
         for (int i = 0; i < facturas.size(); i++) {
             if (facturas.get(i).getIdCompra() == detalleCompra.getIdCompra()) {
                 spinnerFacturaCompra.setSelection(i);
+                break;
+            }
+        }
+
+        for (int i = 0; i < articulos.size(); i++) {
+            if (articulos.get(i).getIdArticulo() == detalleCompra.getIdArticulo()) {
+                spinnerArticuloCompra.setSelection(i);
                 break;
             }
         }
@@ -291,6 +336,9 @@ public class DetalleCompraActivity extends AppCompatActivity {
         spinnerFacturaCompra.setEnabled(false);
         spinnerFacturaCompra.setFocusable(false);
 
+        spinnerArticuloCompra.setEnabled(false);
+        spinnerArticuloCompra.setFocusable(false);
+
         editTextFechaDetalleCompra.setInputType(InputType.TYPE_NULL);
         editTextFechaDetalleCompra.setFocusable(false);
         editTextFechaDetalleCompra.setOnClickListener(v -> {
@@ -304,31 +352,42 @@ public class DetalleCompraActivity extends AppCompatActivity {
             dp.show();
         });
 
-        List<View> campos = Arrays.asList(editTextIdDetalleCompra, editTextFechaDetalleCompra, editTextUnitarioDetalleCompra, editTextCantidadDetalleCompra, editTextTotalDetalleCompra, editTextArticulos);
-        List<String> regex = Arrays.asList("\\d+", "\\d{4}-\\d{2}-\\d{2}", "\\d+(\\.\\d{1,2})?", "\\d+", "\\d+(\\.\\d{1,2})?", "\\d+");
-        List<Integer> errores = Arrays.asList(R.string.only_numbers, R.string.invalid_date, R.string.only_numbers, R.string.only_numbers, R.string.only_numbers, R.string.only_numbers);
+        List<View> vistas = Arrays.asList(
+                editTextIdDetalleCompra, editTextFechaDetalleCompra, editTextUnitarioDetalleCompra, editTextCantidadDetalleCompra,
+                editTextTotalDetalleCompra, spinnerArticuloCompra, spinnerFacturaCompra
+        );
 
-        ValidadorDeCampos validador = new ValidadorDeCampos(this, campos, regex, errores);
+        List<String> listaRegex = Arrays.asList(
+                "\\d+", "\\d{4}-\\d{2}-\\d{2}", "\\d+(\\.\\d{1,2})?", "\\d+", "\\d+(\\.\\d{1,2})?",
+                "\\d+", "\\d+"
+        );
+
+        List<Integer> mensajesDeError = Arrays.asList(
+                R.string.only_numbers, R.string.invalid_date, R.string.only_numbers, R.string.only_numbers,
+                R.string.only_numbers, R.string.select_articulo, R.string.select_factura
+        );
+
+        ValidadorDeCampos validadorDeCampos = new ValidadorDeCampos(this, vistas, listaRegex, mensajesDeError);
         AlertDialog dialog = builder.create();
 
         btnGuardar.setOnClickListener(v -> {
-            if (validador.validarCampos()) {
+            if (validadorDeCampos.validarCampos()) {
                 int idDetalleCompra = Integer.parseInt(editTextIdDetalleCompra.getText().toString());
                 String fecha = editTextFechaDetalleCompra.getText().toString().trim();
                 double precioUnitario = Double.parseDouble(editTextUnitarioDetalleCompra.getText().toString());
                 int cantidadArticulos = Integer.parseInt(editTextCantidadDetalleCompra.getText().toString());
                 double totalDetalle = Double.parseDouble(editTextTotalDetalleCompra.getText().toString());
-                int idArticulo = Integer.parseInt(editTextArticulos.getText().toString());
 
                 // obtener todas la factura seleccionada y validar que esa factura guarda el id y no un string
                 FacturaCompra facturaSeleccionada = (FacturaCompra) spinnerFacturaCompra.getSelectedItem();
+                Articulo articuloSeleccionado = (Articulo) spinnerArticuloCompra.getSelectedItem();
 
                 detalleCompra.setIdCompra(idDetalleCompra);
                 detalleCompra.setFechaDeCompra(fecha);
                 detalleCompra.setPrecioUnitarioCompra(precioUnitario);
                 detalleCompra.setCantidadCompra(cantidadArticulos);
                 detalleCompra.setTotalDetalleCompra(totalDetalle);
-                detalleCompra.setIdArticulo(idArticulo);
+                detalleCompra.setIdArticulo(articuloSeleccionado.getIdArticulo());
                 detalleCompra.setIdCompra(facturaSeleccionada.getIdCompra());
 
                 detalleCompraDAO.updateDetalleCompra(detalleCompra);
@@ -360,13 +419,13 @@ public class DetalleCompraActivity extends AppCompatActivity {
     }
 
     private void clearFieldsDetalleCompra(EditText editTextIdDetalleCompra, EditText editTextFechaDetalleCompra, EditText editTextUnitarioDetalleCompra, EditText editTextCantidadDetalleCompra,
-                                          EditText editTextTotalDetalleCompra, EditText editTextArticulos, Spinner spinnerFacturaCompra) {
+                                          EditText editTextTotalDetalleCompra, Spinner spinnerArticuloCompra, Spinner spinnerFacturaCompra) {
         editTextIdDetalleCompra.setText("");
         editTextFechaDetalleCompra.setText("");
         editTextUnitarioDetalleCompra.setText("");
         editTextCantidadDetalleCompra.setText("");
         editTextTotalDetalleCompra.setText("");
-        editTextArticulos.setText("");
+        spinnerArticuloCompra.setSelection(0);
         spinnerFacturaCompra.setSelection(0);
     }
 

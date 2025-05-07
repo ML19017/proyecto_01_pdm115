@@ -152,6 +152,24 @@ public class DetalleCompraDAO {
         return lista;
     }
 
+    public List<Articulo> getAllArticulo() {
+        List<Articulo> lista = new ArrayList<>();
+        String sql = "SELECT * FROM ARTICULO";
+        Cursor cursor = conexionDB.rawQuery(sql, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                int idCompra = cursor.getInt(cursor.getColumnIndexOrThrow("IDARTICULO"));
+                String nombreArticulo = cursor.getString(cursor.getColumnIndexOrThrow("NOMBREARTICULO"));
+                lista.add(new Articulo(idCompra, nombreArticulo,  context));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return lista;
+    }
+
+
+
     private int checkDuplicate(int idCompra, int idArticulo, int idDetalleCompra) {
         String sqlTriple = "SELECT 1 FROM DETALLECOMPRA WHERE IDCOMPRA = ? AND IDARTICULO = ? AND IDDETALLECOMPRA = ?";
         Cursor cursorTriple = conexionDB.rawQuery(sqlTriple, new String[]{
