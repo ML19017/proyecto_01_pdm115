@@ -9,27 +9,31 @@
         android:id="@+id/editTextIdFactura"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="ID Factura"
-        android:minHeight="48dp" />
+        android:hint="@string/purchase_invoice_id"
+        android:minHeight="48dp"
+        android:inputType="number"/>
 
     <EditText
         android:id="@+id/editTextFechaCompra"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Fecha de compra"
-        android:minHeight="48dp" />
+        android:hint="@string/purchase_invoice_date"
+        android:inputType="number"
+        android:minHeight="48dp"/>
 
     <EditText
         android:id="@+id/editTextTotalCompra"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Total compra"
-        android:minHeight="48dp" />
+        android:hint="@string/total_purchase"
+        android:minHeight="48dp"
+        android:inputType="numberDecimal"
+        android:digits="0123456789."/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Sucursal Farmacia"
+        android:text="@string/pharmacy_branch"
         android:textSize="18sp"
         android:layout_marginTop="15dp" />
 
@@ -42,14 +46,14 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Proveedor"
+        android:text="@string/provider"
         android:textSize="18sp"/>
 
     <Spinner
         android:id="@+id/spinnerProveedor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="48dp" />
+        android:minHeight="48dp"/>
 
     <Button
         android:id="@+id/btnGuardarFacturaCompra"

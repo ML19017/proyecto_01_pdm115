@@ -1,5 +1,7 @@
 package sv.edu.ues.fia.controldemedicamentosyarticulosdelhogar;
 
+import android.content.Context;
+
 public class Proveedor {
     private int idProveedor;
     private String nombreProveedor;
@@ -10,19 +12,11 @@ public class Proveedor {
     private String nitProveedor;
     private String giroProveedor;
 
-    public Proveedor(String nombreProveedor, String telefonoProveedor, String direccionProveedor,
-                     String rubroProveedor, String numRegProveedor, String nitProveedor, String giroProveedor) {
-        this.nombreProveedor = nombreProveedor;
-        this.telefonoProveedor = telefonoProveedor;
-        this.direccionProveedor = direccionProveedor;
-        this.rubroProveedor = rubroProveedor;
-        this.numRegProveedor = numRegProveedor;
-        this.nitProveedor = nitProveedor;
-        this.giroProveedor = giroProveedor;
-    }
+    private Context context;
+
 
     public Proveedor(int idProveedor, String nombreProveedor, String telefonoProveedor, String direccionProveedor,
-                     String rubroProveedor, String numRegProveedor, String nitProveedor, String giroProveedor) {
+                     String rubroProveedor, String numRegProveedor, String nitProveedor, String giroProveedor, Context context) {
         this.idProveedor = idProveedor;
         this.nombreProveedor = nombreProveedor;
         this.telefonoProveedor = telefonoProveedor;
@@ -31,10 +25,13 @@ public class Proveedor {
         this.numRegProveedor = numRegProveedor;
         this.nitProveedor = nitProveedor;
         this.giroProveedor = giroProveedor;
+        this.context = context;
     }
-    public Proveedor(int idProveedor, String nombreProveedor) {
+
+    public Proveedor(int idProveedor, String nombreProveedor, Context context) {
         this.idProveedor = idProveedor;
         this.nombreProveedor = nombreProveedor;
+        this.context = context;
     }
 
     public int getIdProveedor() {
@@ -104,6 +101,8 @@ public class Proveedor {
     // esto devuelve algunos atributos de la tabla y los muestra en el listview
     @Override
     public String toString() {
-        return "# " + getIdProveedor() + " " + getNombreProveedor() + " - " + getNitProveedor();
+        return context.getString(R.string.name_supplier) + ": " + getNombreProveedor() + "\n"
+                 + context.getString(R.string.tax_id_supplier)+": " + getNitProveedor();
     }
+
 }

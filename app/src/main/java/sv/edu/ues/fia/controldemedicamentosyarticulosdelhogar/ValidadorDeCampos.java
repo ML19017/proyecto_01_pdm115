@@ -1,8 +1,12 @@
 package sv.edu.ues.fia.controldemedicamentosyarticulosdelhogar;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
+
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -36,6 +40,18 @@ public class ValidadorDeCampos {
                     todosLosCamposValidos = false; // Validación fallida
                 } else {
                     editText.setError(null); // Limpiar error si la validación pasa
+                }
+            }
+            if (vista instanceof Spinner) {
+                Spinner spinner = (Spinner) vista;
+                if (spinner.getSelectedItemPosition() == 0) {
+                    TextView errorText = (TextView) spinner.getSelectedView();
+                    if (errorText != null) {
+                        errorText.setError(""); // icono
+                        errorText.setTextColor(Color.RED);
+                        errorText.setText(contexto.getString(mensajeDeErrorId));
+                    }
+                    todosLosCamposValidos = false;
                 }
             }
         }

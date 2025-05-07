@@ -31,7 +31,7 @@
     <string name="welcome_message">Welcome</string>
     <!-- End of Login -->
 
-    <!-- Compras -->
+    <!-- Compras Proveedor-->
     <string name="add_supplier">Add Supplier</string>
     <string name="name_supplier">Name</string>
     <string name="phone_supplier">Phone</string>
@@ -43,7 +43,11 @@
     <string name="add_supplier_dialog">Add Supplier</string>
     <string name="supplier_details_dialog">Supplier Details</string>
     <string name="edit_supplier_dialog">Edit Supplier</string>
-    <string name="provider">provider?</string>
+    <string name="provider">Provider</string>
+    <string name="provider_id">Provider ID</string>
+    <string name="provider_nit">Provider NIT</string>
+    <string name="provider_exists">A provider with this ID or NIT already exists</string>
+
     <!-- Fin Compra -->
 
     <!-- Para Comunismo -->
@@ -80,8 +84,20 @@
     <string name="confirm_delete_message">Delete record</string>
     <string name="update_message">An record was updated</string>
     <string name="action_block">This action is blocked</string>
-    <string name="not_found_message">Reference not found: </string>
-    <string name="duplicate_message">The record already exists</string>
+    <string name="not_found_message">Reference not found</string>
+    <string name="duplicate_message">The record is duplicated</string>
+    <string name="invalid_date">Invalid date format</string>
+
+    <!-- Factura Compra -->
+    <string name="purchase_invoice_id">Purchase Invoice ID</string>
+    <string name="purchase_invoice_date">Purchase Invoice Date</string>
+    <string name="select_farmacia">Please select a pharmacy</string>
+    <string name="select_proveedor">Please select a supplier</string>
+    <string name="total_purchase">Total Purchase</string>
+    <string name="pharmacy_branch">Pharmacy Branch</string>
+    <string name="invoice_id">ID Invoice</string>
+    <string name="purchase_date">Invoice Date</string>
+    <!-- Fin Factura Compra -->
 
 
     <string name="doctor_name">Name</string>
@@ -92,6 +108,7 @@
     <string name="id_farmacia">Pharmacy Id</string>
     <string name="id_direccion">Address Id</string>
     <string name="nombre_farmacia">Pharmacy Name</string>
+
     <!-- End of Branch -->
 
     <!--Articulo-->
@@ -105,7 +122,7 @@
     <string name="invalid_search">Invalid search</string>
     <string name="nombre_marca">Brand name</string>
     <string name="id_marca">ID Brand</string>
-    <string name="date" translatable="false">dd - mm - yyyy</string>
+    <string name="date">dd - mm - yyyy</string>
     <string name="description">Description</string>
     <string name="id_cliente">ID Client</string>
     <string name="id_receta">ID Prescription</string>
