@@ -39,7 +39,7 @@ public class MarcaActivity extends AppCompatActivity {
         btnAgregarMarca.setOnClickListener(v -> showAddDialog());
 
         Button btnBuscarMarca = findViewById(R.id.btnBuscarMarca);
-        btnBuscarMarca.setVisibility(vac.validarAcceso(2) ? View.VISIBLE : View.INVISIBLE);
+        btnBuscarMarca.setVisibility(vac.validarAcceso(2) || vac.validarAcceso(3) || vac.validarAcceso(4)? View.VISIBLE : View.INVISIBLE);
         btnBuscarMarca.setOnClickListener(v -> {
             try {
                 int id = Integer.parseInt(txtBusqueda.getText().toString().trim());

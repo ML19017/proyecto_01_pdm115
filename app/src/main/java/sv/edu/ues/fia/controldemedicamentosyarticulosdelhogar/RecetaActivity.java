@@ -43,7 +43,7 @@ public class RecetaActivity extends AppCompatActivity {
         });
 
         listverReceta = findViewById(R.id.lvReceta);
-        listverReceta.setVisibility(vac.validarAcceso(2) ? View.VISIBLE : View.INVISIBLE);
+        listverReceta.setVisibility(vac.validarAcceso(2) || vac.validarAcceso(3) || vac.validarAcceso(4)? View.VISIBLE : View.INVISIBLE);
         llenarLista();
         listverReceta.setOnItemClickListener((parent, view, position, id) -> {
             Receta receta = (Receta) parent.getItemAtPosition(position);
