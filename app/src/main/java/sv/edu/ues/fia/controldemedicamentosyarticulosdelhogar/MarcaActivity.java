@@ -129,8 +129,6 @@ public class MarcaActivity extends AppCompatActivity {
 
         Marca marca = new Marca(id, nombre, this);
         marcaDAO.addMarca(marca);
-
-        Toast.makeText(this, R.string.save_message, Toast.LENGTH_SHORT).show();
         llenarLista();
         limpiarCampos(editTextIdMarca, editTextNombreMarca);
     }
@@ -193,7 +191,6 @@ public class MarcaActivity extends AppCompatActivity {
             if (validadorDeCampos.validarCampos()) {
                 marca.setNombreMarca(editTextNombreMarca.getText().toString().trim());
                 marcaDAO.updateMarca(marca);
-                Toast.makeText(this, R.string.update_message, Toast.LENGTH_SHORT).show();
                 llenarLista();
                 dialog.dismiss();
             }
@@ -207,7 +204,6 @@ public class MarcaActivity extends AppCompatActivity {
         builder.setMessage(getString(R.string.confirm_delete_message) + ": " + id);
         builder.setPositiveButton(R.string.yes, (dialog, which) -> {
             marcaDAO.deleteMarca(id);
-            Toast.makeText(this, R.string.delete_message, Toast.LENGTH_SHORT).show();
             llenarLista();
         });
         builder.setNegativeButton(R.string.no, (dialog, which) -> dialog.dismiss());

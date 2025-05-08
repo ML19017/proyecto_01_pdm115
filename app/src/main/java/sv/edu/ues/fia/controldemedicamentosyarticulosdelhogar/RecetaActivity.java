@@ -231,7 +231,6 @@ public class RecetaActivity extends AppCompatActivity {
             if (validador.validarCampos()) {
                 receta.setFechaExpedida(tvFecha.getText().toString().trim());
                 receta.setDescripcion(etDescripcion.getText().toString().trim());
-
                 recetaDAO.updateReceta(receta);
                 llenarLista();
                 dialog.dismiss();
@@ -256,7 +255,6 @@ public class RecetaActivity extends AppCompatActivity {
         builder.setMessage(getString(R.string.confirm_delete_message) + ": " + idDoctor + ", " + idCliente + ", " + idReceta);
         builder.setPositiveButton(R.string.yes, (dialog, which) -> {
             recetaDAO.deleteReceta(idReceta);
-            Toast.makeText(this, R.string.delete_message, Toast.LENGTH_SHORT).show();
             llenarLista(); // Refresh the ListView
         });
         builder.setNegativeButton(R.string.no, (dialog, which) -> dialog.dismiss());

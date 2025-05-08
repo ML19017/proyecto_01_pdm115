@@ -154,7 +154,6 @@ public class FormaFarmaceuticaActivity extends AppCompatActivity {
 
         FormaFarmaceutica formaFarmaceutica = new FormaFarmaceutica(id, tipo, this);
         formaFarmaceuticaDAO.addFormaFarmaceutica(formaFarmaceutica);
-        Toast.makeText(this, R.string.save_message, Toast.LENGTH_SHORT).show();
         llenarLista();
         clearFieldsFormaFarmaceutica(editTextIdFormaFarmaceutica, editTextIdFormaFarmaceutica);
     }
@@ -226,7 +225,6 @@ public class FormaFarmaceuticaActivity extends AppCompatActivity {
             if (validador.validarCampos()) {
                 formaFarmaceutica.setTipoFormaFarmaceutica(editTextTipoFormaFarmaceutica.getText().toString().trim());
                 formaFarmaceuticaDAO.updateFormaFarmaceutica(formaFarmaceutica);
-                Toast.makeText(this, R.string.update_message, Toast.LENGTH_SHORT).show();
                 llenarLista(); // Refresh the ListView
                 dialog.dismiss();
             }
@@ -243,7 +241,6 @@ public class FormaFarmaceuticaActivity extends AppCompatActivity {
 
         builder.setPositiveButton(R.string.yes, (dialog, which) -> {
             formaFarmaceuticaDAO.deleteFormaFarmaceutica(id);
-            Toast.makeText(this, R.string.delete_message, Toast.LENGTH_SHORT).show();
             llenarLista();
         });
 

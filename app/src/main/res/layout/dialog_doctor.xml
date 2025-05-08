@@ -50,7 +50,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/doctor_jvpm"
-        android:inputType="text|textCapWords" />
+        android:inputType="text|textCapCharacters" />
 
     <Button
         android:id="@+id/btnGuardarDoctor"

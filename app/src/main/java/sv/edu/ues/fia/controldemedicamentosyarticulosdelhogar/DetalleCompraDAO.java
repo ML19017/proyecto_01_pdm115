@@ -130,13 +130,18 @@ public class DetalleCompraDAO {
         if (cursor.moveToFirst()) {
             do {
                 int idCompra = cursor.getInt(cursor.getColumnIndexOrThrow("IDCOMPRA"));
-                lista.add(new FacturaCompra(idCompra, context));
+                int idProveedor = cursor.getInt(cursor.getColumnIndexOrThrow("IDPROVEEDOR"));
+                String fechaCompra = cursor.getString(cursor.getColumnIndexOrThrow("FECHACOMPRA"));
+
+                lista.add(new FacturaCompra(idCompra, idProveedor, fechaCompra, context));
             } while (cursor.moveToNext());
         }
 
         cursor.close();
         return lista;
     }
+
+
 
     public List<Articulo> getAllArticulo() {
         List<Articulo> lista = new ArrayList<>();

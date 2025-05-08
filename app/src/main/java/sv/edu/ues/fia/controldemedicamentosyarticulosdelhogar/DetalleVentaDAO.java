@@ -148,13 +148,13 @@ public class DetalleVentaDAO {
                 int idCliente = cursor.getInt(cursor.getColumnIndexOrThrow("IDCLIENTE"));
                 int idVenta = cursor.getInt(cursor.getColumnIndexOrThrow("IDVENTA"));
 
-                 FacturaVenta factura = new FacturaVenta();
-                 factura.setIdCliente(idCliente);
-                 factura.setIdVenta(idVenta);
-                 factura.setFechaVenta(cursor.getString(cursor.getColumnIndexOrThrow("FECHAVENTA")));
-                 factura.setTotalVenta(cursor.getDouble(cursor.getColumnIndexOrThrow("TOTALVENTA")));
-                 factura.setIdFarmacia(cursor.getInt(cursor.getColumnIndexOrThrow("IDFARMACIA")));
-                 lista.add(factura);
+                FacturaVenta factura = new FacturaVenta();
+                factura.setIdCliente(idCliente);
+                factura.setIdVenta(idVenta);
+                factura.setFechaVenta(cursor.getString(cursor.getColumnIndexOrThrow("FECHAVENTA")));
+                factura.setTotalVenta(cursor.getDouble(cursor.getColumnIndexOrThrow("TOTALVENTA")));
+                factura.setIdFarmacia(cursor.getInt(cursor.getColumnIndexOrThrow("IDFARMACIA")));
+                lista.add(factura);
             } while (cursor.moveToNext());
         }
         cursor.close();
@@ -164,14 +164,17 @@ public class DetalleVentaDAO {
 
     public List<Articulo> getAllArticulo() {
         List<Articulo> lista = new ArrayList<>();
-        String sql = "SELECT IDARTICULO, NOMBREARTICULO FROM ARTICULO";
+        String sql = "SELECT IDARTICULO, NOMBREARTICULO, PRECIOARTICULO FROM ARTICULO"; // Added PRECIOARTICULO
         Cursor cursor = conexionDB.rawQuery(sql, null);
 
         if (cursor.moveToFirst()) {
             do {
                 int idArticulo = cursor.getInt(cursor.getColumnIndexOrThrow("IDARTICULO"));
                 String nombreArticulo = cursor.getString(cursor.getColumnIndexOrThrow("NOMBREARTICULO"));
-                lista.add(new Articulo(idArticulo, nombreArticulo, context));
+                double precioArticulo = cursor.getDouble(cursor.getColumnIndexOrThrow("PRECIOARTICULO")); // Get price
+                Articulo articulo = new Articulo(idArticulo, nombreArticulo, context);
+                articulo.setPrecioArticulo(precioArticulo); // Set price
+                lista.add(articulo);
             } while (cursor.moveToNext());
         }
         cursor.close();

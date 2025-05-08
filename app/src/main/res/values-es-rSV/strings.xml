@@ -107,7 +107,7 @@
     <string name="invoice_id">ID Factura</string>
     <string name="purchase_date">Fecha Factura</string>
     <string name="select_articulo">Por favor, selecciona un artículo</string>
-    <string name="select_factura">Por favor, selecciona una factura</string>
+    <string name="select_factura">Por favor, selecciona una factura de compra</string>
     <!-- Fin Factura Compra -->
 
     <!-- DetalleCompra -->
@@ -190,5 +190,7 @@
     <string name="only_numbers_price">El precio solo debe contener números y un punto decimal opcional.</string>
     <string name="only_numbers_quantity">La cantidad solo debe contener números.</string>
     <string name="only_numbers_total">El total solo debe contener números y un punto decimal opcional.</string>
+    <string name="main_menu">Menu Principal</string>
+    <string name="fill_database">Llenar Base de Datos</string>
     <!-- Fin DetalleVenta -->
 </resources>

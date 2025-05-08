@@ -80,9 +80,9 @@ create index OPCIONES_FK on ACCESOUSUARIO (
 create table ARTICULO  (
    IDARTICULO           INTEGER                         not null,
    IDMARCA              INTEGER                         not null,
-   IDVIAADMINISTRACION  INTEGER                         not null,
+   IDVIAADMINISTRACION  INTEGER                         ,
    IDSUBCATEGORIA       INTEGER                         not null,
-   IDFORMAFARMACEUTICA  INTEGER                         not null,
+   IDFORMAFARMACEUTICA  INTEGER                         ,
    NOMBREARTICULO       TEXT(50)                    not null,
    DESCRIPCIONARTICULO  TEXT                            not null,
    RESTRINGIDOARTICULO  INTEGER                        not null,

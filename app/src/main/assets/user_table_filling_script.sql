@@ -176,8 +176,8 @@ INSERT INTO ACCESOUSUARIO (IDUSUARIO, IDOPCION) VALUES
 
 -- Accesos para el usuario 'aux_inventario' (solo lectura inventario y artículos)
 INSERT INTO ACCESOUSUARIO (IDUSUARIO, IDOPCION) VALUES
-('05', '011'), -- Menu Existence Detail
-('05', '013'), -- Existence Detail Read
-('05', '083'), -- Item Read
-('05', '088'), -- Category Read
+('05', '011'),
+('05', '013'),
+('05', '083'),
+('05', '088'),
 ('05', '093');

@@ -155,12 +155,9 @@ public class DoctorActivity extends AppCompatActivity {
         String jvpm = editTextJvpm.getText().toString().trim();
 
         Doctor doctor = new Doctor(id, nombre, especialidad, jvpm, this);
-
         doctorDAO.addDoctor(doctor);
 
-        Toast.makeText(this, R.string.save_message, Toast.LENGTH_SHORT).show();
-
-        fillList(); // Refresh the ListView
+        fillList();
 
         limpiarCampos(editTextIdDoctor, editTextNombreDoctor, editTextEspecialidadDoctor, editTextJvpm);
     }
@@ -247,7 +244,6 @@ public class DoctorActivity extends AppCompatActivity {
                 doctor.setEspecialidadDoctor(editTextEspecialidadDoctor.getText().toString().trim());
                 doctor.setJvpm(editTextJvpm.getText().toString().trim());
                 doctorDAO.updateDoctor(doctor);
-                Toast.makeText(this, R.string.update_message, Toast.LENGTH_SHORT).show();
                 fillList(); // Refresh the ListView
                 dialog.dismiss();
             }
@@ -261,7 +257,6 @@ public class DoctorActivity extends AppCompatActivity {
         builder.setMessage(getString(R.string.confirm_delete_message) + ": " + id);
         builder.setPositiveButton(R.string.yes, (dialog, which) -> {
             doctorDAO.deleteDoctor(id);
-            Toast.makeText(this, R.string.delete_message, Toast.LENGTH_SHORT).show();
             fillList(); // Refresh the ListView
         });
         builder.setNegativeButton(R.string.no, (dialog, which) -> dialog.dismiss());

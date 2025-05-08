@@ -3,6 +3,7 @@ package sv.edu.ues.fia.controldemedicamentosyarticulosdelhogar;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.widget.Toast;
 
 import java.sql.SQLException;
 
@@ -26,5 +27,12 @@ public class ControlBD {
 
     public Context getContext() {
         return context;
+    }
+
+
+    public void llenarDB() {
+        SQLiteDatabase db = DBHelper.getWritableDatabase();
+        DBHelper.llenarDB(db);
+        Toast.makeText(context, R.string.fill_database, Toast.LENGTH_LONG).show();
     }
 }
