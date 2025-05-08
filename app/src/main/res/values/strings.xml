@@ -250,5 +250,7 @@
     <string name="only_numbers_price">Price must only contain numbers and an optional decimal point.</string>
     <string name="only_numbers_quantity">Quantity must only contain numbers.</string>
     <string name="only_numbers_total">Total must only contain numbers and an optional decimal point.</string>
+    <string name="main_menu">Main Menu</string>
+    <string name="fill_database">Fill database\n</string>
     <!-- End SaleDetail -->
 </resources>

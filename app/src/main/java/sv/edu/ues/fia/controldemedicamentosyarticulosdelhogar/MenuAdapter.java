@@ -19,7 +19,7 @@ public class MenuAdapter extends ArrayAdapter<String> {
     private final int[] iconos;
 
     public MenuAdapter(@NonNull Context contexto, String[] opciones, int[] iconos) {
-        super(contexto, R.layout.activity_menu, opciones);
+        super(contexto, R.layout.menu_opciones, opciones);
         this.contexto = contexto;
         this.opciones = opciones;
         this.iconos = iconos;
@@ -29,7 +29,7 @@ public class MenuAdapter extends ArrayAdapter<String> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         if(convertView == null)
-            convertView = LayoutInflater.from(contexto).inflate(R.layout.activity_menu, parent, false);
+            convertView = LayoutInflater.from(contexto).inflate(R.layout.menu_opciones, parent, false);
 
         ImageView icono_opcion = convertView.findViewById(R.id.icono_opcion);
         TextView texto_opcion = convertView.findViewById(R.id.texto_opcion);

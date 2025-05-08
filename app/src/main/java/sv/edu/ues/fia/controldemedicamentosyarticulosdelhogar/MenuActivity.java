@@ -4,14 +4,21 @@ import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class MenuActivity extends ListActivity {
+public class MenuActivity extends AppCompatActivity {
     private static final String [] ACTIVIDADES = {
             "DireccionActivity",
             "SucursalFarmaciaActivity",
@@ -53,26 +60,29 @@ public class MenuActivity extends ListActivity {
         Log.d("MenuActivity", "Opciones filtradas: " + opcionesFiltradas);
         Log.d("MenuActivity", "Iconos filtrados: " + iconosFiltrados);
 
-        setListAdapter(new MenuAdapter(this, opcionesFiltradas.toArray(new String[0]), iconosFiltrados.stream().mapToInt(i -> i).toArray()));
-    }
+        setContentView(R.layout.activity_menu);
+        ListView listView = findViewById(R.id.listView);
+        listView.setAdapter(new MenuAdapter(this, opcionesFiltradas.toArray(new String[0]), iconosFiltrados.stream().mapToInt(i -> i).toArray()));
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            try {
+                SharedPreferences.Editor editor = preferencias.edit();
+                editor.putString("id_opcion", idMenu[position]);
+                editor.apply();
+                String nombreClase = ACTIVIDADES[position];
+                Class<?> clase = Class.forName("sv.edu.ues.fia.controldemedicamentosyarticulosdelhogar." + nombreClase);
+                Intent inte = new Intent(this, clase);
+                this.startActivity(inte);
+            }
+            catch (ClassNotFoundException exp) {
+                exp.printStackTrace();
+            }
+        });
 
-    @Override
-    protected void onListItemClick(ListView l, View v, int position, long id) {
-        super.onListItemClick(l, v, position, id);
-        try {
-            String[] idMenu = getResources().getStringArray(R.array.id_menu); // Lista de todas las opciones
-            SharedPreferences preferencias = getSharedPreferences("PERMISOS_APP", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = preferencias.edit();
-            editor.putString("id_opcion", idMenu[position]);
-            editor.apply();
-            String nombreClase = ACTIVIDADES[position];
-            Class<?> clase = Class.forName("sv.edu.ues.fia.controldemedicamentosyarticulosdelhogar." + nombreClase);
-            Intent inte = new Intent(this, clase);
-            this.startActivity(inte);
-        }
-        catch (ClassNotFoundException exp) {
-            exp.printStackTrace();
-        }
+        ImageButton llenarBD = (ImageButton) findViewById(R.id.llenarDB);
+        llenarBD.setOnClickListener(v -> {
+            ControlBD controlBD = new ControlBD(this);
+            controlBD.llenarDB();
+        });
     }
 
     private int[] getIconos(String [] nombreRecurso) {

@@ -74,7 +74,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                     }
                 }
             }
-
         } catch (SQLiteException | IOException e) {
             e.printStackTrace();
             Log.e("DB ERROR", "Error en onCreate", e);
@@ -105,5 +104,54 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
+    }
+
+    public void llenarDB(SQLiteDatabase db) {
+        String script = "test_data.sql";
+
+        try {
+            Log.d("DB", "Ejecutando script: " + script);
+            String sqlScript = getSqlScript(script);
+
+            BufferedReader reader = new BufferedReader(new StringReader(sqlScript));
+            StringBuilder statementBuilder = new StringBuilder();
+            String line;
+            boolean insideTrigger = false;
+
+            while ((line = reader.readLine()) != null) {
+                line = line.trim();
+
+                // Ignorar comentarios y líneas vacías
+                if (line.isEmpty() || line.startsWith("--")) continue;
+
+                // Detectar comienzo de trigger
+                if (line.toUpperCase().startsWith("CREATE TRIGGER")) {
+                    insideTrigger = true;
+                }
+
+                statementBuilder.append(line).append(" ");
+
+                // Si es un trigger, solo ejecutar cuando llega a END;
+                if (insideTrigger) {
+                    if (line.toUpperCase().endsWith("END;")) {
+                        insideTrigger = false;
+                        String fullStatement = statementBuilder.toString().trim();
+                        statementBuilder.setLength(0);
+                        ejecutarSQL(db, fullStatement, script);
+                    }
+                    continue;
+                }
+
+                // Para sentencias normales
+                if (line.endsWith(";")) {
+                    String fullStatement = statementBuilder.toString().trim();
+                    statementBuilder.setLength(0);
+                    ejecutarSQL(db, fullStatement, script);
+                }
+            }
+        } catch (SQLiteException | IOException e) {
+            e.printStackTrace();
+            Log.e("DB ERROR", "Error en onCreate", e);
+        }
     }
 }
