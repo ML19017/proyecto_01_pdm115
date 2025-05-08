@@ -36,6 +36,7 @@
     <string name="business_type_supplier">Tipo de Empresa</string>
     <string name="provider">Proveedor</string>
     <string name="provider_nit">NIT Proveedor</string>
+    <string name="duplicate_nit_message">El NIT ya está registrado en otro proveedor</string>
     <string name="add">Agregar</string>
     <string name="view">Ver</string>
     <string name="edit">Editar</string>
@@ -107,9 +108,11 @@
     <string name="purchase_date">Fecha Factura</string>
     <string name="select_articulo">Por favor, selecciona un artículo</string>
     <string name="select_factura">Por favor, selecciona una factura de compra</string>
+    <string name="duplicate_iddetalle_message">Este ID de detalle ya existe.</string>
     <!-- Fin Factura Compra -->
 
     <!-- DetalleCompra -->
+    <string name="duplicate_articulo_in_factura_message">Este artículo ya está registrado en la factura seleccionada.</string>
     <string name="purchase_details">Detalles de compra</string>
     <string name="view_purchase_details">Ver Detalles Compra</string>
     <string name="id_purchase_detail">ID Detalle Compra</string>
