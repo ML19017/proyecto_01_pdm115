@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:padding="16dp"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -66,4 +66,4 @@
         android:text="@string/clear"
         android:layout_marginTop="8dp" />
 
-</LinearLayout>
+</ScrollView>

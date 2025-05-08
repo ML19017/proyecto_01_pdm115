@@ -1,3 +1,7 @@
+/*==============================================================*/
+/* SCRIPT name:      TEST_DATA                                      */
+/*==============================================================*/
+
 DELETE FROM DETALLEVENTA;
 DELETE FROM DETALLECOMPRA;
 DELETE FROM DETALLEEXISTENCIA;
