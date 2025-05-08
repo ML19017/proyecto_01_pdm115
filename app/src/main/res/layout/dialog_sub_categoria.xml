@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/category"/>
+    <EditText
+        android:id="@+id/editTextCategoriaPadreId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="ID Categoria"
+        android:minHeight="48dp" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/subcategory"/>
+    <EditText
+        android:id="@+id/editTextsubCategoriaId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="ID SubCategoria"
+        android:minHeight="48dp" />
+    <EditText
+        android:id="@+id/editTextsubCategoriaNombre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nombre de la sub-categoria"
+        android:minHeight="48dp" />
+
+    <Button
+        android:id="@+id/btnGuardarSubCategoria"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/save" />
+
+    <Button
+        android:id="@+id/btnLimpiarSubCategoria"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/clear"
+        android:layout_marginTop="8dp" />
+</LinearLayout>

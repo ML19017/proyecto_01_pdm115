@@ -7,7 +7,6 @@ public class Articulo {
     private int idMarca;
     private int idViaAdministracion;
     private int idSubCategoria;
-    private int idDetalleExistencia; //No debe ir aca, sujeto a revision
     private int idFormaFarmaceutica;
     private String nombreArticulo;
     private String descripcionArticulo;
@@ -15,12 +14,11 @@ public class Articulo {
     private double precioArticulo;
     private Context context;
 
-    public Articulo(int idArticulo, int idMarca, int idViaAdministracion, int idSubCategoria, int idDetalleExistencia, int idFormaFarmaceutica, String nombreArticulo, String descripcionArticulo, boolean restringidoArticulo, double precioArticulo) {
+    public Articulo(int idArticulo, int idMarca, int idViaAdministracion, int idSubCategoria, int idFormaFarmaceutica, String nombreArticulo, String descripcionArticulo, boolean restringidoArticulo, double precioArticulo) {
         this.idArticulo = idArticulo;
         this.idMarca = idMarca;
         this.idViaAdministracion = idViaAdministracion;
         this.idSubCategoria = idSubCategoria;
-        this.idDetalleExistencia = idDetalleExistencia;
         this.idFormaFarmaceutica = idFormaFarmaceutica;
         this.nombreArticulo = nombreArticulo;
         this.descripcionArticulo = descripcionArticulo;
@@ -32,6 +30,9 @@ public class Articulo {
         this.idArticulo = idArticulo;
         this.nombreArticulo = nombreArticulo;
         this.context = context;
+    }
+
+    public Articulo() {
     }
 
     public int getIdArticulo() {
@@ -64,14 +65,6 @@ public class Articulo {
 
     public void setIdSubCategoria(int idSubCategoria) {
         this.idSubCategoria = idSubCategoria;
-    }
-
-    public int getIdDetalleExistencia() {
-        return idDetalleExistencia;
-    }
-
-    public void setIdDetalleExistencia(int idDetalleExistencia) {
-        this.idDetalleExistencia = idDetalleExistencia;
     }
 
     public int getIdFormaFarmaceutica() {
