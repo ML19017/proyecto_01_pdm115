@@ -1,5 +1,7 @@
 package sv.edu.ues.fia.controldemedicamentosyarticulosdelhogar;
 
+import android.content.Context;
+
 public class DetalleExistencia {
     private int idArticulo;
     private int idDetalleExistencia;
@@ -7,13 +9,16 @@ public class DetalleExistencia {
     private int cantidadExistencia;
     private String fechaDeVencimiento;
 
+    private Context context;
 
-    public DetalleExistencia(int idArticulo, int idDetalleExistencia, int idFarmacia, int cantidadExistencia, String fechaDeVencimiento) {
+
+    public DetalleExistencia(int idArticulo, int idDetalleExistencia, int idFarmacia, int cantidadExistencia, String fechaDeVencimiento ,Context context) {
         this.idArticulo = idArticulo;
         this.idDetalleExistencia = idDetalleExistencia;
         this.idFarmacia = idFarmacia;
         this.cantidadExistencia = cantidadExistencia;
         this.fechaDeVencimiento = fechaDeVencimiento;
+        this.context = context;
     }
 
     public int getIdArticulo() {
@@ -54,5 +59,12 @@ public class DetalleExistencia {
 
     public void setFechaDeVencimiento(String fechaDeVencimiento) {
         this.fechaDeVencimiento = fechaDeVencimiento;
+    }
+
+    @Override
+    public String toString() {
+        return  context.getString(R.string.existence_detail_id)+ " : " +idDetalleExistencia + "\n"+
+                ", idArticulo=" + idArticulo +
+                context.getString(R.string.existence_amount)+ " : " +cantidadExistencia + "\n" ;
     }
 }
