@@ -37,6 +37,7 @@ public class SubCategoria {
         this.nombreSubCategoria = nombreSubCategoria;
     }
 
+    @Override
     public String toString() {
         return "Sub-categoria:" +
                 "\nID= " + idSubCategoria +

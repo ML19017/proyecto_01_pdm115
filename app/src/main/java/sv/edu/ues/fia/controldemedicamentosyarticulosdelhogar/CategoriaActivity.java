@@ -25,25 +25,28 @@ public class CategoriaActivity extends AppCompatActivity implements AdapterView.
     private CategoriaDAO categoriaDAO;
     private ArrayAdapter<Categoria> adaptador;
     private List<Categoria> values = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_categoria);
         //Conexion a la db
         SQLiteDatabase conection = new ControlBD(this).getConnection();
-        categoriaDAO = new CategoriaDAO(conection,this);
+        categoriaDAO = new CategoriaDAO(conection, this);
 
-        adaptador = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, values);
-        ListView listV = (ListView)findViewById(R.id.categoryListv);
+        adaptador = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, values);
+        ListView listV = (ListView) findViewById(R.id.categoryListv);
         listV.setAdapter(adaptador);
         actualizarListView();
         listV.setOnItemClickListener(this);
-        Button btnInsertarCategoria = (Button)findViewById(R.id.btnAgregarCategoria);
-        btnInsertarCategoria.setOnClickListener(v -> {showAddDialog();});
+        Button btnInsertarCategoria = (Button) findViewById(R.id.btnAgregarCategoria);
+        btnInsertarCategoria.setOnClickListener(v -> {
+            showAddDialog();
+        });
 
     }
 
-    public void showAddDialog(){
+    public void showAddDialog() {
 
         int numRegistros = 0;
 
@@ -60,10 +63,10 @@ public class CategoriaActivity extends AppCompatActivity implements AdapterView.
         AlertDialog dialog = builder.create();
 
         Cursor cursor = categoriaDAO.getDbConection().rawQuery("SELECT COUNT(*) FROM CATEGORIA", null);
-        if(cursor.moveToFirst()){
-        numRegistros = cursor.getInt(0);}
-        idNewCategoria.setText(Integer.toString(numRegistros+1));
-
+        if (cursor.moveToFirst()) {
+            numRegistros = cursor.getInt(0);
+        }
+        idNewCategoria.setText(Integer.toString(numRegistros + 1));
 
 
         btnClear.setOnClickListener(v -> {
@@ -72,21 +75,21 @@ public class CategoriaActivity extends AppCompatActivity implements AdapterView.
         });
 
         btnSaveCategoria.setOnClickListener(v -> {
-        int id = Integer.parseInt(String.valueOf(idNewCategoria.getText()));
-        String name = String.valueOf(nameNewCategoria.getText());
-        Categoria cat = new Categoria(id,name);
-        boolean exito = categoriaDAO.insertarCategoria(cat);
-        if (exito){
-            dialog.dismiss();
-        }
-        actualizarListView();
+            int id = Integer.parseInt(String.valueOf(idNewCategoria.getText()));
+            String name = String.valueOf(nameNewCategoria.getText());
+            Categoria cat = new Categoria(id, name);
+            boolean exito = categoriaDAO.insertarCategoria(cat);
+            if (exito) {
+                dialog.dismiss();
+            }
+            actualizarListView();
         });
         dialog.show();
 
 
     }
 
-    public void showOptionsDialog(Categoria categoria){
+    public void showOptionsDialog(Categoria categoria) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.options);
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_options, null);
@@ -107,27 +110,28 @@ public class CategoriaActivity extends AppCompatActivity implements AdapterView.
         });
 
         btnDelete.setOnClickListener(v -> {
-            eliminarCategoria(categoria,dialog);
+            eliminarCategoria(categoria, dialog);
         });
         dialog.show();
 
     }
-    public void actualizarListView(){
-        if(!values.isEmpty()){
-        values.clear();
+
+    public void actualizarListView() {
+        if (!values.isEmpty()) {
+            values.clear();
         }
         values.addAll(categoriaDAO.getAllRows());
         adaptador.notifyDataSetChanged();
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id){
-            Categoria categoria = (Categoria)parent.getItemAtPosition(position);
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Categoria categoria = (Categoria) parent.getItemAtPosition(position);
         Log.d("Seleccionado", categoria.getNombreCategoria());
-            showOptionsDialog(categoria);
+        showOptionsDialog(categoria);
     }
 
-    public void verCategoria(Categoria categoria){
+    public void verCategoria(Categoria categoria) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.view);
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_categoria, null);
@@ -149,10 +153,10 @@ public class CategoriaActivity extends AppCompatActivity implements AdapterView.
         dialog.show();
     }
 
-    public void editCategoria(Categoria categoria, AlertDialog dialogoPadre){
+    public void editCategoria(Categoria categoria, AlertDialog dialogoPadre) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.edit);
-        View dialogView = getLayoutInflater().inflate(R.layout.dialog_categoria,null);
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_categoria, null);
         builder.setView(dialogView);
         AlertDialog dialog = builder.create();
 
@@ -169,11 +173,11 @@ public class CategoriaActivity extends AppCompatActivity implements AdapterView.
             String nombreEditado = String.valueOf(nameNewCategoria.getText());
             categoria.setNombreCategoria(nombreEditado);
             boolean exito = categoriaDAO.updateCategoria(categoria);
-            if(exito){
-            actualizarListView();
-            dialog.dismiss();
-            dialogoPadre.dismiss();
-            }else{
+            if (exito) {
+                actualizarListView();
+                dialog.dismiss();
+                dialogoPadre.dismiss();
+            } else {
                 Log.d("UPDATE_FAIL", "No se actualizo");
             }
 
@@ -182,10 +186,10 @@ public class CategoriaActivity extends AppCompatActivity implements AdapterView.
         dialog.show();
     }
 
-    public void eliminarCategoria(Categoria categoria, AlertDialog dialogoPadre){
+    public void eliminarCategoria(Categoria categoria, AlertDialog dialogoPadre) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("WARNING");
-        View dialogView = getLayoutInflater().inflate(R.layout.dialog_confirmation,null);
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_confirmation, null);
         builder.setView(dialogView);
         AlertDialog dialog = builder.create();
 
@@ -197,12 +201,12 @@ public class CategoriaActivity extends AppCompatActivity implements AdapterView.
 
         btnConfirmar.setOnClickListener(v -> {
             int filasAfectadas = categoriaDAO.deleteCategoria(categoria);
-            if (filasAfectadas > 0){
+            if (filasAfectadas > 0) {
                 actualizarListView();
-                Toast.makeText(this,"Se ha eliminado: categoria id: "+categoria.getIdCategoria(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Se ha eliminado: categoria id: " + categoria.getIdCategoria(), Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
                 dialogoPadre.dismiss();
-            }else{
+            } else {
                 Log.d("DELETE_ERROR", "No se elimino");
             }
         });
@@ -210,10 +214,7 @@ public class CategoriaActivity extends AppCompatActivity implements AdapterView.
         btnCancelar.setOnClickListener(v -> {
             dialog.dismiss();
         });
-
         dialog.show();
-
-
     }
 
 
