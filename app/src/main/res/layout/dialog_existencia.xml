@@ -5,62 +5,88 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-<!--     Campo: Id Farmacia -->
+    <!-- Campo: Id Detalle Existencia -->
     <TextView
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/existence_detail_id"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/editTextIdExistenceDetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autofillHints="username"
+        android:hint="@string/existence_detail_id"
+        android:inputType="number"
+        android:maxLength="4"
+        android:minHeight="48dp"
+        android:textColor="#FF000000"
+        android:layout_marginBottom="12dp" />
+
+    <!-- Campo: Id Articulo -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Id ARTICULO"
+        android:textSize="18sp" />
+
+    <Spinner
+        android:id="@+id/spinnerIdArticulo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:layout_marginBottom="12dp" />
+
+    <!-- Campo: Id Farmacia -->
+    <TextView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/id_farmacia"
         android:textSize="18sp" />
 
-    <EditText
-        android:id="@+id/editTextIdFarmacia"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:autofillHints="username"
-        android:hint="@string/id_farmacia"
-        android:inputType="number"
-        android:maxLength="4"
-        android:minHeight="48dp"
-        android:textColor="#FF000000" />
-
-    <!-- Campo: Id Dirección -->
-
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/id_direccion"
-        android:textSize="18sp"
-        android:layout_marginTop="15dp" />
-
     <Spinner
-        android:id="@+id/spinnerIdDireccion"
+        android:id="@+id/spinnerIdFarmacia"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="48dp" />
+        android:minHeight="48dp"
+        android:layout_marginBottom="12dp" />
 
-
-    <!-- Campo: Nombre Farmacia -->
+    <!-- Campo: Cantidad Existente -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/nombre_farmacia"
+        android:text="@string/existence_amount"
         android:textSize="18sp" />
 
     <EditText
-        android:id="@+id/editTextNombreFarmacia"
+        android:id="@+id/editTextExistenceAmount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:maxLength="100"
+        android:minHeight="48dp"
+        android:hint="@string/existence_amount"
+        android:autofillHints="name"
+        android:layout_marginBottom="12dp" />
+
+    <!-- Campo: Fecha de Vencimiento -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/expiration_Date"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/editTextExpirationDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="text"
         android:maxLength="100"
         android:minHeight="48dp"
-        android:hint="@string/nombre_farmacia"
-        android:autofillHints="name" />
-
-
-
-
+        android:hint="@string/expiration_Date"
+        android:autofillHints="name"
+        android:layout_marginBottom="16dp" />
 
     <!-- Contenedor de botones -->
     <LinearLayout
@@ -71,7 +97,7 @@
         android:weightSum="2">
 
         <Button
-            android:id="@+id/buttonSave"
+            android:id="@+id/buttonSaveExistence"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -79,7 +105,7 @@
             android:text="@string/save" />
 
         <Button
-            android:id="@+id/buttonClear"
+            android:id="@+id/buttonClearExistence"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -87,7 +113,5 @@
             android:text="@string/clear" />
 
     </LinearLayout>
-
-
 
 </LinearLayout>
