@@ -9,6 +9,7 @@ import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -76,7 +77,6 @@ public class DetalleCompraActivity extends AppCompatActivity {
         listViewDetalleCompra.setAdapter(adaptadorDetalleCompra);
     }
 
-
     private void showAddDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.add);
@@ -108,9 +108,15 @@ public class DetalleCompraActivity extends AppCompatActivity {
         editTextUnitarioDetalleCompra.addTextChangedListener(watcher);
         editTextCantidadDetalleCompra.addTextChangedListener(watcher);
 
+        editTextTotalDetalleCompra.setInputType(InputType.TYPE_NULL);
+        editTextTotalDetalleCompra.setFocusableInTouchMode(false);
         editTextTotalDetalleCompra.setFocusable(false);
         editTextTotalDetalleCompra.setClickable(false);
 
+        editTextFechaDetalleCompra.setInputType(InputType.TYPE_NULL);
+        editTextFechaDetalleCompra.setFocusableInTouchMode(false);
+        editTextFechaDetalleCompra.setFocusable(false);
+        editTextFechaDetalleCompra.setClickable(false);
 
         Button btnGuardar = dialogView.findViewById(R.id.btnGuardarDetalleCompra);
         Button btnLimpiar = dialogView.findViewById(R.id.btnLimpiarDetalleCompra);
@@ -148,6 +154,23 @@ public class DetalleCompraActivity extends AppCompatActivity {
         adapterFactura.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerFacturaCompra.setAdapter(adapterFactura);
 
+        spinnerFacturaCompra.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                FacturaCompra facturaSeleccionada = (FacturaCompra) parentView.getSelectedItem();
+                if (facturaSeleccionada.getIdCompra() != -1 && facturaSeleccionada.getFechaCompra() != null) {
+                    editTextFechaDetalleCompra.setText(facturaSeleccionada.getFechaCompra());
+                } else {
+                    editTextFechaDetalleCompra.setText("");
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                editTextFechaDetalleCompra.setText("");
+            }
+        });
+
         List<Articulo> articulos = detalleCompraDAO.getAllArticulo();
         articulos.add(0, new Articulo(-1, getString(R.string.select_articulo), this));
         ArrayAdapter<Articulo> adapterArticulo = new ArrayAdapter<Articulo>(this, android.R.layout.simple_spinner_item, articulos) {
@@ -180,18 +203,6 @@ public class DetalleCompraActivity extends AppCompatActivity {
         adapterArticulo.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerArticuloCompra.setAdapter(adapterArticulo);
 
-        editTextFechaDetalleCompra.setInputType(InputType.TYPE_NULL);
-        editTextFechaDetalleCompra.setFocusable(false);
-        editTextFechaDetalleCompra.setOnClickListener(v -> {
-            final Calendar calendar = Calendar.getInstance();
-            int year = calendar.get(Calendar.YEAR);
-            int month = calendar.get(Calendar.MONTH);
-            int day = calendar.get(Calendar.DAY_OF_MONTH);
-            DatePickerDialog dp = new DatePickerDialog(this, (view, y, m, d) -> {
-                editTextFechaDetalleCompra.setText(String.format(Locale.getDefault(), "%04d-%02d-%02d", y, m + 1, d));
-            }, year, month, day);
-            dp.show();
-        });
 
         List<View> vistas = Arrays.asList(
                 editTextIdDetalleCompra, editTextFechaDetalleCompra, editTextUnitarioDetalleCompra, editTextCantidadDetalleCompra,
@@ -242,7 +253,6 @@ public class DetalleCompraActivity extends AppCompatActivity {
         Articulo articuloSeleccionado = (Articulo) spinnerArticuloCompra.getSelectedItem();
             DetalleCompra detalleCompra = new DetalleCompra(facturaSeleccionada.getIdCompra(), articuloSeleccionado.getIdArticulo(), idDetalleCompra, fecha,
                     precioUnitario, cantidadArticulos, totalDetalle, this);
-            Toast.makeText(this, R.string.save_message, Toast.LENGTH_SHORT).show();
             detalleCompraDAO.addDetalleCompra(detalleCompra);
             fillList();
 
@@ -261,10 +271,15 @@ public class DetalleCompraActivity extends AppCompatActivity {
         final AlertDialog dialog = builder.create();
 
         dialogView.findViewById(R.id.buttonView).setOnClickListener(v -> viewDetalleCompra(detalleCompra));
-        dialogView.findViewById(R.id.buttonEdit).setOnClickListener(v -> editDetalleCompra(detalleCompra));
+
+        dialogView.findViewById(R.id.buttonEdit).setOnClickListener(v -> {
+            dialog.dismiss();
+            editDetalleCompra(detalleCompra);
+        });
 
         dialogView.findViewById(R.id.buttonDelete).setOnClickListener(v -> {
-            if (vac.validarAcceso(4)) {deleteDetalleCompra(detalleCompra.getIdDetalleCompra());
+            if (vac.validarAcceso(4)) {
+                deleteDetalleCompra(detalleCompra.getIdDetalleCompra());
             } else {
                 Toast.makeText(getApplicationContext(), R.string.action_block, Toast.LENGTH_LONG).show();
             }
@@ -273,6 +288,7 @@ public class DetalleCompraActivity extends AppCompatActivity {
 
         dialog.show();
     }
+
 
 
     private void viewDetalleCompra(DetalleCompra detalleCompra) {
@@ -425,8 +441,15 @@ public class DetalleCompraActivity extends AppCompatActivity {
 
         editTextIdDetalleCompra.setEnabled(false);
 
+        editTextTotalDetalleCompra.setInputType(InputType.TYPE_NULL);
+        editTextTotalDetalleCompra.setFocusableInTouchMode(false);
         editTextTotalDetalleCompra.setFocusable(false);
         editTextTotalDetalleCompra.setClickable(false);
+
+        editTextFechaDetalleCompra.setInputType(InputType.TYPE_NULL);
+        editTextFechaDetalleCompra.setFocusableInTouchMode(false);
+        editTextFechaDetalleCompra.setFocusable(false);
+        editTextFechaDetalleCompra.setClickable(false);
 
         // obtener lista de facturas compra
         List<FacturaCompra> facturas = detalleCompraDAO.getAllFacturaCompra();
@@ -460,6 +483,23 @@ public class DetalleCompraActivity extends AppCompatActivity {
 
         adapterFactura.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerFacturaCompra.setAdapter(adapterFactura);
+
+        spinnerFacturaCompra.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                FacturaCompra facturaSeleccionada = (FacturaCompra) parentView.getSelectedItem();
+                if (facturaSeleccionada.getIdCompra() != -1 && facturaSeleccionada.getFechaCompra() != null) {
+                    editTextFechaDetalleCompra.setText(facturaSeleccionada.getFechaCompra());
+                } else {
+                    editTextFechaDetalleCompra.setText("");
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                editTextFechaDetalleCompra.setText("");
+            }
+        });
 
         List<Articulo> articulos = detalleCompraDAO.getAllArticulo();
         ArrayAdapter<Articulo> adapterArticulo = new ArrayAdapter<Articulo>(this, android.R.layout.simple_spinner_item, articulos) {
@@ -516,29 +556,10 @@ public class DetalleCompraActivity extends AppCompatActivity {
 
         Button btnGuardar = dialogView.findViewById(R.id.btnGuardarDetalleCompra);
         Button btnLimpiar = dialogView.findViewById(R.id.btnLimpiarDetalleCompra);
-        btnLimpiar.setEnabled(false);
+        btnLimpiar.setVisibility(View.GONE);
 
         editTextIdDetalleCompra.setInputType(InputType.TYPE_NULL);
         editTextIdDetalleCompra.setFocusable(false);
-
-        spinnerFacturaCompra.setEnabled(false);
-        spinnerFacturaCompra.setFocusable(false);
-
-        spinnerArticuloCompra.setEnabled(false);
-        spinnerArticuloCompra.setFocusable(false);
-
-        editTextFechaDetalleCompra.setInputType(InputType.TYPE_NULL);
-        editTextFechaDetalleCompra.setFocusable(false);
-        editTextFechaDetalleCompra.setOnClickListener(v -> {
-            final Calendar calendar = Calendar.getInstance();
-            int year = calendar.get(Calendar.YEAR);
-            int month = calendar.get(Calendar.MONTH);
-            int day = calendar.get(Calendar.DAY_OF_MONTH);
-            DatePickerDialog dp = new DatePickerDialog(this, (view, y, m, d) -> {
-                editTextFechaDetalleCompra.setText(String.format(Locale.getDefault(), "%04d-%02d-%02d", y, m + 1, d));
-            }, year, month, day);
-            dp.show();
-        });
 
         List<View> vistas = Arrays.asList(
                 editTextIdDetalleCompra, editTextFechaDetalleCompra, editTextUnitarioDetalleCompra, editTextCantidadDetalleCompra,
@@ -578,15 +599,11 @@ public class DetalleCompraActivity extends AppCompatActivity {
                 detalleCompra.setIdCompra(facturaSeleccionada.getIdCompra());
 
                 detalleCompraDAO.updateDetalleCompra(detalleCompra);
-                Toast.makeText(this, R.string.update_message, Toast.LENGTH_SHORT).show();
                 fillList();
-
                 dialog.dismiss();
             }
         });
-
         dialog.show();
-
     }
 
     private void deleteDetalleCompra(int idDetalleCompra) {
