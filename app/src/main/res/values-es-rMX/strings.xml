@@ -189,5 +189,7 @@
     <string name="only_numbers_price">El precio solo debe contener números y un punto decimal opcional.</string>
     <string name="only_numbers_quantity">La cantidad solo debe contener números.</string>
     <string name="only_numbers_total">El total solo debe contener números y un punto decimal opcional.</string>
+    <string name="main_menu">Menu Principal</string>
+    <string name="fill_database">Llenar Base de Datos</string>
     <!-- Fin DetalleVenta -->
 </resources>
