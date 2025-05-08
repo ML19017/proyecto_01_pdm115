@@ -1,9 +1,11 @@
 package sv.edu.ues.fia.controldemedicamentosyarticulosdelhogar;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -20,7 +22,10 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 public class DetalleExistenciaActivity extends AppCompatActivity {
 
@@ -105,15 +110,8 @@ public class DetalleExistenciaActivity extends AppCompatActivity {
         SucursalFarmacia seleccionSucursalFarmacia= new SucursalFarmacia(-1, getString(R.string.select_sucursal));
         Articulo seleccionArticulo = new Articulo(
                 -1,    // idArticulo
-                -1,    // idMarca
-                -1,    // idViaAdministracion
-                -1,    // idSubCategoria
-                -1,    // idDetalleExistencia
-                -1,    // idFormaFarmaceutica
                 getString(R.string.select_articulo), // nombreArticulo
-                "",     // descripcionArticulo
-                false,  // restringidoArticulo
-                 0.0     // precioArticulo
+                this
                 );
         sucursales.add(0, seleccionSucursalFarmacia);
         articulos.add(0, seleccionArticulo);
@@ -128,6 +126,32 @@ public class DetalleExistenciaActivity extends AppCompatActivity {
 
         /// cambiar que muestran los spinner sin depender del to string
 
+        editTextExpirationDate.setInputType(InputType.TYPE_NULL);
+        editTextExpirationDate.setFocusable(false);
+
+        editTextExpirationDate.setOnClickListener(v -> {
+            final Calendar calendar = Calendar.getInstance();
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+            DatePickerDialog datePickerDialog = new DatePickerDialog(this, (view, selectedYear, selectedMonth, selectedDay) -> {
+                // seleccionada la fecha y la mete en el EditText
+                String selectedDate = String.format(Locale.getDefault(), "%04d-%02d-%02d", selectedYear, selectedMonth + 1, selectedDay);
+                editTextExpirationDate.setText(selectedDate);
+            }, year, month, day);
+
+            datePickerDialog.show();
+        });
+
+            List<View> vistas = Arrays.asList(editTextExpirationDate);
+            List<String> listaRegex = Arrays.asList(
+                    "\\d{4}-\\d{2}-\\d{2}"
+            );
+
+            List<Integer> mensajesDeError = Arrays.asList(R.string.invalid_date);
+
+            ValidadorDeCampos validadorDeCampos = new ValidadorDeCampos(this, vistas, listaRegex, mensajesDeError);
 
         final AlertDialog dialog = builder.create();
 
@@ -334,6 +358,34 @@ public class DetalleExistenciaActivity extends AppCompatActivity {
 
         spinnerIdFarmacia.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, new SucursalFarmacia[] { sucursalFarmacia }));
         spinnerIdArticulo.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, new Articulo[] { articulo }));
+
+
+        editTextExpirationDate.setInputType(InputType.TYPE_NULL);
+        editTextExpirationDate.setFocusable(false);
+
+        editTextExpirationDate.setOnClickListener(v -> {
+            final Calendar calendar = Calendar.getInstance();
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+            DatePickerDialog datePickerDialog = new DatePickerDialog(this, (view, selectedYear, selectedMonth, selectedDay) -> {
+                // seleccionada la fecha y la mete en el EditText
+                String selectedDate = String.format(Locale.getDefault(), "%04d-%02d-%02d", selectedYear, selectedMonth + 1, selectedDay);
+                editTextExpirationDate.setText(selectedDate);
+            }, year, month, day);
+
+            datePickerDialog.show();
+        });
+
+        List<View> vistas = Arrays.asList(editTextExpirationDate);
+        List<String> listaRegex = Arrays.asList(
+                "\\d{4}-\\d{2}-\\d{2}"
+        );
+
+        List<Integer> mensajesDeError = Arrays.asList(R.string.invalid_date);
+
+        ValidadorDeCampos validadorDeCampos = new ValidadorDeCampos(this, vistas, listaRegex, mensajesDeError);
 
 
 
