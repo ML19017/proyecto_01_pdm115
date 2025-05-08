@@ -60,6 +60,8 @@ public class CategoriaActivity extends AppCompatActivity implements AdapterView.
         Button btnSaveCategoria = dialogView.findViewById(R.id.btnGuardarCategoria);
         Button btnClear = dialogView.findViewById(R.id.btnLimpiarNewCategoria);
 
+        EditText[] campos = {idNewCategoria, nameNewCategoria};
+
         AlertDialog dialog = builder.create();
 
         Cursor cursor = categoriaDAO.getDbConection().rawQuery("SELECT COUNT(*) FROM CATEGORIA", null);
@@ -75,14 +77,16 @@ public class CategoriaActivity extends AppCompatActivity implements AdapterView.
         });
 
         btnSaveCategoria.setOnClickListener(v -> {
-            int id = Integer.parseInt(String.valueOf(idNewCategoria.getText()));
-            String name = String.valueOf(nameNewCategoria.getText());
-            Categoria cat = new Categoria(id, name);
-            boolean exito = categoriaDAO.insertarCategoria(cat);
-            if (exito) {
-                dialog.dismiss();
+            if (!areFieldsEmpty(campos)) {
+                int id = Integer.parseInt(String.valueOf(idNewCategoria.getText()));
+                String name = String.valueOf(nameNewCategoria.getText());
+                Categoria cat = new Categoria(id, name);
+                boolean exito = categoriaDAO.insertarCategoria(cat);
+                if (exito) {
+                    dialog.dismiss();
+                }
+                actualizarListView();
             }
-            actualizarListView();
         });
         dialog.show();
 
@@ -165,22 +169,25 @@ public class CategoriaActivity extends AppCompatActivity implements AdapterView.
         Button btnSaveCategoria = dialogView.findViewById(R.id.btnGuardarCategoria);
         Button btnClear = dialogView.findViewById(R.id.btnLimpiarNewCategoria);
 
+        EditText[] campos = {idNewCategoria, nameNewCategoria};
+
         idNewCategoria.setText(Integer.toString(categoria.getIdCategoria()));
         idNewCategoria.setEnabled(false);
         nameNewCategoria.setText(categoria.getNombreCategoria());
 
         btnSaveCategoria.setOnClickListener(v -> {
-            String nombreEditado = String.valueOf(nameNewCategoria.getText());
-            categoria.setNombreCategoria(nombreEditado);
-            boolean exito = categoriaDAO.updateCategoria(categoria);
-            if (exito) {
-                actualizarListView();
-                dialog.dismiss();
-                dialogoPadre.dismiss();
-            } else {
-                Log.d("UPDATE_FAIL", "No se actualizo");
+            if (!areFieldsEmpty(campos)) {
+                String nombreEditado = String.valueOf(nameNewCategoria.getText());
+                categoria.setNombreCategoria(nombreEditado);
+                boolean exito = categoriaDAO.updateCategoria(categoria);
+                if (exito) {
+                    actualizarListView();
+                    dialog.dismiss();
+                    dialogoPadre.dismiss();
+                } else {
+                    Log.d("UPDATE_FAIL", "No se actualizo");
+                }
             }
-
         });
 
         dialog.show();
@@ -215,6 +222,17 @@ public class CategoriaActivity extends AppCompatActivity implements AdapterView.
             dialog.dismiss();
         });
         dialog.show();
+    }
+
+    public boolean areFieldsEmpty(EditText[] campos) {
+        boolean hayVacios = false;
+        for (EditText campo : campos) {
+            if (campo.getText().toString().trim().isEmpty()) {
+                campo.setError("Este campo es obligatorio");
+                hayVacios = true;
+            }
+        }
+        return hayVacios;
     }
 
 

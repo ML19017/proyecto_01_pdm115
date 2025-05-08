@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -65,7 +64,8 @@ public class ArticuloDAO {
                 articulo.setIdFormaFarmaceutica(listadoDB.getInt(4));
                 articulo.setNombreArticulo(listadoDB.getString(5));
                 articulo.setDescripcionArticulo(listadoDB.getString(6));
-                articulo.setRestringidoArticulo(Boolean.getBoolean(listadoDB.getString(7)));
+                int restringido = listadoDB.getInt(7);
+                articulo.setRestringidoArticulo(restringido != 0);
                 articulo.setPrecioArticulo(listadoDB.getDouble(8));
                 listado.add(articulo);
                 listadoDB.moveToNext();
@@ -104,6 +104,50 @@ public class ArticuloDAO {
         return listado;
     }
 
+    public boolean updateArticulo(Articulo articulo) {
+        String[] id = {Integer.toString(articulo.getIdArticulo())};
+        Cursor item = getDbConection().query("ARTICULO", null, "IDARTICULO = ?", id, null, null, null);
+        if (item.getCount() == 1) {
+            boolean marcaValida = validarForaneas(articulo.getIdMarca(), 1);
+            boolean viaAdminValida = validarForaneas(articulo.getIdViaAdministracion(), 2);
+            boolean subCatValida = validarForaneas(articulo.getIdSubCategoria(), 3);
+            boolean formaFarmValida = validarForaneas(articulo.getIdFormaFarmaceutica(), 4);
+            if (!marcaValida || !viaAdminValida || !subCatValida || !formaFarmValida) {
+                return false;
+            } else if (marcaValida && viaAdminValida && subCatValida && formaFarmValida) {
+                ContentValues cambios = new ContentValues();
+                cambios.put("IDARTICULO", articulo.getIdArticulo());
+                cambios.put("IDMARCA", articulo.getIdMarca());
+                cambios.put("IDVIAADMINISTRACION", articulo.getIdViaAdministracion());
+                cambios.put("IDSUBCATEGORIA", articulo.getIdSubCategoria());
+                cambios.put("IDFORMAFARMACEUTICA", articulo.getIdFormaFarmaceutica());
+                cambios.put("NOMBREARTICULO", articulo.getNombreArticulo());
+                cambios.put("DESCRIPCIONARTICULO", articulo.getDescripcionArticulo());
+                cambios.put("RESTRINGIDOARTICULO", articulo.getRestringidoArticulo());
+                cambios.put("PRECIOARTICULO", articulo.getPrecioArticulo());
+
+                int control = dbConection.update("ARTICULO", cambios, "IDARTICULO = ?", id);
+                if (control == 1) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        } else if (item.getCount() > 1) {
+            Toast.makeText(this.context, "Error: mas de un ARTICULO ENCONTRADO ", Toast.LENGTH_SHORT).show();
+            return false;
+        } else {
+            Toast.makeText(this.context, "No existe el ARTICULO", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return false;
+    }
+
+    public int deleteArticulo(Articulo articulo){
+        String [] id = {Integer.toString(articulo.getIdArticulo())};
+        int registros = dbConection.delete("ARTICULO","IDARTICULO = ?", id);
+        return registros;
+    }
 
     public SQLiteDatabase getDbConection() {
         return dbConection;
@@ -128,11 +172,12 @@ public class ArticuloDAO {
         3 - SubCategoria
         4- Forma farmaceutica
         */
+
         switch (opcion) {
             case 1:
                 String[] marca = {Integer.toString(idForanea)};
                 Cursor findMarca = getDbConection().query("MARCA", null, "IDMARCA = ?", marca, null, null, null);
-                if (findMarca.getCount() == 1) {
+                if (findMarca.getCount()== 1) {
                     return true;
                 } else if (findMarca.getCount() > 1) {
                     Toast.makeText(this.context, "Error: mas de una MARCA encontrada", Toast.LENGTH_SHORT).show();
@@ -156,7 +201,7 @@ public class ArticuloDAO {
             case 3:
                 String[] subCat = {Integer.toString(idForanea)};
                 Cursor findSubCat = getDbConection().query("SUBCATEGORIA", null, "IDSUBCATEGORIA = ?", subCat, null, null, null);
-                if (findSubCat.getCount() == 1) {
+                if (findSubCat.getCount()== 1) {
                     return true;
                 } else if (findSubCat.getCount() > 1) {
                     Toast.makeText(this.context, "Error: mas de una SUB-CATEGORIA encontrada", Toast.LENGTH_SHORT).show();
