@@ -55,7 +55,7 @@
     <string name="no">NO</string>
     <string name="required_field">Este campo es obligatorio</string>
     <string name="only_letters">" Solo se permiten letras"</string>
-    <string name="only_numbers">" Solo se permiten "</string>
+    <string name="only_numbers">" Solo se permiten números"</string>
     <string name="nit_format">El RFC debe tener el formato ####-######-###-#</string>
     <string name="field">El campo</string>
     <string name="field_empty">No puede estar vacío.</string>
@@ -102,11 +102,23 @@
     <string name="select_farmacia">Por favor, selecciona una farmacia</string>
     <string name="select_proveedor">Por favor, selecciona un proveedor</string>
     <string name="provider_id">ID Proveedor</string>
-    <string name="total_purchase">Total de la Compra</string>
     <string name="pharmacy_branch">Sucursal de Farmacia</string>
     <string name="invoice_id">ID Factura</string>
     <string name="purchase_date">Fecha Factura</string>
     <string name="select_articulo">Por favor, selecciona un artículo</string>
     <string name="select_factura">Por favor, selecciona una factura</string>
     <!-- Fin Factura Compra -->
+
+    <!-- DetalleCompra -->
+    <string name="purchase_details">Detalles de compra</string>
+    <string name="view_purchase_details">Ver Detalles Compra</string>
+    <string name="id_purchase_detail">ID Detalle Compra</string>
+    <string name="invoice_purchase">Factura de compra</string>
+    <string name="date_purchase_detail">Fecha detalle compra</string>
+    <string name="unit_price">Precio Unitario</string>
+    <string name="quantity">Cantidad</string>
+    <string name="total_purchase">Total de compra</string>
+    <string name="items">Artículos</string>
+    <string name="price">Precio</string>
+    <!-- Fin detalleCompra -->
 </resources>

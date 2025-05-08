@@ -1,100 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:padding="16dp"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <EditText
-        android:id="@+id/editTextIdDetalleCompra"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="ID DETALLE COMPRA"
-        android:minHeight="48dp"
-        android:inputType="number"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Factura de compra"
-        android:textSize="19sp"/>
-
-    <Spinner
-        android:id="@+id/spinnerFacturaCompra"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="48dp"/>
-
-    <EditText
-        android:id="@+id/editTextFechaDetalleCompra"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Fecha detalle compra"
-        android:inputType="number"
-        android:minHeight="48dp"/>
-
-    <EditText
-        android:id="@+id/editTextUnitarioDetalleCompra"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Precion Unitario"
-        android:minHeight="48dp"
-        android:inputType="numberDecimal"
-        android:digits="0123456789."/>
-
-    <EditText
-        android:id="@+id/editTextCantidadDetalleCompra"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Cantidad"
-        android:minHeight="48dp"
-        android:inputType="numberDecimal"
-        android:digits="0123456789."/>
-
-    <EditText
-        android:id="@+id/editTextTotalDetalleCompra"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/total_purchase"
-        android:minHeight="48dp"
-        android:inputType="numberDecimal"
-        android:digits="0123456789."/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Articulos"
-        android:textSize="19sp"/>
-
-    <Spinner
-        android:id="@+id/spinnerArticuloCompra"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="48dp"/>
+    android:layout_height="match_parent">
 
     <LinearLayout
+        android:orientation="vertical"
+        android:padding="16dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:orientation="horizontal"
-        android:weightSum="2">
+        android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/btnGuardarDetalleCompra"
-            android:layout_width="0dp"
+        <TextView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginEnd="8dp"
-            android:text="@string/save" />
+            android:text="@string/id_purchase_detail"
+            android:textSize="19sp" />
 
-        <Button
-            android:id="@+id/btnLimpiarDetalleCompra"
-            android:layout_width="0dp"
+        <EditText
+            android:id="@+id/editTextIdDetalleCompra"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginStart="8dp"
-            android:text="@string/clear" />
+            android:inputType="number"
+            android:minHeight="48dp"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/invoice_purchase"
+            android:textSize="19sp"/>
+
+        <Spinner
+            android:id="@+id/spinnerFacturaCompra"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/date_purchase_detail"
+            android:textSize="19sp" />
+
+        <EditText
+            android:id="@+id/editTextFechaDetalleCompra"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:minHeight="48dp"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/items"
+            android:textSize="19sp"/>
+
+        <Spinner
+            android:id="@+id/spinnerArticuloCompra"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/unit_price"
+            android:textSize="19sp" />
+
+        <EditText
+            android:id="@+id/editTextUnitarioDetalleCompra"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:digits="0123456789."
+            android:inputType="numberDecimal"
+            android:minHeight="48dp"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/quantity"
+            android:textSize="19sp" />
+
+        <EditText
+            android:id="@+id/editTextCantidadDetalleCompra"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:digits="0123456789."
+            android:inputType="numberDecimal"
+            android:minHeight="48dp"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/total_purchase"
+            android:textSize="19sp" />
+
+        <EditText
+            android:id="@+id/editTextTotalDetalleCompra"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:digits="0123456789."
+            android:inputType="numberDecimal"
+            android:minHeight="48dp"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <Button
+                android:id="@+id/btnGuardarDetalleCompra"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:text="@string/save" />
+
+            <Button
+                android:id="@+id/btnLimpiarDetalleCompra"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:text="@string/clear" />
+
+        </LinearLayout>
 
     </LinearLayout>
-
-</LinearLayout>
+</ScrollView>

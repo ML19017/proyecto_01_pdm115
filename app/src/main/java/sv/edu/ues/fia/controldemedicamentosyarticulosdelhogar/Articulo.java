@@ -115,6 +115,9 @@ public class Articulo {
     }
 
     public String toString() {
+        if (getIdArticulo() == -1) {
+            return context.getString(R.string.select_articulo);
+        }
         return "ID Articulo : " + getIdArticulo() + "\n" +"Nombre: " + getNombreArticulo();
     }
 }

@@ -1,6 +1,7 @@
 package sv.edu.ues.fia.controldemedicamentosyarticulosdelhogar;
 
 import android.app.DatePickerDialog;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.InputType;
@@ -21,8 +22,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 
 public class FacturaCompraActivity extends AppCompatActivity {
@@ -32,6 +35,8 @@ public class FacturaCompraActivity extends AppCompatActivity {
     private List<FacturaCompra> listaFacturaCompra;
     private ListView listViewFacturaCompra;
     private final ValidarAccesoCRUD vac = new ValidarAccesoCRUD(this);
+    private DetalleCompraDAO detalleCompraDAO;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +46,7 @@ public class FacturaCompraActivity extends AppCompatActivity {
 
         SQLiteDatabase conexionDB = new ControlBD(this).getConnection();
         facturaCompraDAO = new FacturaCompraDAO(conexionDB, this);
+        detalleCompraDAO = new DetalleCompraDAO(conexionDB, this);
 
         TextView txtBusqueda = (TextView) findViewById(R.id.busquedaFacturaCompra);
 
@@ -127,6 +133,10 @@ public class FacturaCompraActivity extends AppCompatActivity {
         editTextFechaCompra.setInputType(InputType.TYPE_NULL);
         editTextFechaCompra.setFocusable(false);
 
+        editTextTotalCompra.setText("0");
+        editTextTotalCompra.setFocusable(false);
+        editTextTotalCompra.setClickable(false);
+
         //Autoincrement factura compra
         int idFacturaCompra = facturaCompraDAO.obtenerIdFacturaCompra();
         editTextIdFactura.setText(String.valueOf(idFacturaCompra));
@@ -148,8 +158,12 @@ public class FacturaCompraActivity extends AppCompatActivity {
         });
 
         List<View> vistas = Arrays.asList(editTextIdFactura, editTextFechaCompra, editTextTotalCompra, spinnerFarmacia, spinnerProveedor);
-        List<String> listaRegex = Arrays.asList("\\d+", "\\d{4}-\\d{2}-\\d{2}", "\\d+(\\.\\d{1,2})?",
-                "^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\\s]+$", "[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+"
+        List<String> listaRegex = Arrays.asList(
+                "\\d+",
+                "\\d{4}-\\d{2}-\\d{2}",
+                "\\d+(\\.\\d{1,2})?",
+                "\\d+",
+                "\\d+"
         );
 
         List<Integer> mensajesDeError = Arrays.asList(R.string.only_numbers, R.string.invalid_date,
@@ -165,7 +179,7 @@ public class FacturaCompraActivity extends AppCompatActivity {
                 dialog.dismiss();
             }
         });
-        btnLimpiarFacturaCompra.setOnClickListener(v -> clearFieldsFacturaCompra(editTextIdFactura, editTextFechaCompra, editTextTotalCompra, spinnerFarmacia, spinnerProveedor));
+        btnLimpiarFacturaCompra.setOnClickListener(v -> clearFieldsFacturaCompra(editTextFechaCompra, spinnerFarmacia, spinnerProveedor));
         dialog.show();
     }
 
@@ -182,8 +196,7 @@ public class FacturaCompraActivity extends AppCompatActivity {
         Toast.makeText(this, R.string.save_message, Toast.LENGTH_SHORT).show();
         facturaCompraDAO.addFacturaCompra(facturaCompra);
         fillList();
-
-        clearFieldsFacturaCompra(editTextIdFactura, editTextFechaCompra, editTextFechaCompra, spinnerFarmacia, spinnerProveedor);
+        clearFieldsFacturaCompra(editTextFechaCompra, spinnerFarmacia, spinnerProveedor);
     }
 
     private void showOptionsDialog(final FacturaCompra facturaCompra) {
@@ -194,6 +207,17 @@ public class FacturaCompraActivity extends AppCompatActivity {
         builder.setView(dialogView);
 
         final AlertDialog dialog = builder.create();
+
+        Button btnVerDetalles = dialogView.findViewById(R.id.buttonViewDetails);
+
+        if (this instanceof FacturaCompraActivity) {
+            btnVerDetalles.setVisibility(View.VISIBLE);
+            btnVerDetalles.setEnabled(true);
+            btnVerDetalles.setOnClickListener(v -> {
+                mostrarDetallesFactura(facturaCompra.getIdCompra());
+                dialog.dismiss();
+            });
+        }
 
         dialogView.findViewById(R.id.buttonView).setOnClickListener(v -> viewFacturaCompra(facturaCompra));
         dialogView.findViewById(R.id.buttonEdit).setOnClickListener(v -> editFacturaCompra(facturaCompra));
@@ -248,21 +272,32 @@ public class FacturaCompraActivity extends AppCompatActivity {
 
         tvIdFactura.setText(String.valueOf(facturaCompra.getIdCompra()));
         tvFechaCompra.setText(facturaCompra.getFechaCompra());
-        tvTotalCompra.setText(String.valueOf(facturaCompra.getTotalCompra()));
+        double totalCalculado = calcularTotalFactura(facturaCompra.getIdCompra());
+        tvTotalCompra.setText(String.format(Locale.getDefault(), "%.2f", totalCalculado));
 
         // obtener lista de sucursales y proveedores
         List<SucursalFarmacia> farmacias = facturaCompraDAO.getAllFarmacias();
         List<Proveedor> proveedores = facturaCompraDAO.getAllProveedores();
 
-        ArrayAdapter<SucursalFarmacia> farmaciaAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, farmacias);
+        ArrayAdapter<SucursalFarmacia> farmaciaAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, farmacias){
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                TextView label = (TextView) super.getView(position, convertView, parent);
+                label.setText(getItem(position).getNombreFarmacia());
+                return label;
+            }
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                TextView label = (TextView) super.getDropDownView(position, convertView, parent);
+                label.setText(getItem(position).getNombreFarmacia());
+                return label;
+            }
+        };
         farmaciaAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerFarmacia.setAdapter(farmaciaAdapter);
 
         // Obtener lista de proveedores
-        proveedores.add(0, new Proveedor(-1, getString(R.string.select_proveedor), this));
-        ArrayAdapter<Proveedor> adapterProveedor = new ArrayAdapter<Proveedor>(
-                this, android.R.layout.simple_spinner_item, proveedores
-        ) {
+        ArrayAdapter<Proveedor> adapterProveedor = new ArrayAdapter<Proveedor>(this, android.R.layout.simple_spinner_item, proveedores) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 TextView label = (TextView) super.getView(position, convertView, parent);
@@ -313,13 +348,25 @@ public class FacturaCompraActivity extends AppCompatActivity {
         Spinner spinnerProveedor = dialogView.findViewById(R.id.spinnerProveedor);
 
         List<SucursalFarmacia> farmacias = facturaCompraDAO.getAllFarmacias();
-        ArrayAdapter<SucursalFarmacia> adapterFarmacia = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, farmacias);
+        ArrayAdapter<SucursalFarmacia> adapterFarmacia = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, farmacias){
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                TextView label = (TextView) super.getView(position, convertView, parent);
+                label.setText(getItem(position).getNombreFarmacia());
+                return label;
+            }
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                TextView label = (TextView) super.getDropDownView(position, convertView, parent);
+                label.setText(getItem(position).getNombreFarmacia());
+                return label;
+            }
+        };
         adapterFarmacia.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerFarmacia.setAdapter(adapterFarmacia);
 
         // Obtener lista de proveedores
         List<Proveedor> proveedores = facturaCompraDAO.getAllProveedores();
-        proveedores.add(0, new Proveedor(-1, getString(R.string.select_proveedor), this));
         ArrayAdapter<Proveedor> adapterProveedor = new ArrayAdapter<Proveedor>(
                 this, android.R.layout.simple_spinner_item, proveedores
         ) {
@@ -341,7 +388,13 @@ public class FacturaCompraActivity extends AppCompatActivity {
 
         editTextIdFactura.setText(String.valueOf(facturaCompra.getIdCompra()));
         editTextFechaCompra.setText(facturaCompra.getFechaCompra());
-        editTextTotalCompra.setText(String.valueOf(facturaCompra.getTotalCompra()));
+
+        editTextTotalCompra.setFocusable(false);
+        editTextTotalCompra.setClickable(false);
+
+        double totalCalculado = calcularTotalFactura(facturaCompra.getIdCompra());
+        editTextTotalCompra.setText(String.format(Locale.getDefault(), "%.2f", totalCalculado));
+
 
         editTextIdFactura.setEnabled(false);
         editTextIdFactura.setFocusable(false);
@@ -382,11 +435,15 @@ public class FacturaCompraActivity extends AppCompatActivity {
             datePickerDialog.show();
         });
 
-        List<View> vistas = Arrays.asList(editTextFechaCompra, editTextTotalCompra);
+        List<View> vistas = Arrays.asList(editTextIdFactura, editTextFechaCompra, editTextTotalCompra);
         List<String> listaRegex = Arrays.asList(
-                "\\d{4}-\\d{2}-\\d{2}", "\\d+(\\.\\d{1,2})?");
+                "\\d+",
+                "\\d{4}-\\d{2}-\\d{2}",
+                "\\d+(\\.\\d{1,2})?"
+        );
 
-        List<Integer> mensajesDeError = Arrays.asList(R.string.invalid_date, R.string.only_numbers);
+        List<Integer> mensajesDeError = Arrays.asList(R.string.only_numbers, R.string.invalid_date,
+                R.string.only_numbers);
 
         ValidadorDeCampos validadorDeCampos = new ValidadorDeCampos(this, vistas, listaRegex, mensajesDeError);
 
@@ -433,11 +490,60 @@ public class FacturaCompraActivity extends AppCompatActivity {
 
     }
 
-    private void clearFieldsFacturaCompra(EditText editTextIdFacturaCompra, EditText editTextFechaCompra, EditText editTextTotalCompra, Spinner spinnerFarmacia, Spinner spinnerProveedor) {
-        editTextIdFacturaCompra.setText("");
-        editTextFechaCompra.setText("");
-        editTextTotalCompra.setText("");
+    private void mostrarDetallesFactura(int idCompra) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View view = getLayoutInflater().inflate(R.layout.dialog_detalles, null);
+        builder.setView(view);
+        builder.setTitle(getString(R.string.purchase_detail) + " #" + idCompra);
 
+        ListView listView = view.findViewById(R.id.listaDetallesCompra);
+        TextView tvTotal = view.findViewById(R.id.tvTotalFactura);
+
+        List<Articulo> articulos = detalleCompraDAO.getAllArticulo();
+        Map<Integer, String> mapaNombres = new HashMap<>();
+        for (Articulo a : articulos) {
+            mapaNombres.put(a.getIdArticulo(), a.getNombreArticulo());
+        }
+
+        List<DetalleCompra> detalles = detalleCompraDAO.getDetallesCompra(idCompra);
+        List<String> lineas = new ArrayList<>();
+        double total = 0;
+
+        for (DetalleCompra d : detalles) {
+            double subtotal = d.getTotalDetalleCompra();
+            total += subtotal;
+
+            String nombre = mapaNombres.containsKey(d.getIdArticulo()) ?
+                    mapaNombres.get(d.getIdArticulo()) : getString(R.string.item) + " " + d.getIdArticulo();
+
+            lineas.add(" | ID: " + d.getIdArticulo() + " | "
+                    +
+                    nombre
+                    + " | " + getString(R.string.quantity) + " : " + d.getCantidadCompra()
+                    + " | " + getString(R.string.price) + " : $ " + d.getPrecioUnitarioCompra()
+                    + " | Subtotal: $" + String.format("%.2f", d.getTotalDetalleCompra()));
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, lineas);
+        listView.setAdapter(adapter);
+        tvTotal.setText("Total: $" + String.format("%.2f", total));
+
+        builder.setPositiveButton(getString(R.string.close), null);
+        builder.create().show();
+    }
+
+    private double calcularTotalFactura(int idCompra) {
+        List<DetalleCompra> detalles = detalleCompraDAO.getDetallesCompra(idCompra);
+        double total = 0;
+        for (DetalleCompra d : detalles) {
+            total += d.getTotalDetalleCompra();
+        }
+        return total;
+    }
+
+
+    private void clearFieldsFacturaCompra(EditText editTextFechaCompra, Spinner spinnerFarmacia, Spinner spinnerProveedor) {
+        editTextFechaCompra.setText("");
         spinnerFarmacia.setSelection(0);
         spinnerProveedor.setSelection(0);
     }

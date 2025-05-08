@@ -75,6 +75,9 @@ public class FacturaCompra {
 
     @Override
     public String toString() {
+        if (getIdCompra() == -1) {
+            return context.getString(R.string.select_factura);
+        }
         return context.getString(R.string.invoice_id) +": " + getIdCompra() + "\n" + context.getString(R.string.purchase_date) +":" + getFechaCompra();
     }
 }
