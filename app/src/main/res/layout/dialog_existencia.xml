@@ -81,7 +81,7 @@
         android:id="@+id/editTextExpirationDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="datetime"
+        android:inputType="date"
         android:maxLength="100"
         android:minHeight="48dp"
         android:hint="@string/expiration_Date"
