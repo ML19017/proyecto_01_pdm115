@@ -17,6 +17,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -27,10 +28,10 @@ public class ArticuloActivity extends AppCompatActivity implements AdapterView.O
     private ArrayAdapter<Articulo> adaptadorListV;
     private ArrayAdapter<Categoria> adaptadorSpinner;
 
-    private Categoria selected;
-    private List<Articulo> valuesArt;
+    private Categoria selected = new Categoria();
+    private List<Articulo> valuesArt = new ArrayList<>();
 
-    private List<Categoria> valuesCat;
+    private List<Categoria> valuesCat = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,7 @@ public class ArticuloActivity extends AppCompatActivity implements AdapterView.O
         //Database conection
         SQLiteDatabase conection = new ControlBD(this).getConnection();
         articuloDAO = new ArticuloDAO(this, conection);
+        categoriaDAO = new CategoriaDAO( conection, this);
 
         //Spinner
         adaptadorSpinner = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, valuesCat);
@@ -49,17 +51,18 @@ public class ArticuloActivity extends AppCompatActivity implements AdapterView.O
         llenadoSpinner();
         spinner.setOnItemSelectedListener(this);
 
-        Spinner selCategory = (Spinner)findViewById(R.id.itemCategorySpinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.category_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        selCategory.setAdapter(adapter);
-        selCategory.setOnItemSelectedListener(this);
 
         //ListV
         adaptadorListV = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, valuesArt);
         ListView listV = (ListView) findViewById(R.id.itemListv);
         listV.setAdapter(adaptadorListV);
         listV.setOnItemClickListener(this);
+
+        //Botones
+        Button btnAdd = (Button) findViewById(R.id.btnAddItem);
+        btnAdd.setOnClickListener(v -> {
+            showAddDialog();
+        });
 
     }
 
@@ -183,7 +186,7 @@ public class ArticuloActivity extends AppCompatActivity implements AdapterView.O
 
     }
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        selected = (Categoria) parent.getItemAtPosition(position);
+        selected = (Categoria)parent.getItemAtPosition(position);
         actualizarListView(selected);
     }
 
