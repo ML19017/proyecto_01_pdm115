@@ -365,7 +365,8 @@ public class FacturaVentaActivity extends AppCompatActivity {
         edtFechaVenta.setEnabled(false);
         edtFechaVenta.setOnClickListener(null);
 
-        edtTotalVenta.setText(String.format(Locale.US, "%.2f", factura.getTotalVenta()));
+        double totalCalculado = calcularTotalVenta(factura.getIdCliente(), factura.getIdVenta());
+        edtTotalVenta.setText(String.format(Locale.US, "%.2f", totalCalculado));
         edtTotalVenta.setEnabled(false);
 
         if (btnGuardar != null) btnGuardar.setVisibility(View.GONE);
