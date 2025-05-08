@@ -74,10 +74,12 @@
     <string name="not_found_message">No se ha encontrado la referencia</string>
     <string name="duplicate_message">La clave del registro ya existe</string>
     <string name="provider_exists">Ya existe un proveedor con este ID o NIT</string>
+    <string name="doctor_jvpm">Doctor JVPM</string>
     <string name="id_farmacia">Id Farmacia</string>
     <string name="id_direccion">Id Dirección</string>
     <string name="nombre_farmacia">Nombre de la Farmacia</string>
     <string name="category_prompt">Todos</string>
+    <string name="item_ID">" ID Item"</string>
     <string name="id_doctor">Id Doctor</string>
     <string name="nombre_doctor">Nombre</string>
     <string name="tipo_via_administracion">Tipo de vía de administración</string>
@@ -127,6 +129,7 @@
     <!-- Fin detalleCompra -->
 
     <!--  Cliente  -->
+    <string name="subcategory_name">Nombre SubCategoria</string>
     <string name="id_client">Id Cliente</string>
     <string name="add_client_dialog_title">Agregar Nuevo Cliente</string>
     <string name="view_client_dialog_title">Detalles del Cliente</string>
@@ -195,5 +198,12 @@
     <string name="only_numbers_total">El total solo debe contener números y un punto decimal opcional.</string>
     <string name="main_menu">Menu Principal</string>
     <string name="fill_database">Llenar Base de Datos</string>
+    <string name="doctor_name">Nombre</string>
+    <string name="doctor_specialty">Especialidad</string>
+    <string name="farma_exists">Ya existe una Farmacia con ese ID</string>
+    <string name="existence_detail_id">Detalle Existencia ID</string>
+    <string name="category_ID">ID Categoria</string>
+    <string name="category_name">Nombre Categoria</string>
+    <string name="subcategory_id">SubCategoria ID</string>
     <!-- Fin DetalleVenta -->
 </resources>
