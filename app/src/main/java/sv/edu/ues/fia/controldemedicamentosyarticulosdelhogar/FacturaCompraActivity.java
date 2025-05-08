@@ -3,6 +3,7 @@ package sv.edu.ues.fia.controldemedicamentosyarticulosdelhogar;
 import android.app.DatePickerDialog;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
@@ -99,33 +100,66 @@ public class FacturaCompraActivity extends AppCompatActivity {
         // llenar los tipo combobox
         List<SucursalFarmacia> farmacias = facturaCompraDAO.getAllFarmacias();
         farmacias.add(0, new SucursalFarmacia(-1, getString(R.string.select_farmacia)));
-        ArrayAdapter<SucursalFarmacia> adapterFarmacia = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, farmacias);
+        ArrayAdapter<SucursalFarmacia> adapterFarmacia = new ArrayAdapter<SucursalFarmacia>(this, android.R.layout.simple_spinner_item, farmacias) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                TextView view = (TextView) super.getView(position, convertView, parent);
+                SucursalFarmacia sucursalFarmacia = getItem(position);
+                if (sucursalFarmacia.getIdFarmacia() == -1) {
+                    view.setText(getString(R.string.select_farmacia));
+                } else {
+                    view.setText(sucursalFarmacia.getNombreFarmacia());
+                }
+                return view;
+            }
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                TextView view = (TextView) super.getDropDownView(position, convertView, parent);
+                SucursalFarmacia sucursalFarmacia = getItem(position);
+                if (sucursalFarmacia.getIdFarmacia() == -1) {
+                    view.setText(getString(R.string.select_farmacia));
+                    view.setTextColor(Color.GRAY);
+                } else {
+                    view.setText(sucursalFarmacia.getNombreFarmacia() + " (ID: " + sucursalFarmacia.getIdFarmacia() + ")");
+                    view.setTextColor(Color.BLACK);
+                }
+                return view;
+            }
+        };
         adapterFarmacia.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerFarmacia.setAdapter(adapterFarmacia);
 
         // Obtener lista de proveedores
         List<Proveedor> proveedores = facturaCompraDAO.getAllProveedores();
         proveedores.add(0, new Proveedor(-1, getString(R.string.select_proveedor), this));
-        ArrayAdapter<Proveedor> adapterProveedor = new ArrayAdapter<Proveedor>(
-                this, android.R.layout.simple_spinner_item, proveedores
-        ) {
+        ArrayAdapter<Proveedor> adapterProveedor = new ArrayAdapter<Proveedor>(this, android.R.layout.simple_spinner_item, proveedores) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
-                TextView label = (TextView) super.getView(position, convertView, parent);
-                label.setText(getItem(position).getNombreProveedor());
-                return label;
+                TextView view = (TextView) super.getView(position, convertView, parent);
+                Proveedor proveedor = getItem(position);
+                if (proveedor.getIdProveedor() == -1) {
+                    view.setText(getString(R.string.select_proveedor));
+                } else {
+                    view.setText(proveedor.getNombreProveedor());
+                }
+                return view;
             }
             @Override
             public View getDropDownView(int position, View convertView, ViewGroup parent) {
-                TextView label = (TextView) super.getDropDownView(position, convertView, parent);
-                label.setText(getItem(position).getNombreProveedor());
-                return label;
+                TextView view = (TextView) super.getDropDownView(position, convertView, parent);
+                Proveedor proveedor = getItem(position);
+                if (proveedor.getIdProveedor() == -1) {
+                    view.setText(getString(R.string.select_proveedor));
+                    view.setTextColor(Color.GRAY);
+                } else {
+                    view.setText(proveedor.getNombreProveedor() + " (ID: " + proveedor.getIdProveedor() + ")");
+                    view.setTextColor(Color.BLACK);
+                }
+                return view;
             }
         };
         adapterProveedor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerProveedor.setAdapter(adapterProveedor);
-
-
 
         Button btnGuardarFacturaCompra = dialogView.findViewById(R.id.btnGuardarFacturaCompra);
         Button btnLimpiarFacturaCompra = dialogView.findViewById(R.id.btnLimpiarFacturaCompra);
@@ -279,38 +313,64 @@ public class FacturaCompraActivity extends AppCompatActivity {
         List<SucursalFarmacia> farmacias = facturaCompraDAO.getAllFarmacias();
         List<Proveedor> proveedores = facturaCompraDAO.getAllProveedores();
 
-        ArrayAdapter<SucursalFarmacia> farmaciaAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, farmacias){
+        ArrayAdapter<SucursalFarmacia> adapterFarmacia = new ArrayAdapter<SucursalFarmacia>(this, android.R.layout.simple_spinner_item, farmacias) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
-                TextView label = (TextView) super.getView(position, convertView, parent);
-                label.setText(getItem(position).getNombreFarmacia());
-                return label;
+                TextView view = (TextView) super.getView(position, convertView, parent);
+                SucursalFarmacia sucursalFarmacia = getItem(position);
+                if (sucursalFarmacia.getIdFarmacia() == -1) {
+                    view.setText(getString(R.string.select_farmacia));
+                } else {
+                    view.setText(sucursalFarmacia.getNombreFarmacia());
+                }
+                return view;
             }
             @Override
             public View getDropDownView(int position, View convertView, ViewGroup parent) {
-                TextView label = (TextView) super.getDropDownView(position, convertView, parent);
-                label.setText(getItem(position).getNombreFarmacia());
-                return label;
+                TextView view = (TextView) super.getDropDownView(position, convertView, parent);
+                SucursalFarmacia sucursalFarmacia = getItem(position);
+                if (sucursalFarmacia.getIdFarmacia() == -1) {
+                    view.setText(getString(R.string.select_farmacia));
+                    view.setTextColor(Color.GRAY);
+                } else {
+                    view.setText(sucursalFarmacia.getNombreFarmacia() + " (ID: " + sucursalFarmacia.getIdFarmacia() + ")");
+                    view.setTextColor(Color.BLACK);
+                }
+                return view;
             }
         };
-        farmaciaAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerFarmacia.setAdapter(farmaciaAdapter);
+
+        adapterFarmacia.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerFarmacia.setAdapter(adapterFarmacia);
 
         // Obtener lista de proveedores
         ArrayAdapter<Proveedor> adapterProveedor = new ArrayAdapter<Proveedor>(this, android.R.layout.simple_spinner_item, proveedores) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
-                TextView label = (TextView) super.getView(position, convertView, parent);
-                label.setText(getItem(position).getNombreProveedor());
-                return label;
+                TextView view = (TextView) super.getView(position, convertView, parent);
+                Proveedor proveedor = getItem(position);
+                if (proveedor.getIdProveedor() == -1) {
+                    view.setText(getString(R.string.select_proveedor));
+                } else {
+                    view.setText(proveedor.getNombreProveedor());
+                }
+                return view;
             }
             @Override
             public View getDropDownView(int position, View convertView, ViewGroup parent) {
-                TextView label = (TextView) super.getDropDownView(position, convertView, parent);
-                label.setText(getItem(position).getNombreProveedor());
-                return label;
+                TextView view = (TextView) super.getDropDownView(position, convertView, parent);
+                Proveedor proveedor = getItem(position);
+                if (proveedor.getIdProveedor() == -1) {
+                    view.setText(getString(R.string.select_proveedor));
+                    view.setTextColor(Color.GRAY);
+                } else {
+                    view.setText(proveedor.getNombreProveedor() + " (ID: " + proveedor.getIdProveedor() + ")");
+                    view.setTextColor(Color.BLACK);
+                }
+                return view;
             }
         };
+
         adapterProveedor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerProveedor.setAdapter(adapterProveedor);
 
@@ -348,39 +408,62 @@ public class FacturaCompraActivity extends AppCompatActivity {
         Spinner spinnerProveedor = dialogView.findViewById(R.id.spinnerProveedor);
 
         List<SucursalFarmacia> farmacias = facturaCompraDAO.getAllFarmacias();
-        ArrayAdapter<SucursalFarmacia> adapterFarmacia = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, farmacias){
+        ArrayAdapter<SucursalFarmacia> adapterFarmacia = new ArrayAdapter<SucursalFarmacia>(this, android.R.layout.simple_spinner_item, farmacias) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
-                TextView label = (TextView) super.getView(position, convertView, parent);
-                label.setText(getItem(position).getNombreFarmacia());
-                return label;
+                TextView view = (TextView) super.getView(position, convertView, parent);
+                SucursalFarmacia sucursalFarmacia = getItem(position);
+                if (sucursalFarmacia.getIdFarmacia() == -1) {
+                    view.setText(getString(R.string.select_farmacia));
+                } else {
+                    view.setText(sucursalFarmacia.getNombreFarmacia());
+                }
+                return view;
             }
             @Override
             public View getDropDownView(int position, View convertView, ViewGroup parent) {
-                TextView label = (TextView) super.getDropDownView(position, convertView, parent);
-                label.setText(getItem(position).getNombreFarmacia());
-                return label;
+                TextView view = (TextView) super.getDropDownView(position, convertView, parent);
+                SucursalFarmacia sucursalFarmacia = getItem(position);
+                if (sucursalFarmacia.getIdFarmacia() == -1) {
+                    view.setText(getString(R.string.select_farmacia));
+                    view.setTextColor(Color.GRAY);
+                } else {
+                    view.setText(sucursalFarmacia.getNombreFarmacia() + " (ID: " + sucursalFarmacia.getIdFarmacia() + ")");
+                    view.setTextColor(Color.BLACK);
+                }
+                return view;
             }
         };
+
         adapterFarmacia.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerFarmacia.setAdapter(adapterFarmacia);
 
         // Obtener lista de proveedores
         List<Proveedor> proveedores = facturaCompraDAO.getAllProveedores();
-        ArrayAdapter<Proveedor> adapterProveedor = new ArrayAdapter<Proveedor>(
-                this, android.R.layout.simple_spinner_item, proveedores
-        ) {
+        ArrayAdapter<Proveedor> adapterProveedor = new ArrayAdapter<Proveedor>(this, android.R.layout.simple_spinner_item, proveedores) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
-                TextView label = (TextView) super.getView(position, convertView, parent);
-                label.setText(getItem(position).getNombreProveedor());
-                return label;
+                TextView view = (TextView) super.getView(position, convertView, parent);
+                Proveedor proveedor = getItem(position);
+                if (proveedor.getIdProveedor() == -1) {
+                    view.setText(getString(R.string.select_proveedor));
+                } else {
+                    view.setText(proveedor.getNombreProveedor());
+                }
+                return view;
             }
             @Override
             public View getDropDownView(int position, View convertView, ViewGroup parent) {
-                TextView label = (TextView) super.getDropDownView(position, convertView, parent);
-                label.setText(getItem(position).getNombreProveedor());
-                return label;
+                TextView view = (TextView) super.getDropDownView(position, convertView, parent);
+                Proveedor proveedor = getItem(position);
+                if (proveedor.getIdProveedor() == -1) {
+                    view.setText(getString(R.string.select_proveedor));
+                    view.setTextColor(Color.GRAY);
+                } else {
+                    view.setText(proveedor.getNombreProveedor() + " (ID: " + proveedor.getIdProveedor() + ")");
+                    view.setTextColor(Color.BLACK);
+                }
+                return view;
             }
         };
         adapterProveedor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

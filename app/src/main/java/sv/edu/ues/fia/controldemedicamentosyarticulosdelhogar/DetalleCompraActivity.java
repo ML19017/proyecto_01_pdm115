@@ -116,16 +116,16 @@ public class DetalleCompraActivity extends AppCompatActivity {
         Button btnLimpiar = dialogView.findViewById(R.id.btnLimpiarDetalleCompra);
 
         List<FacturaCompra> facturas = detalleCompraDAO.getAllFacturaCompra();
-        facturas.add(0, new FacturaCompra(-1, this));
+        facturas.add(0, new FacturaCompra(-1, -1, null, this));
         ArrayAdapter<FacturaCompra> adapterFactura = new ArrayAdapter<FacturaCompra>(this, android.R.layout.simple_spinner_item, facturas) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 TextView view = (TextView) super.getView(position, convertView, parent);
                 FacturaCompra factura = getItem(position);
                 if (factura.getIdCompra() == -1) {
-                    view.setText(factura.toString());
+                    view.setText(getString(R.string.select_factura));
                 } else {
-                    view.setText(getString(R.string.invoice_id) + ": " + factura.getIdCompra()); // Esto se muestra cuando está cerrado
+                    view.setText(getString(R.string.invoice_id) + ": " + factura.getIdCompra() + ", "  + getString(R.string.provider_id) + ": " + factura.getIdProveedor()); // Esto se muestra cuando está cerrado
                 }
                 return view;
             }
@@ -135,10 +135,10 @@ public class DetalleCompraActivity extends AppCompatActivity {
                 TextView view = (TextView) super.getDropDownView(position, convertView, parent);
                 FacturaCompra factura = getItem(position);
                 if (factura.getIdCompra() == -1) {
-                    view.setText(factura.toString());
+                    view.setText(getString(R.string.select_factura));
                     view.setTextColor(Color.GRAY);
                 } else {
-                    view.setText(getString(R.string.invoice_id) + ": " + factura.getIdCompra());
+                    view.setText("ID : " + factura.getIdCompra() + ", "  + getString(R.string.provider) + ": " + factura.getIdProveedor() + ", " + getString(R.string.purchase_date) + ": " + factura.getFechaCompra());
                     view.setTextColor(Color.BLACK);
                 }
                 return view;
@@ -155,15 +155,24 @@ public class DetalleCompraActivity extends AppCompatActivity {
             public View getView(int position, View convertView, ViewGroup parent) {
                 TextView view = (TextView) super.getView(position, convertView, parent);
                 Articulo articulo = getItem(position);
-                view.setText(articulo.getNombreArticulo()); // muestra el mensaje cuando esta cerrado y el otro cuando se desplgean las opciones
+                if (articulo.getIdArticulo() == -1) {
+                    view.setText(getString(R.string.select_articulo));
+                } else {
+                    view.setText(articulo.getNombreArticulo());
+                }
                 return view;
             }
-
             @Override
             public View getDropDownView(int position, View convertView, ViewGroup parent) {
                 TextView view = (TextView) super.getDropDownView(position, convertView, parent);
                 Articulo articulo = getItem(position);
-                view.setText(articulo.getNombreArticulo());
+                if (articulo.getIdArticulo() == -1) {
+                    view.setText(getString(R.string.select_articulo));
+                    view.setTextColor(Color.GRAY);
+                } else {
+                    view.setText(articulo.getNombreArticulo() + " (ID: " + articulo.getIdArticulo() + ")");
+                    view.setTextColor(Color.BLACK);
+                }
                 return view;
             }
         };
@@ -309,9 +318,9 @@ public class DetalleCompraActivity extends AppCompatActivity {
                 TextView view = (TextView) super.getView(position, convertView, parent);
                 FacturaCompra factura = getItem(position);
                 if (factura.getIdCompra() == -1) {
-                    view.setText(factura.toString());
+                    view.setText(getString(R.string.select_factura));
                 } else {
-                    view.setText(getString(R.string.invoice_id) + ": " + factura.getIdCompra()); // Esto se muestra cuando está cerrado
+                    view.setText(getString(R.string.invoice_id) + ": " + factura.getIdCompra() + ", "  + getString(R.string.provider_id) + ": " + factura.getIdProveedor()); // Esto se muestra cuando está cerrado
                 }
                 return view;
             }
@@ -321,15 +330,16 @@ public class DetalleCompraActivity extends AppCompatActivity {
                 TextView view = (TextView) super.getDropDownView(position, convertView, parent);
                 FacturaCompra factura = getItem(position);
                 if (factura.getIdCompra() == -1) {
-                    view.setText(factura.toString());
+                    view.setText(getString(R.string.select_factura));
                     view.setTextColor(Color.GRAY);
                 } else {
-                    view.setText(getString(R.string.invoice_id) + ": " + factura.getIdCompra());
+                    view.setText("ID : " + factura.getIdCompra() + ", "  + getString(R.string.provider) + ": " + factura.getIdProveedor() + ", " + getString(R.string.purchase_date) + ": " + factura.getFechaCompra());
                     view.setTextColor(Color.BLACK);
                 }
                 return view;
             }
         };
+
 
         adapterFactura.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerFacturaCompra.setAdapter(adapterFactura);
@@ -340,15 +350,24 @@ public class DetalleCompraActivity extends AppCompatActivity {
             public View getView(int position, View convertView, ViewGroup parent) {
                 TextView view = (TextView) super.getView(position, convertView, parent);
                 Articulo articulo = getItem(position);
-                view.setText(articulo.getNombreArticulo()); // muestra el mensaje cuando esta cerrado y el otro cuando se desplgean las opciones
+                if (articulo.getIdArticulo() == -1) {
+                    view.setText(getString(R.string.select_articulo));
+                } else {
+                    view.setText(articulo.getNombreArticulo());
+                }
                 return view;
             }
-
             @Override
             public View getDropDownView(int position, View convertView, ViewGroup parent) {
                 TextView view = (TextView) super.getDropDownView(position, convertView, parent);
                 Articulo articulo = getItem(position);
-                view.setText(articulo.getNombreArticulo());
+                if (articulo.getIdArticulo() == -1) {
+                    view.setText(getString(R.string.select_articulo));
+                    view.setTextColor(Color.GRAY);
+                } else {
+                    view.setText(articulo.getNombreArticulo() + " (ID: " + articulo.getIdArticulo() + ")");
+                    view.setTextColor(Color.BLACK);
+                }
                 return view;
             }
         };
@@ -417,9 +436,9 @@ public class DetalleCompraActivity extends AppCompatActivity {
                 TextView view = (TextView) super.getView(position, convertView, parent);
                 FacturaCompra factura = getItem(position);
                 if (factura.getIdCompra() == -1) {
-                    view.setText(factura.toString());
+                    view.setText(getString(R.string.select_factura));
                 } else {
-                    view.setText(getString(R.string.invoice_id) + ": " + factura.getIdCompra()); // Esto se muestra cuando está cerrado
+                    view.setText(getString(R.string.invoice_id) + ": " + factura.getIdCompra() + ", "  + getString(R.string.provider_id) + ": " + factura.getIdProveedor()); // Esto se muestra cuando está cerrado
                 }
                 return view;
             }
@@ -429,10 +448,10 @@ public class DetalleCompraActivity extends AppCompatActivity {
                 TextView view = (TextView) super.getDropDownView(position, convertView, parent);
                 FacturaCompra factura = getItem(position);
                 if (factura.getIdCompra() == -1) {
-                    view.setText(factura.toString());
+                    view.setText(getString(R.string.select_factura));
                     view.setTextColor(Color.GRAY);
                 } else {
-                    view.setText(getString(R.string.invoice_id) + ": " + factura.getIdCompra());
+                    view.setText("ID : " + factura.getIdCompra() + ", "  + getString(R.string.provider) + ": " + factura.getIdProveedor() + ", " + getString(R.string.purchase_date) + ": " + factura.getFechaCompra());
                     view.setTextColor(Color.BLACK);
                 }
                 return view;
@@ -448,15 +467,24 @@ public class DetalleCompraActivity extends AppCompatActivity {
             public View getView(int position, View convertView, ViewGroup parent) {
                 TextView view = (TextView) super.getView(position, convertView, parent);
                 Articulo articulo = getItem(position);
-                view.setText(articulo.getNombreArticulo()); // muestra el mensaje cuando esta cerrado y el otro cuando se desplgean las opciones
+                if (articulo.getIdArticulo() == -1) {
+                    view.setText(getString(R.string.select_articulo));
+                } else {
+                    view.setText(articulo.getNombreArticulo());
+                }
                 return view;
             }
-
             @Override
             public View getDropDownView(int position, View convertView, ViewGroup parent) {
                 TextView view = (TextView) super.getDropDownView(position, convertView, parent);
                 Articulo articulo = getItem(position);
-                view.setText(articulo.getNombreArticulo());
+                if (articulo.getIdArticulo() == -1) {
+                    view.setText(getString(R.string.select_articulo));
+                    view.setTextColor(Color.GRAY);
+                } else {
+                    view.setText(articulo.getNombreArticulo() + " (ID: " + articulo.getIdArticulo() + ")");
+                    view.setTextColor(Color.BLACK);
+                }
                 return view;
             }
         };
