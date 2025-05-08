@@ -10,6 +10,11 @@
         android:orientation="vertical"
         android:padding="16dp">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/id_doctor" />
+
         <EditText
             android:id="@+id/editTextIdDoctor"
             android:layout_width="match_parent"
@@ -18,34 +23,55 @@
             android:inputType="number"
             tools:ignore="TouchTargetSizeCheck" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/id_cliente"
+            android:layout_marginTop="8dp" />
+
         <EditText
             android:id="@+id/editTextIdCliente"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:hint="@string/id_cliente"
             android:inputType="number"
             tools:ignore="TouchTargetSizeCheck" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/id_receta"
+            android:layout_marginTop="8dp" />
 
         <EditText
             android:id="@+id/editTextIdReceta"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:hint="@string/id_receta"
             android:inputType="number"
             tools:ignore="TouchTargetSizeCheck" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/fecha_receta"
+            android:layout_marginTop="12dp" />
 
         <EditText
             android:id="@+id/textViewFechaExpedida"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:clickable="true"
-            android:focusable="true"
             android:hint="@string/fecha_receta"
             android:inputType="date"
+            android:clickable="true"
+            android:focusable="true"
             tools:ignore="TouchTargetSizeCheck" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/description"
+            android:layout_marginTop="12dp" />
 
         <EditText
             android:id="@+id/editTextDescripcion"
@@ -53,8 +79,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/description"
             android:inputType="textMultiLine"
-            android:minLines="3"
-            android:layout_marginTop="12dp" />
+            android:minLines="3" />
 
         <Button
             android:id="@+id/btnGuardarReceta"
@@ -71,5 +96,4 @@
             android:layout_marginTop="8dp" />
 
     </LinearLayout>
-
 </ScrollView>
