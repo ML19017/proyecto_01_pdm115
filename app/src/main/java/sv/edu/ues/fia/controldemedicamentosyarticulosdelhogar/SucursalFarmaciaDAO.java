@@ -22,7 +22,7 @@ public class SucursalFarmaciaDAO {
 
 
 //    Agregar Farmacia
-public void addSucursalFarmacia(SucursalFarmacia sucursalFarmacia) {
+    public void addSucursalFarmacia(SucursalFarmacia sucursalFarmacia) {
 
 
         if(getSucursalFarmacia(sucursalFarmacia.getIdFarmacia())== null)
@@ -32,10 +32,12 @@ public void addSucursalFarmacia(SucursalFarmacia sucursalFarmacia) {
             values.put("IDDIRECCION", sucursalFarmacia.getIdDireccion());
             values.put("NOMBREFARMACIA", sucursalFarmacia.getNombreFarmacia());
             conexionDB.insert("SUCURSALFARMACIA", null, values);
+            Toast.makeText(context, R.string.save_message, Toast.LENGTH_SHORT).show();
+
         }
         else
         {
-            Toast.makeText(context, "Ya existe una Farmacia con ese ID", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, R.string.farma_exists, Toast.LENGTH_SHORT).show();
 
         }
 }
@@ -48,7 +50,8 @@ public void addSucursalFarmacia(SucursalFarmacia sucursalFarmacia) {
             SucursalFarmacia sucursalFarmacia = new SucursalFarmacia(
                     cursor.getInt(cursor.getColumnIndexOrThrow("IDFARMACIA")),
                     cursor.getInt(cursor.getColumnIndexOrThrow("IDDIRECCION")),
-                    cursor.getString(cursor.getColumnIndexOrThrow("NOMBREFARMACIA"))
+                    cursor.getString(cursor.getColumnIndexOrThrow("NOMBREFARMACIA")),
+                    context
             );
             cursor.close();
             return sucursalFarmacia;
@@ -67,7 +70,8 @@ public void addSucursalFarmacia(SucursalFarmacia sucursalFarmacia) {
             list.add(new SucursalFarmacia(
                     cursor.getInt(cursor.getColumnIndexOrThrow("IDFARMACIA")),
                     cursor.getInt(cursor.getColumnIndexOrThrow("IDDIRECCION")),
-                    cursor.getString(cursor.getColumnIndexOrThrow("NOMBREFARMACIA"))
+                    cursor.getString(cursor.getColumnIndexOrThrow("NOMBREFARMACIA")),
+                    context
             ));
         }
         cursor.close();
@@ -79,8 +83,15 @@ public void addSucursalFarmacia(SucursalFarmacia sucursalFarmacia) {
     public void updateSucursalFarmacia(SucursalFarmacia sucursalFarmacia) {
         ContentValues values = new ContentValues();
         values.put("NOMBREFARMACIA", sucursalFarmacia.getNombreFarmacia());
-        conexionDB.update("SUCURSALFARMACIA", values, "IDFARMACIA = ?",
+        int rowsAffected = conexionDB.update("SUCURSALFARMACIA", values, "IDFARMACIA = ?",
                 new String[]{String.valueOf(sucursalFarmacia.getIdFarmacia())});
+
+        if (rowsAffected == 0) {
+            Toast.makeText(context, R.string.not_found_message, Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, R.string.update_message, Toast.LENGTH_SHORT).show();
+        }
+
     }
 
 

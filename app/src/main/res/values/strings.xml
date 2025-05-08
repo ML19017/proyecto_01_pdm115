@@ -97,6 +97,8 @@
     <string name="pharmacy_branch">Pharmacy Branch</string>
     <string name="invoice_id">ID Invoice</string>
     <string name="purchase_date">Invoice Date</string>
+    <string name="select_articulo">Please select an item</string>
+    <string name="select_factura">Please select an invoice</string>
     <!-- Fin Factura Compra -->
 
 
@@ -108,8 +110,37 @@
     <string name="id_farmacia">Pharmacy Id</string>
     <string name="id_direccion">Address Id</string>
     <string name="nombre_farmacia">Pharmacy Name</string>
+    <string name="farma_exists">There is already a Pharmacy with that ID</string>
 
     <!-- End of Branch -->
+
+    <!--    Existence detail-->
+    <string name="existence_detail_id">Existence Detail Id</string>
+    <string name="existence_amount">Existence Amount</string>
+    <string name="expiration_Date">Expiration Date</string>
+    <string name="select_sucursal">Select a Branch</string>
+    <string name="datos_validos">Please enter valid data</string>
+
+    <!--    End Existence detail-->
+
+<!--    direccion-->
+    <string name="select_departamento">Select a Department </string>
+    <string name="select_municipio"> Select a municipality</string>
+    <string name="select_distrito"> Select a district</string>
+    <string name="departamento">Department </string>
+    <string name="municipio"> Municipality</string>
+    <string name="distrito"> District</string>
+
+    <string name="select_valid_dep_mun_dis">You must select a valid Department, Municipality and District.</string>
+    <string name="completar_Campos">Please complete all fields</string>
+    <string name="Address_Occupied">Address Occupied, Delete Pharmacy Before</string>
+    <string name="select_addres">Select an Address</string>
+    <string name="valid_addres">You must select a valid address.</string>
+
+    <!--  End direccion-->
+
+<!--    select_valid_dep_mun_dis -->
+
 
     <!--Articulo-->
     <string name="category_prompt"> All </string>

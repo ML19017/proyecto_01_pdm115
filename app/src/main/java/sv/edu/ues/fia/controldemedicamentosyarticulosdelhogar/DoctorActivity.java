@@ -40,7 +40,7 @@ public class DoctorActivity extends AppCompatActivity {
         btnAgregarDoctor.setOnClickListener(v -> {showAddDialog();});
 
         Button btnBuscarDoctor = findViewById(R.id.btnBuscarDoctor);
-        btnBuscarDoctor.setVisibility(vac.validarAcceso(2) ? View.VISIBLE : View.INVISIBLE);
+        btnBuscarDoctor.setVisibility(vac.validarAcceso(2) || vac.validarAcceso(3) || vac.validarAcceso(4)? View.VISIBLE : View.INVISIBLE);
         btnBuscarDoctor.setOnClickListener(v -> {
             try {
                 int id = Integer.parseInt(txtBusqueda.getText().toString().trim());

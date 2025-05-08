@@ -20,6 +20,11 @@ public class FacturaCompra {
         this.context = context;
     }
 
+    public FacturaCompra(int idCompra, Context context) {
+        this.idCompra = idCompra;
+        this.context = context;
+    }
+
     public int getIdCompra() {
         return idCompra;
     }

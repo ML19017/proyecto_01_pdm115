@@ -40,7 +40,7 @@ public class FormaFarmaceuticaActivity extends AppCompatActivity {
         btnAgregarFormaFarmaceutica.setOnClickListener(v -> {showAddDialog();});
 
         Button btnbuscarFormaFarmaceuticaPorId = findViewById(R.id.btnBuscarFormaFarmaceutica);
-        btnbuscarFormaFarmaceuticaPorId.setVisibility(vac.validarAcceso(2) ? View.VISIBLE : View.INVISIBLE);
+        btnbuscarFormaFarmaceuticaPorId.setVisibility(vac.validarAcceso(2) || vac.validarAcceso(3) || vac.validarAcceso(4)? View.VISIBLE : View.INVISIBLE);
         btnbuscarFormaFarmaceuticaPorId.setOnClickListener(v -> {
             try {
                 int id = Integer.parseInt(txtBusqueda.getText().toString().trim());

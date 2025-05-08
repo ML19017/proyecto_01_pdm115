@@ -1,14 +1,19 @@
 package sv.edu.ues.fia.controldemedicamentosyarticulosdelhogar;
 
+import android.content.Context;
+
 public class SucursalFarmacia {
     private int idFarmacia;
     private int idDireccion;
     private String nombreFarmacia;
 
-    public SucursalFarmacia(int idFarmacia, int idDireccion, String nombreFarmacia) {
+    private Context context ;
+
+    public SucursalFarmacia(int idFarmacia, int idDireccion, String nombreFarmacia , Context context) {
         this.idFarmacia = idFarmacia;
         this.idDireccion = idDireccion;
         this.nombreFarmacia = nombreFarmacia;
+        this.context = context;
     }
 
     public SucursalFarmacia(int idFarmacia, String nombreFarmacia) {

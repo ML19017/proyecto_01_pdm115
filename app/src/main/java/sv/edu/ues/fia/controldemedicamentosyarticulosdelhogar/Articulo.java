@@ -1,5 +1,7 @@
 package sv.edu.ues.fia.controldemedicamentosyarticulosdelhogar;
 
+import android.content.Context;
+
 public class Articulo {
     private int idArticulo;
     private int idMarca;
@@ -11,6 +13,7 @@ public class Articulo {
     private String descripcionArticulo;
     private boolean restringidoArticulo;
     private double precioArticulo;
+    private Context context;
 
     public Articulo(int idArticulo, int idMarca, int idViaAdministracion, int idSubCategoria, int idDetalleExistencia, int idFormaFarmaceutica, String nombreArticulo, String descripcionArticulo, boolean restringidoArticulo, double precioArticulo) {
         this.idArticulo = idArticulo;
@@ -23,6 +26,12 @@ public class Articulo {
         this.descripcionArticulo = descripcionArticulo;
         this.restringidoArticulo = restringidoArticulo;
         this.precioArticulo = precioArticulo;
+    }
+
+    public Articulo(int idArticulo, String nombreArticulo, Context context) {
+        this.idArticulo = idArticulo;
+        this.nombreArticulo = nombreArticulo;
+        this.context = context;
     }
 
     public int getIdArticulo() {
@@ -103,6 +112,10 @@ public class Articulo {
 
     public void setPrecioArticulo(double precioArticulo) {
         this.precioArticulo = precioArticulo;
+    }
+
+    public String toString() {
+        return "ID Articulo : " + getIdArticulo() + "\n" +"Nombre: " + getNombreArticulo();
     }
 }
 

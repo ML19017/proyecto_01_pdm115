@@ -405,13 +405,11 @@ public class FacturaCompraActivity extends AppCompatActivity {
                 facturaCompra.setIdProveedor(nuevoProveedor.getIdProveedor());
 
                 facturaCompraDAO.updateFacturaCompra(facturaCompra);
-                Toast.makeText(this, R.string.save_message, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.update_message, Toast.LENGTH_SHORT).show();
                 fillList();
                 dialog.dismiss();
             }
         });
-
-        btnLimpiar.setOnClickListener(v -> clearFieldsFacturaCompra(editTextIdFactura, editTextFechaCompra, editTextTotalCompra, spinnerFarmacia, spinnerProveedor));
 
         dialog.show();
     }

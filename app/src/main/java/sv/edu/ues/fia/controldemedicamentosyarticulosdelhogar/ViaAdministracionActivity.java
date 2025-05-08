@@ -29,7 +29,7 @@ public class ViaAdministracionActivity extends AppCompatActivity {
         btnAgregarViaAdministracion.setOnClickListener(v -> showAddDialog());
 
         Button btnBuscarViaAdministracionPorId = findViewById(R.id.btnBuscarViaAdministracion);
-        btnBuscarViaAdministracionPorId.setVisibility(vac.validarAcceso(2) ? View.VISIBLE : View.INVISIBLE);
+        btnBuscarViaAdministracionPorId.setVisibility(vac.validarAcceso(2) || vac.validarAcceso(3) || vac.validarAcceso(4)? View.VISIBLE : View.INVISIBLE);
         btnBuscarViaAdministracionPorId.setOnClickListener(v -> {
             try {
                 String id = txtBusqueda.getText().toString().trim();

@@ -8,8 +8,10 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
 
 public class DataBaseHelper extends SQLiteOpenHelper {
@@ -30,32 +32,61 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
         try {
             for (String script : SCRIPTS) {
                 Log.d("DB", "Ejecutando script: " + script);
                 String sqlScript = getSqlScript(script);
 
-                String[] statements = sqlScript.split(";");
-                for (String rawStatement : statements) {
-                    String statement = rawStatement.trim();
+                BufferedReader reader = new BufferedReader(new StringReader(sqlScript));
+                StringBuilder statementBuilder = new StringBuilder();
+                String line;
+                boolean insideTrigger = false;
 
-                    // Ignorar líneas vacías y comentarios
-                    if (statement.isEmpty()) {
+                while ((line = reader.readLine()) != null) {
+                    line = line.trim();
+
+                    // Ignorar comentarios y líneas vacías
+                    if (line.isEmpty() || line.startsWith("--")) continue;
+
+                    // Detectar comienzo de trigger
+                    if (line.toUpperCase().startsWith("CREATE TRIGGER")) {
+                        insideTrigger = true;
+                    }
+
+                    statementBuilder.append(line).append(" ");
+
+                    // Si es un trigger, solo ejecutar cuando llega a END;
+                    if (insideTrigger) {
+                        if (line.toUpperCase().endsWith("END;")) {
+                            insideTrigger = false;
+                            String fullStatement = statementBuilder.toString().trim();
+                            statementBuilder.setLength(0);
+                            ejecutarSQL(db, fullStatement, script);
+                        }
                         continue;
                     }
-                    try {
-                        db.execSQL(statement + ";"); // siempre cerrar con ;
-                        Log.d("DB", "Ejecutado: " + statement);
-                    } catch (SQLException e) {
-                        Log.e("DB ERROR", "Fallo al ejecutar: " + statement + " -SCRIPT: " + script, e);;
+
+                    // Para sentencias normales
+                    if (line.endsWith(";")) {
+                        String fullStatement = statementBuilder.toString().trim();
+                        statementBuilder.setLength(0);
+                        ejecutarSQL(db, fullStatement, script);
                     }
                 }
             }
 
         } catch (SQLiteException | IOException e) {
             e.printStackTrace();
-            Log.d("Error", "onCreate:"+e.toString());
+            Log.e("DB ERROR", "Error en onCreate", e);
+        }
+    }
+
+    private void ejecutarSQL(SQLiteDatabase db, String statement, String script) {
+        try {
+            db.execSQL(statement);
+            Log.d("DB", "Ejecutado: " + statement);
+        } catch (SQLException e) {
+            Log.e("DB ERROR", "Fallo al ejecutar: " + statement + " - SCRIPT: " + script, e);
         }
     }
 
@@ -68,7 +99,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         inputStream.read(buffer);
         inputStream.close();
 
-        return new String(buffer, StandardCharsets.UTF_8); // <- especifica codificación
+        return new String(buffer, StandardCharsets.UTF_8);
     }
 
     @Override
