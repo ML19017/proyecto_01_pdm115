@@ -11,6 +11,9 @@ public class SubCategoria {
         this.nombreSubCategoria = nombreSubCategoria;
     }
 
+    public SubCategoria() {
+    }
+
     public int getIdSubCategoria() {
         return idSubCategoria;
     }
@@ -32,6 +35,13 @@ public class SubCategoria {
 
     public void setNombreSubCategoria(String nombreSubCategoria) {
         this.nombreSubCategoria = nombreSubCategoria;
+    }
+
+    @Override
+    public String toString() {
+        return "Sub-categoria:" +
+                "\nID= " + idSubCategoria +
+                "\nNombre='" + nombreSubCategoria;
     }
 }
 
