@@ -83,11 +83,11 @@ public class SubCategoriaActivity extends AppCompatActivity implements AdapterVi
         if (!valuesSubCat.isEmpty()) {
             valuesSubCat.clear();
         }
-        int idFiltro =filtro.getIdCategoria();
-        if ( idFiltro== -1) {
+        int idFiltro = filtro.getIdCategoria();
+        if (idFiltro == -1) {
             valuesSubCat.addAll(subCategoriaDAO.getAllRows());
             adaptadorListV.notifyDataSetChanged();
-        }else{
+        } else {
             valuesSubCat.addAll(subCategoriaDAO.getRowsFiltredByCategory(idFiltro));
             adaptadorListV.notifyDataSetChanged();
         }
@@ -117,6 +117,8 @@ public class SubCategoriaActivity extends AppCompatActivity implements AdapterVi
         Button btnSaveCategoria = dialogView.findViewById(R.id.btnGuardarSubCategoria);
         Button btnClear = dialogView.findViewById(R.id.btnLimpiarSubCategoria);
 
+        EditText[] campos = {idNewSubCategoria, idCategoriaPadre, nameNewSubCategoria};
+
         AlertDialog dialog = builder.create();
 
         Cursor cursor = subCategoriaDAO.getDbConection().rawQuery("SELECT COUNT(*) FROM SUBCATEGORIA", null);
@@ -133,15 +135,17 @@ public class SubCategoriaActivity extends AppCompatActivity implements AdapterVi
         });
 
         btnSaveCategoria.setOnClickListener(v -> {
-            int id = Integer.parseInt(String.valueOf(idNewSubCategoria.getText()));
-            int idCategoria = Integer.parseInt(String.valueOf(idCategoriaPadre.getText()));
-            String name = String.valueOf(nameNewSubCategoria.getText());
-            SubCategoria subCat = new SubCategoria(id, idCategoria, name);
-            boolean exito = subCategoriaDAO.insertarSubCategoria(subCat);
-            if (exito) {
-                dialog.dismiss();
+            if (!areFieldsEmpty(campos)) {
+                int id = Integer.parseInt(String.valueOf(idNewSubCategoria.getText()));
+                int idCategoria = Integer.parseInt(String.valueOf(idCategoriaPadre.getText()));
+                String name = String.valueOf(nameNewSubCategoria.getText());
+                SubCategoria subCat = new SubCategoria(id, idCategoria, name);
+                boolean exito = subCategoriaDAO.insertarSubCategoria(subCat);
+                if (exito) {
+                    dialog.dismiss();
+                }
+                actualizarListView(selected);
             }
-            actualizarListView(selected);
         });
         dialog.show();
 
@@ -212,24 +216,33 @@ public class SubCategoriaActivity extends AppCompatActivity implements AdapterVi
         Button btnSaveSubCategoria = dialogView.findViewById(R.id.btnGuardarSubCategoria);
         Button btnClear = dialogView.findViewById(R.id.btnLimpiarSubCategoria);
 
+        EditText[] campos = {idSubCategoria, idCategoriaPadre, nameSubCategoria};
+
         idSubCategoria.setText(Integer.toString(subCategoria.getIdSubCategoria()));
         idCategoriaPadre.setText(Integer.toString(subCategoria.getIdCategoria()));
         nameSubCategoria.setText(subCategoria.getNombreSubCategoria());
         idSubCategoria.setEnabled(false);
 
         btnSaveSubCategoria.setOnClickListener(v -> {
-            subCategoria.setIdCategoria(Integer.parseInt(String.valueOf(idCategoriaPadre.getText())));
-            subCategoria.setNombreSubCategoria(String.valueOf(nameSubCategoria.getText()));
-            int respuesta = subCategoriaDAO.updateSubCategoria(subCategoria);
-            switch (respuesta) {
-                case 1:
-                    actualizarListView(selected);
-                    dialog.dismiss();
-                    dialogoPadre.dismiss();
-                    break;
-                case 2:
-                    idCategoriaPadre.setError("Invalido");
+            if (!areFieldsEmpty(campos)) {
+
+                subCategoria.setIdCategoria(Integer.parseInt(String.valueOf(idCategoriaPadre.getText())));
+                subCategoria.setNombreSubCategoria(String.valueOf(nameSubCategoria.getText()));
+                int respuesta = subCategoriaDAO.updateSubCategoria(subCategoria);
+                switch (respuesta) {
+                    case 1:
+                        actualizarListView(selected);
+                        dialog.dismiss();
+                        dialogoPadre.dismiss();
+                        break;
+                    case 2:
+                        idCategoriaPadre.setError("Invalido");
+                }
             }
+        });
+        btnClear.setOnClickListener(v -> {
+            idCategoriaPadre.setText("");
+            nameSubCategoria.setText("");
         });
         dialog.show();
     }
@@ -266,5 +279,16 @@ public class SubCategoriaActivity extends AppCompatActivity implements AdapterVi
 
     public void onNothingSelected(AdapterView<?> arg0) {
 
+    }
+
+    public boolean areFieldsEmpty(EditText[] campos) {
+        boolean hayVacios = false;
+        for (EditText campo : campos) {
+            if (campo.getText().toString().trim().isEmpty()) {
+                campo.setError("Este campo es obligatorio");
+                hayVacios = true;
+            }
+        }
+        return hayVacios;
     }
 }
