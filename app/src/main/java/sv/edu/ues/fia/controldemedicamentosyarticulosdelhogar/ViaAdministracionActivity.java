@@ -196,7 +196,6 @@ public class ViaAdministracionActivity extends AppCompatActivity {
         builder.setMessage(getString(R.string.confirm_delete_message) + ": " + idViaAdministracion);
         builder.setPositiveButton(R.string.yes, (dialog, which) -> {
             viaAdministracionDAO.deleteViaAdministracion(idViaAdministracion);
-            Toast.makeText(this, R.string.delete_message, Toast.LENGTH_SHORT).show();
             llenarLista(); // Refresh the ListView
         });
         builder.setNegativeButton(R.string.no, (dialog, which) -> dialog.dismiss());
