@@ -24,7 +24,7 @@ public class MenuActivity extends ListActivity {
             "ProveedorActivity",
             "FormaFarmaceuticaActivity",
             "MarcaActivity",
-            "VíaAdministracionActivity",
+            "ViaAdministracionActivity",
             "RecetaActivity",
             "DoctorActivity",
             "ArticuloActivity",
