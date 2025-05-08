@@ -176,10 +176,17 @@
     <string name="especialidad_doctor">Specialization</string>
 
     <!--Fin Articulo-->
+
     <!-- Categoria -->
     <string name="category_ID">ID Category</string>
     <string name="category_name">Category Name</string>
     <!--Fin Categoria -->
+
+    <!--SubCategoria-->
+    <string name="subcategory_id">Subcategory ID</string>
+    <string name="subcategory_name">Subcategory Name</string>
+    <!--Fin SubCategoria-->
+
     <!--  Client  -->
     <string name="id_client">Client Id</string>
     <string name="add_client_dialog_title">Add New Client</string>
