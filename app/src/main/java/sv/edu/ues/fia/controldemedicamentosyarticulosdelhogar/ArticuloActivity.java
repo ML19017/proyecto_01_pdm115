@@ -1,5 +1,7 @@
 package sv.edu.ues.fia.controldemedicamentosyarticulosdelhogar;
 
+import static android.view.View.GONE;
+
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -12,6 +14,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -21,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ArticuloActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemSelectedListener{
+public class ArticuloActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemSelectedListener {
 
     private ArticuloDAO articuloDAO;
     private CategoriaDAO categoriaDAO;
@@ -41,7 +44,7 @@ public class ArticuloActivity extends AppCompatActivity implements AdapterView.O
         //Database conection
         SQLiteDatabase conection = new ControlBD(this).getConnection();
         articuloDAO = new ArticuloDAO(this, conection);
-        categoriaDAO = new CategoriaDAO( conection, this);
+        categoriaDAO = new CategoriaDAO(conection, this);
 
         //Spinner
         adaptadorSpinner = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, valuesCat);
@@ -71,21 +74,22 @@ public class ArticuloActivity extends AppCompatActivity implements AdapterView.O
         Log.d("Seleccionado", articulo.getNombreArticulo());
         showOptionsDialog(articulo);
     }
+
     public void actualizarListView(Categoria filtro) {
         if (!valuesArt.isEmpty()) {
             valuesArt.clear();
         }
-        int idFiltro =filtro.getIdCategoria();
-        if ( idFiltro== -1) {
+        int idFiltro = filtro.getIdCategoria();
+        if (idFiltro == -1) {
             valuesArt.addAll(articuloDAO.getAllRows());
             adaptadorListV.notifyDataSetChanged();
-        }else{
+        } else {
             valuesArt.addAll(articuloDAO.getRowsFiltredByCategory(idFiltro));
             adaptadorListV.notifyDataSetChanged();
         }
     }
 
-    public void llenadoSpinner(){
+    public void llenadoSpinner() {
         if (!valuesCat.isEmpty()) {
             valuesCat.clear();
         }
@@ -113,7 +117,9 @@ public class ArticuloActivity extends AppCompatActivity implements AdapterView.O
         CheckBox isRestricted = dialogView.findViewById(R.id.checkBoxItemRestricted);
         EditText price = dialogView.findViewById(R.id.editTextItemPrice);
 
-        Button btnSaveCategoria = dialogView.findViewById(R.id.btnGuardarArticulo);
+        EditText[] campos = {idMarca, idROA, idSubCat, idPF, idArticulo, name, description, price};
+
+        Button btnSaveArticulo = dialogView.findViewById(R.id.btnGuardarArticulo);
         Button btnClear = dialogView.findViewById(R.id.btnLimpiarArticulo);
 
 
@@ -138,22 +144,25 @@ public class ArticuloActivity extends AppCompatActivity implements AdapterView.O
             price.setText("");
         });
 
-        btnSaveCategoria.setOnClickListener(v -> {
-            int id = Integer.parseInt(String.valueOf(idArticulo.getText()));
-            int brand = Integer.parseInt(String.valueOf(idMarca.getText()));
-            int ROA = Integer.parseInt(String.valueOf(idROA.getText()));
-            int subCat = Integer.parseInt(String.valueOf(idSubCat.getText()));
-            int PF = Integer.parseInt(String.valueOf(idPF.getText()));
-            String nombre = String.valueOf(name.getText());
-            String descipcion = String.valueOf(description.getText());
-            Boolean restringido = isRestricted.isChecked();
-            Double precio = Double.parseDouble(String.valueOf(price.getText()));
-            Articulo art = new Articulo(id,brand,ROA,subCat,PF, nombre,descipcion,restringido,precio);
-            boolean exito = articuloDAO.insertarArticulo(art);
-            if (exito) {
-                dialog.dismiss();
+        btnSaveArticulo.setOnClickListener(v -> {
+            if (!areFieldsEmpty(campos)) {
+
+                int id = Integer.parseInt(String.valueOf(idArticulo.getText()));
+                int brand = Integer.parseInt(String.valueOf(idMarca.getText()));
+                int ROA = Integer.parseInt(String.valueOf(idROA.getText()));
+                int subCat = Integer.parseInt(String.valueOf(idSubCat.getText()));
+                int PF = Integer.parseInt(String.valueOf(idPF.getText()));
+                String nombre = String.valueOf(name.getText());
+                String descipcion = String.valueOf(description.getText());
+                Boolean restringido = isRestricted.isChecked();
+                Double precio = Double.parseDouble(String.valueOf(price.getText()));
+                Articulo art = new Articulo(id, brand, ROA, subCat, PF, nombre, descipcion, restringido, precio);
+                boolean exito = articuloDAO.insertarArticulo(art);
+                if (exito) {
+                    dialog.dismiss();
+                    actualizarListView(selected);
+                }
             }
-            actualizarListView(selected);
         });
         dialog.show();
 
@@ -172,25 +181,185 @@ public class ArticuloActivity extends AppCompatActivity implements AdapterView.O
         AlertDialog dialog = builder.create();
 
         btnView.setOnClickListener(v -> {
-            //verSubCategoria(subCategoria);
+            verArticulo(articulo);
         });
 
         btnUpdate.setOnClickListener(v -> {
-            //editSubCategoria(subCategoria, dialog);
+            editArticulo(articulo, dialog);
         });
 
         btnDelete.setOnClickListener(v -> {
-           // eliminarSubCategoria(subCategoria, dialog);
+             eliminarArticulo(articulo, dialog);
         });
         dialog.show();
 
     }
+
+    public void verArticulo(Articulo articulo) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.view);
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_articulo, null);
+        builder.setView(dialogView);
+        AlertDialog dialog = builder.create();
+
+
+        EditText idMarca = dialogView.findViewById(R.id.editTextItemIdBrand);
+        EditText idROA = dialogView.findViewById(R.id.editTextItemIdROA);
+        EditText idSubCat = dialogView.findViewById(R.id.editTextItemIdSubCategory);
+        EditText idPF = dialogView.findViewById(R.id.editTextItemPharmaceuticalForm);
+        EditText idArticulo = dialogView.findViewById(R.id.editTextItemId);
+        EditText name = dialogView.findViewById(R.id.editTextItemName);
+        EditText description = dialogView.findViewById(R.id.editTextItemDescription);
+        CheckBox isRestricted = dialogView.findViewById(R.id.checkBoxItemRestricted);
+        EditText price = dialogView.findViewById(R.id.editTextItemPrice);
+
+        Button btnSaveArticulo = dialogView.findViewById(R.id.btnGuardarArticulo);
+        Button btnClear = dialogView.findViewById(R.id.btnLimpiarArticulo);
+
+
+        idMarca.setText(Integer.toString(articulo.getIdMarca()));
+        idROA.setText(Integer.toString(articulo.getIdViaAdministracion()));
+        idSubCat.setText(Integer.toString(articulo.getIdSubCategoria()));
+        idPF.setText(Integer.toString(articulo.getIdFormaFarmaceutica()));
+        idArticulo.setText(Integer.toString(articulo.getIdArticulo()));
+        name.setText(articulo.getNombreArticulo());
+        description.setText(articulo.getDescripcionArticulo());
+        isRestricted.setChecked(articulo.getRestringidoArticulo());
+        price.setText(Double.toString(articulo.getPrecioArticulo()));
+
+        idMarca.setEnabled(false);
+        idROA.setEnabled(false);
+        idSubCat.setEnabled(false);
+        idPF.setEnabled(false);
+        idArticulo.setEnabled(false);
+        name.setEnabled(false);
+        description.setEnabled(false);
+        isRestricted.setEnabled(false);
+        price.setEnabled(false);
+
+        btnSaveArticulo.setVisibility(GONE);
+        btnClear.setVisibility(GONE);
+
+        dialog.show();
+    }
+
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        selected = (Categoria)parent.getItemAtPosition(position);
+        selected = (Categoria) parent.getItemAtPosition(position);
         actualizarListView(selected);
     }
 
-    public void onNothingSelected(AdapterView<?> arg0){
+    public void editArticulo(Articulo articulo, AlertDialog dialogoPadre) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.update);
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_articulo, null);
+        builder.setView(dialogView);
+        AlertDialog dialog = builder.create();
 
+        EditText idMarca = dialogView.findViewById(R.id.editTextItemIdBrand);
+        EditText idROA = dialogView.findViewById(R.id.editTextItemIdROA);
+        EditText idSubCat = dialogView.findViewById(R.id.editTextItemIdSubCategory);
+        EditText idPF = dialogView.findViewById(R.id.editTextItemPharmaceuticalForm);
+        EditText idArticulo = dialogView.findViewById(R.id.editTextItemId);
+        EditText name = dialogView.findViewById(R.id.editTextItemName);
+        EditText description = dialogView.findViewById(R.id.editTextItemDescription);
+        CheckBox isRestricted = dialogView.findViewById(R.id.checkBoxItemRestricted);
+        EditText price = dialogView.findViewById(R.id.editTextItemPrice);
+
+        EditText[] campos = {idMarca, idROA, idSubCat, idPF, idArticulo, name, description, price};
+
+        Button btnSaveArticulo = dialogView.findViewById(R.id.btnGuardarArticulo);
+        Button btnClear = dialogView.findViewById(R.id.btnLimpiarArticulo);
+
+        idMarca.setText(Integer.toString(articulo.getIdMarca()));
+        idROA.setText(Integer.toString(articulo.getIdViaAdministracion()));
+        idSubCat.setText(Integer.toString(articulo.getIdSubCategoria()));
+        idPF.setText(Integer.toString(articulo.getIdFormaFarmaceutica()));
+        idArticulo.setText(Integer.toString(articulo.getIdArticulo()));
+        name.setText(articulo.getNombreArticulo());
+        description.setText(articulo.getDescripcionArticulo());
+        isRestricted.setChecked(articulo.getRestringidoArticulo());
+        price.setText(Double.toString(articulo.getPrecioArticulo()));
+
+        idArticulo.setEnabled(false);
+
+
+        btnSaveArticulo.setOnClickListener(v -> {
+            if (!areFieldsEmpty(campos)) {
+                articulo.setIdArticulo(Integer.parseInt(String.valueOf(idArticulo.getText())));
+                articulo.setIdMarca(Integer.parseInt(String.valueOf(idMarca.getText())));
+                articulo.setIdViaAdministracion(Integer.parseInt(String.valueOf(idROA.getText())));
+                articulo.setIdSubCategoria(Integer.parseInt(String.valueOf(idSubCat.getText())));
+                articulo.setIdFormaFarmaceutica(Integer.parseInt(String.valueOf(idPF.getText())));
+                articulo.setNombreArticulo(String.valueOf(name.getText()));
+                articulo.setDescripcionArticulo(String.valueOf(description.getText()));
+                articulo.setRestringidoArticulo(isRestricted.isChecked());
+                articulo.setPrecioArticulo(Double.parseDouble(String.valueOf(price.getText())));
+
+                boolean exito = articuloDAO.updateArticulo(articulo);
+                if (exito) {
+                    dialog.dismiss();
+                    dialogoPadre.dismiss();
+                }
+            }
+        });
+
+        btnClear.setOnClickListener(v -> {
+            idMarca.setText("");
+            idROA.setText("");
+            idSubCat.setText("");
+            idPF.setText("");
+            name.setText("");
+            description.setText("");
+            isRestricted.setChecked(false);
+            price.setText("");
+        });
+        dialog.show();
+    }
+
+    public void eliminarArticulo(Articulo articulo, AlertDialog dialogoPadre) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("WARNING");
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_confirmation, null);
+        builder.setView(dialogView);
+        AlertDialog dialog = builder.create();
+
+        TextView advertencia = dialogView.findViewById(R.id.confirmationText);
+        Button btnConfirmar = dialogView.findViewById(R.id.btnConfirm);
+        Button btnCancelar = dialogView.findViewById(R.id.btnDecline);
+
+        advertencia.setText("Está a punto de eliminar el artículo con id: " + articulo.getIdArticulo() + "\nEsta acción no se puede revertir. ¿Desea continuar?");
+
+        btnConfirmar.setOnClickListener(v -> {
+            int filasAfectadas = articuloDAO.deleteArticulo(articulo);
+            if (filasAfectadas > 0) {
+                actualizarListView(selected);
+                Toast.makeText(this, "Se ha eliminado el artículo con id: " + articulo.getIdArticulo(), Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+                dialogoPadre.dismiss();
+            } else {
+                Log.d("DELETE_ERROR", "No se eliminó el artículo");
+            }
+        });
+
+        btnCancelar.setOnClickListener(v -> {
+            dialog.dismiss();
+        });
+
+        dialog.show();
+    }
+
+    public void onNothingSelected(AdapterView<?> arg0) {
+
+    }
+
+    public boolean areFieldsEmpty(EditText[] campos) {
+        boolean hayVacios = false;
+        for (EditText campo : campos) {
+            if (campo.getText().toString().trim().isEmpty()) {
+                campo.setError("Este campo es obligatorio");
+                hayVacios = true;
+            }
+        }
+        return hayVacios;
     }
 }
