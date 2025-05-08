@@ -20,8 +20,10 @@ public class FacturaCompra {
         this.context = context;
     }
 
-    public FacturaCompra(int idCompra, Context context) {
+    public FacturaCompra(int idCompra, int idProveedor, String fechaCompra, Context context) {
         this.idCompra = idCompra;
+        this.idProveedor = idProveedor;
+        this.fechaCompra = fechaCompra;
         this.context = context;
     }
 
