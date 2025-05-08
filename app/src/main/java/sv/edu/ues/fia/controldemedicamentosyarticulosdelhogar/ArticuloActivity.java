@@ -4,9 +4,11 @@ import static android.view.View.GONE;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -47,7 +49,33 @@ public class ArticuloActivity extends AppCompatActivity implements AdapterView.O
         categoriaDAO = new CategoriaDAO(conection, this);
 
         //Spinner
-        adaptadorSpinner = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, valuesCat);
+        adaptadorSpinner = new ArrayAdapter<Categoria>(this, android.R.layout.simple_spinner_item, valuesCat){
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                TextView view = (TextView) super.getView(position, convertView, parent);
+                Categoria categoria = getItem(position);
+                if (categoria.getIdCategoria() == -1) {
+                    view.setText(getString(R.string.category_prompt));
+                } else {
+                    view.setText(categoria.getNombreCategoria()); // Esto se muestra cuando está cerrado
+                }
+                return view;
+            }
+
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                TextView view = (TextView) super.getDropDownView(position, convertView, parent);
+                Categoria categoria = getItem(position);
+                if (categoria.getIdCategoria() == -1) {
+                    view.setText(getString(R.string.category_prompt));
+                    view.setTextColor(Color.GRAY);
+                } else {
+                    view.setText("ID : " + categoria.getIdCategoria() + ", "  + getString(R.string.category_name) + ": " + categoria.getNombreCategoria());
+                    view.setTextColor(Color.BLACK);
+                }
+                return view;
+            }
+        };
         adaptadorSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         Spinner spinner = (Spinner) findViewById(R.id.itemCategorySpinner);
         spinner.setAdapter(adaptadorSpinner);
