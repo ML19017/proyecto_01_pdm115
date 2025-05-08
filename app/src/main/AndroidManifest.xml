@@ -30,6 +30,18 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ClienteActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".FacturaVentaActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".DetalleVentaActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ArticuloActivity"
             android:exported="false"
             android:screenOrientation="portrait" />

@@ -17,7 +17,7 @@ public class MenuActivity extends ListActivity {
             "SucursalFarmaciaActivity",
             "DetalleExistenciaActivity",
             "DetalleVentaActivity",
-            "FacturaActivity",
+            "FacturaVentaActivity",
             "ClienteActivity",
             "DetalleCompraActivity",
             "FacturaCompraActivity",

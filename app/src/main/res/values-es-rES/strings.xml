@@ -121,4 +121,75 @@
     <string name="items">Artículos</string>
     <string name="price">Precio</string>
     <!-- Fin detalleCompra -->
+
+    <!--  Cliente  -->
+    <string name="id_client">Id Cliente</string>
+    <string name="add_client_dialog_title">Agregar Nuevo Cliente</string>
+    <string name="view_client_dialog_title">Detalles del Cliente</string>
+    <string name="edit_client_dialog_title">Editar Cliente</string>
+    <string name="client_id_hint">ID Cliente</string>
+    <string name="client_name_hint">Nombre Completo</string>
+    <string name="client_phone_hint">Teléfono (8 dígitos)</string>
+    <string name="client_email_hint">Correo Electrónico</string>
+    <string name="client_id_label">ID</string>
+    <string name="client_name_label">Nombre</string>
+    <string name="duplicate_client_message">Ya existe un cliente con ese ID o correo electrónico.</string>
+    <string name="duplicate_email_message">Ya existe otro cliente con ese correo electrónico.</string>
+    <string name="error_saving">Error al guardar el cliente.</string>
+    <string name="error_updating">Error al actualizar el cliente.</string>
+    <string name="error_deleting">Error al eliminar el cliente.</string>
+    <string name="db_error">Error de base de datos. Intente de nuevo.</string>
+    <string name="invalid_phone_format">El teléfono debe tener 8 dígitos.</string>
+    <string name="invalid_email_format">Formato de correo electrónico inválido.</string>
+    <string name="only_letters_and_spaces"> solo debe contener letras y espacios.</string>
+    <string name="client_phone_label">Teléfono</string>
+    <string name="invalid_id_format">Formato de ID inválido.</string>
+    <!--  Fin Cliente  -->
+
+    <!--  Factura Venta  -->
+    <string name="sale_id_label">Venta</string>
+    <string name="sale_date_label">Fecha</string>
+    <string name="error_saving_sale_invoice">Error al guardar la factura de venta.</string>
+    <string name="sale_invoice_id_label">ID Venta</string>
+    <string name="invalid_total_format">Formato de total inválido.</string>
+    <string name="select_client_error">Debe seleccionar un cliente.</string>
+    <string name="select_farmacia_error">Debe seleccionar una farmacia.</string>
+    <string name="error_processing_data">Error procesando los datos.</string>
+    <string name="select_client">Seleccione un cliente</string>
+    <!--  Fin Factura Venta  -->
+
+    <!-- DetalleVenta -->
+    <string name="add_detalle_venta">Agregar Detalle de Venta</string>
+    <string name="select_factura_venta">Seleccione una factura de venta</string>
+    <string name="only_numbers_id_detalle_venta">El ID del detalle de venta solo debe contener números.</string>
+    <string name="error_saving_data_format">Error en el formato de los datos al guardar.</string>
+    <string name="error_saving_data">Error al guardar los datos.</string>
+    <string name="error_updating_data_format">Error en el formato de los datos al actualizar.</string>
+    <string name="error_updating_data">Error al actualizar los datos.</string>
+    <string name="options_detalle_venta">Opciones de Detalle de Venta</string>
+    <string name="view_detalle_venta">Ver Detalle de Venta</string>
+    <string name="edit_detalle_venta">Editar Detalle de Venta</string>
+    <string name="confirm_delete_detalle_venta">Confirmar Eliminación de Detalle de Venta</string>
+    <string name="confirm_delete_message_detalle_venta">¿Está seguro que desea eliminar este detalle de venta?</string>
+    <string name="not_found_message_detalle_venta">Detalle de venta no encontrado.</string>
+    <string name="id_sale_detail">ID Detalle Venta</string>
+    <string name="hint_id_sale_detail">Ingrese ID del detalle de venta</string>
+    <string name="invoice_sale">Factura de Venta</string>
+    <string name="date_sale_detail">Fecha Detalle Venta</string>
+    <string name="hint_date_sale_detail">Seleccione fecha</string>
+    <string name="unit_price_sale">Precio Unitario Venta</string>
+    <string name="hint_unit_price_sale">Ingrese precio unitario</string>
+    <string name="quantity_sale">Cantidad Venta</string>
+    <string name="hint_quantity_sale">Ingrese cantidad</string>
+    <string name="total_sale_detail">Total Detalle Venta</string>
+    <string name="hint_total_sale_detail">Total calculado</string>
+    <string name="invalid_search_id">ID de búsqueda inválido o vacío.</string>
+    <string name="ok">Aceptar</string>
+    <string name="invoice_id_short">Fact</string> <!-- Short version for spinner display -->
+    <string name="only_numbers_price">El precio solo debe contener números y un punto decimal opcional.</string>
+    <string name="only_numbers_quantity">La cantidad solo debe contener números.</string>
+    <string name="only_numbers_total">El total solo debe contener números y un punto decimal opcional.</string>
+    <!-- Fin DetalleVenta -->
+
+
 </resources>
