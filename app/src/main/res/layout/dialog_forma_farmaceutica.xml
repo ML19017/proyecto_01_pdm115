@@ -15,6 +15,7 @@
         android:id="@+id/editTextIdFormaFarmaceutica"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="@string/id_forma_farmaceutica"
         android:inputType="number" />
 
     <TextView
@@ -28,6 +29,7 @@
         android:id="@+id/editTextTipoFormaFarmaceutica"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="@string/tipo_forma_farmaceutica"
         android:inputType="text" />
 
     <Button

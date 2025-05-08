@@ -90,14 +90,14 @@ public class ProveedorActivity extends AppCompatActivity {
         Button btnLimpiarProveedor = dialogView.findViewById(R.id.btnLimpiarProveedor);
 
 
-        List<View> vistas = Arrays.asList(edtNombre, edtTelefono, edtDireccion, edtRubro, edtNumReg, edtNIT, edtGiro);
+        List<View> vistas = Arrays.asList(edtId, edtNombre, edtTelefono, edtDireccion, edtRubro, edtNumReg, edtNIT, edtGiro);
         List<String> regex = Arrays.asList(
-                "[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+", "\\d+", "^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\\s]+$",
+                "\\d+","[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+", "\\d+", "^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\\s]+$",
                 "[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+", "^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\\s]+$",
                 "\\d{4}-\\d{6}-\\d{3}-\\d", "[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+"
         );
         List<Integer> errores = Arrays.asList(
-                R.string.only_letters, R.string.only_numbers, R.string.only_letters_and_numbers,
+                R.string.only_letters, R.string.only_letters, R.string.only_numbers, R.string.only_letters_and_numbers,
                 R.string.only_letters, R.string.only_letters_and_numbers,
                 R.string.nit_format, R.string.only_letters
         );

@@ -89,7 +89,7 @@ public class DetalleCompra {
     }
 
     public String toString() {
-        return context.getString(R.string.invoice_id) +": " + getIdCompra() + "\n" +"ID DETALLE COMPRA:" + getIdDetalleCompra();
+        return context.getString(R.string.invoice_id) +": " + getIdCompra() + "\n" + context.getString(R.string.id_purchase_detail)+": " + getIdDetalleCompra();
     }
 }
 

@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="16dp"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:orientation="vertical"
@@ -10,67 +10,67 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <!-- Sale Invoice ID -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/purchase_invoice_id" />
-
+            android:text="Sale Invoice ID" />
         <EditText
-            android:id="@+id/editTextIdFactura"
+            android:id="@+id/edtIdVentaFactura"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number"
-            tools:ignore="SpeakableTextPresentCheck" />
+            android:inputType="number" />
 
+        <!-- Sale Date -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/purchase_invoice_date" />
+            android:text="Sale Date" />
+        <EditText
+            android:id="@+id/edtFechaVentaFactura"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="date"
+            android:focusable="false"
+            android:clickable="true" />
+
+        <!-- Total Sale -->
+         <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Total Sale" />
 
         <EditText
-            android:id="@+id/editTextFechaCompra"
+            android:id="@+id/edtTotalVentaFactura"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number"
-            tools:ignore="SpeakableTextPresentCheck" />
+            android:inputType="numberDecimal" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/total_purchase" />
-
-        <EditText
-            android:id="@+id/editTextTotalCompra"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:digits="0123456789."
-            android:inputType="numberDecimal"
-            tools:ignore="SpeakableTextPresentCheck" />
-
+        <!-- Pharmacy Branch -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/pharmacy_branch"
-        />
-
+            android:layout_marginTop="15dp" />
         <Spinner
             android:id="@+id/spinnerFarmacia"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="48dp" />
 
+        <!-- Client -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/provider" />
+            android:text="@string/client" />
 
         <Spinner
-            android:id="@+id/spinnerProveedor"
+            android:id="@+id/spinnerCliente"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="48dp" />
 
-
+        <!-- Buttons Layout -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -79,7 +79,7 @@
             android:weightSum="2">
 
             <Button
-                android:id="@+id/btnGuardarFacturaCompra"
+                android:id="@+id/btnGuardarFacturaVenta"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -87,14 +87,13 @@
                 android:text="@string/save" />
 
             <Button
-                android:id="@+id/btnLimpiarFacturaCompra"
+                android:id="@+id/btnLimpiarFacturaVenta"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginStart="8dp"
                 android:text="@string/clear" />
-
         </LinearLayout>
 
-    </LinearLayout>
-</ScrollView>
+    </LinearLayout> <!-- Closes inner LinearLayout -->
+</LinearLayout> <!-- Closes outer LinearLayout -->

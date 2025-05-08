@@ -19,13 +19,8 @@ public class DetalleCompraDAO {
     }
 
     public void addDetalleCompra(DetalleCompra detalleCompra) {
-        int duplicado = checkDuplicate(detalleCompra.getIdCompra(), detalleCompra.getIdArticulo(), detalleCompra.getIdDetalleCompra());
-
-        if (duplicado == 1) {
-            Toast.makeText(context, "Ya existe un registro con esta factura, artículo y detalle.", Toast.LENGTH_SHORT).show();
-            return;
-        } else if (duplicado == 2) {
-            Toast.makeText(context, "Ya existe un registro con esta factura y este ID de detalle.", Toast.LENGTH_SHORT).show();
+        if (isDuplicate(detalleCompra.getIdDetalleCompra())) {
+            Toast.makeText(context, R.string.duplicate_message, Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -43,12 +38,8 @@ public class DetalleCompraDAO {
     }
 
 
-    public void updateDetalleCompra(DetalleCompra detalleCompra) {
-        if (isDuplicateOnUpdate(detalleCompra.getIdCompra(), detalleCompra.getIdDetalleCompra(), detalleCompra.getIdArticulo())) {
-            Toast.makeText(context, "Ya existe un artículo con esta factura y ID de detalle.", Toast.LENGTH_SHORT).show();
-            return;
-        }
 
+    public void updateDetalleCompra(DetalleCompra detalleCompra) {
         ContentValues values = new ContentValues();
         values.put("IDARTICULO", detalleCompra.getIdArticulo());
         values.put("FECHADECOMPRA", detalleCompra.getFechaDeCompra());
@@ -74,16 +65,8 @@ public class DetalleCompraDAO {
     }
 
 
-    public void deleteDetalleCompra(int idCompra, int idArticulo, int idDetalleCompra) {
-        int rowsAffected = conexionDB.delete(
-                "DETALLECOMPRA",
-                "IDCOMPRA = ? AND IDARTICULO = ? AND IDDETALLECOMPRA = ?",
-                new String[]{
-                        String.valueOf(idCompra),
-                        String.valueOf(idArticulo),
-                        String.valueOf(idDetalleCompra)
-                }
-        );
+    public void deleteDetalleCompra(int idDetalle) {
+        int rowsAffected = conexionDB.delete("DETALLECOMPRA", "IDDETALLECOMPRA = ?", new String[]{String.valueOf(idDetalle)});
 
         if (rowsAffected == 0) {
             Toast.makeText(context, R.string.not_found_message, Toast.LENGTH_SHORT).show();
@@ -91,6 +74,7 @@ public class DetalleCompraDAO {
             Toast.makeText(context, R.string.delete_message, Toast.LENGTH_SHORT).show();
         }
     }
+
 
     public List<DetalleCompra> getAllDetalleCompra() {
         List<DetalleCompra> detalleCompraList = new ArrayList<>();
@@ -113,9 +97,9 @@ public class DetalleCompraDAO {
         return detalleCompraList;
     }
 
-    public DetalleCompra getDetalleCompra(int id) {
-        String sql = "SELECT * FROM DETALLECOMPRA WHERE IDCOMPRA = ?";
-        Cursor cursor = conexionDB.rawQuery(sql, new String[]{String.valueOf(id)});
+    public DetalleCompra getDetalleCompra(int idDetalleCompra) {
+        String sql = "SELECT * FROM DETALLECOMPRA WHERE IDDETALLECOMPRA = ?";
+        Cursor cursor = conexionDB.rawQuery(sql, new String[]{String.valueOf(idDetalleCompra)});
 
         if(cursor.moveToFirst()){
             DetalleCompra detalleCompra = new DetalleCompra(
@@ -131,10 +115,12 @@ public class DetalleCompraDAO {
             cursor.close();
             return detalleCompra;
         }
+
         cursor.close();
         Toast.makeText(context, R.string.not_found_message, Toast.LENGTH_SHORT).show();
         return null;
     }
+
 
     public List<FacturaCompra> getAllFacturaCompra() {
         List<FacturaCompra> lista = new ArrayList<>();
@@ -168,48 +154,35 @@ public class DetalleCompraDAO {
         return lista;
     }
 
+    public List<DetalleCompra> getDetallesCompra(int idCompra) {
+        List<DetalleCompra> detalles = new ArrayList<>();
+        String sql = "SELECT * FROM DETALLECOMPRA WHERE IDCOMPRA = ?";
+        Cursor cursor = conexionDB.rawQuery(sql, new String[]{String.valueOf(idCompra)});
 
-
-    private int checkDuplicate(int idCompra, int idArticulo, int idDetalleCompra) {
-        String sqlTriple = "SELECT 1 FROM DETALLECOMPRA WHERE IDCOMPRA = ? AND IDARTICULO = ? AND IDDETALLECOMPRA = ?";
-        Cursor cursorTriple = conexionDB.rawQuery(sqlTriple, new String[]{
-                String.valueOf(idCompra),
-                String.valueOf(idArticulo),
-                String.valueOf(idDetalleCompra)
-        });
-        if (cursorTriple.moveToFirst()) {
-            cursorTriple.close();
-            return 1;
+        while (cursor.moveToNext()) {
+            detalles.add(new DetalleCompra(
+                    cursor.getInt(cursor.getColumnIndexOrThrow("IDCOMPRA")),
+                    cursor.getInt(cursor.getColumnIndexOrThrow("IDARTICULO")),
+                    cursor.getInt(cursor.getColumnIndexOrThrow("IDDETALLECOMPRA")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("FECHADECOMPRA")),
+                    cursor.getDouble(cursor.getColumnIndexOrThrow("PRECIOUNITARIOCOMPRA")),
+                    cursor.getInt(cursor.getColumnIndexOrThrow("CANTIDADCOMPRA")),
+                    cursor.getDouble(cursor.getColumnIndexOrThrow("TOTALDETALLECOMPRA")),
+                    context
+            ));
         }
-        cursorTriple.close();
 
-        String sqlParcial = "SELECT 1 FROM DETALLECOMPRA WHERE IDCOMPRA = ? AND IDDETALLECOMPRA = ?";
-        Cursor cursorParcial = conexionDB.rawQuery(sqlParcial, new String[]{
-                String.valueOf(idCompra),
-                String.valueOf(idDetalleCompra)
-        });
-        if (cursorParcial.moveToFirst()) {
-            cursorParcial.close();
-            return 2;
-        }
-        cursorParcial.close();
-
-        return 0;
+        cursor.close();
+        return detalles;
     }
 
-    private boolean isDuplicateOnUpdate(int idCompra, int idDetalleCompra, int newIdArticulo) {
-        String sql = "SELECT 1 FROM DETALLECOMPRA WHERE IDCOMPRA = ? AND IDDETALLECOMPRA = ? AND IDARTICULO = ?";
-        Cursor cursor = conexionDB.rawQuery(sql, new String[]{
-                String.valueOf(idCompra),
-                String.valueOf(idDetalleCompra),
-                String.valueOf(newIdArticulo)
-        });
-
+    private boolean isDuplicate(int id) {
+        String sql = "SELECT * FROM DETALLECOMPRA WHERE IDDETALLECOMPRA = ?";
+        Cursor cursor = conexionDB.rawQuery(sql, new String[]{String.valueOf(id)});
         boolean exists = cursor.moveToFirst();
         cursor.close();
         return exists;
     }
-
 
 }
 

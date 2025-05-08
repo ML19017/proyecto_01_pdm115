@@ -12,6 +12,13 @@
         android:text="@string/view" />
 
     <Button
+        android:id="@+id/buttonViewDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/view_purchase_details"
+        android:visibility="gone"/>
+
+    <Button
         android:id="@+id/buttonEdit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

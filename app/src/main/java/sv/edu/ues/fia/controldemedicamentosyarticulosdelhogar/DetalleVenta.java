@@ -1,5 +1,7 @@
 package sv.edu.ues.fia.controldemedicamentosyarticulosdelhogar;
 
+import android.content.Context;
+
 public class DetalleVenta {
     private int idCliente;
     private int idVenta;
@@ -9,8 +11,9 @@ public class DetalleVenta {
     private double precioUnitarioVenta;
     private String fechaDeVenta;
     private double totalDetalleVenta;
+    private Context context;
 
-    public DetalleVenta(int idCliente, int idVenta, int idArticulo, int idVentaDetalle, int cantidadVenta, double precioUnitarioVenta, String fechaDeVenta, double totalDetalleVenta) {
+    public DetalleVenta(int idCliente, int idVenta, int idArticulo, int idVentaDetalle, int cantidadVenta, double precioUnitarioVenta, String fechaDeVenta, double totalDetalleVenta, Context context) { // Added context parameter
         this.idCliente = idCliente;
         this.idVenta = idVenta;
         this.idArticulo = idArticulo;
@@ -19,6 +22,15 @@ public class DetalleVenta {
         this.precioUnitarioVenta = precioUnitarioVenta;
         this.fechaDeVenta = fechaDeVenta;
         this.totalDetalleVenta = totalDetalleVenta;
+        this.context = context;
+    }
+
+    public Context getContext() {
+        return context;
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
     }
 
     public int getIdCliente() {
@@ -83,5 +95,15 @@ public class DetalleVenta {
 
     public void setTotalDetalleVenta(double totalDetalleVenta) {
         this.totalDetalleVenta = totalDetalleVenta;
+    }
+
+    @Override
+    public String toString() {
+        if (context != null) {
+            return context.getString(R.string.sale_invoice_id_label) + ": " + getIdVenta() + "\n" +
+                    context.getString(R.string.id_sale_detail) + ": " + getIdVentaDetalle();
+        } else {
+            return "Invoice ID: " + getIdVenta() + "\nSale Detail ID: " + getIdVentaDetalle();
+        }
     }
 }

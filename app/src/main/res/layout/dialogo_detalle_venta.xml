@@ -10,90 +10,111 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <!-- IDVENTADETALLE -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/id_purchase_detail" />
-
+            android:text="@string/id_sale_detail" />
         <EditText
-            android:id="@+id/editTextIdDetalleCompra"
+            android:id="@+id/editTextIdVentaDetalle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="number"
+            android:hint="@string/hint_id_sale_detail"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <!-- Spinner for FacturaVenta (provides IDCLIENTE and IDVENTA) -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/invoice_sale" />
+        <Spinner
+            android:id="@+id/spinnerFacturaVenta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <!-- Spinner for Articulo (provides IDARTICULO) -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/item" />
+        <Spinner
+            android:id="@+id/spinnerArticuloVenta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/date_sale_detail" />
+        <EditText
+            android:id="@+id/editTextFechaDetalleVenta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="date"
+            android:focusable="false"
+            android:clickable="true"
+            android:hint="@string/hint_date_sale_detail"
             tools:ignore="SpeakableTextPresentCheck" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/invoice_purchase" />
-
-        <Spinner
-            android:id="@+id/spinnerFacturaCompra"
+            android:text="@string/unit_price_sale" />
+        <EditText
+            android:id="@+id/editTextUnitarioDetalleVenta"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="48dp"/>
+            android:digits="0123456789."
+            android:inputType="numberDecimal"
+            android:hint="@string/hint_unit_price_sale"
+            tools:ignore="SpeakableTextPresentCheck" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/date_purchase_detail" />
-
+            android:text="@string/quantity_sale" />
         <EditText
-            android:id="@+id/editTextFechaDetalleCompra"
+            android:id="@+id/editTextCantidadDetalleVenta"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="number"
+            android:hint="@string/hint_quantity_sale"
             tools:ignore="SpeakableTextPresentCheck" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/items" />
-
-        <Spinner
-            android:id="@+id/spinnerArticuloCompra"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="48dp"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/unit_price" />
-
+            android:text="@string/total_sale_detail" />
         <EditText
-            android:id="@+id/editTextUnitarioDetalleCompra"
+            android:id="@+id/editTextTotalDetalleVenta"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:digits="0123456789."
             android:inputType="numberDecimal"
+            android:focusable="false"
+            android:clickable="false"
+            android:hint="@string/hint_total_sale_detail"
             tools:ignore="SpeakableTextPresentCheck" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/quantity" />
-
+        <!-- Hidden EditTexts for IDCLIENTE and IDVENTA if needed, though typically derived from Spinner -->
+        <!-- Not adding them for now as DetalleVentaActivity logic derives them from spinner -->
         <EditText
-            android:id="@+id/editTextCantidadDetalleCompra"
-            android:layout_width="match_parent"
+            android:id="@+id/editTextIdCliente"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:digits="0123456789."
-            android:inputType="numberDecimal"
-            tools:ignore="SpeakableTextPresentCheck" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/total_purchase" />
-
+            android:visibility="gone" />
         <EditText
-            android:id="@+id/editTextTotalDetalleCompra"
-            android:layout_width="match_parent"
+            android:id="@+id/editTextIdVenta"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:digits="0123456789."
-            android:inputType="numberDecimal"
-            tools:ignore="SpeakableTextPresentCheck" />
+            android:visibility="gone" />
+         <EditText
+            android:id="@+id/editTextIdArticulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -103,7 +124,7 @@
             android:weightSum="2">
 
             <Button
-                android:id="@+id/btnGuardarDetalleCompra"
+                android:id="@+id/btnGuardarDetalleVenta"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -111,14 +132,12 @@
                 android:text="@string/save" />
 
             <Button
-                android:id="@+id/btnLimpiarDetalleCompra"
+                android:id="@+id/btnLimpiarDetalleVenta"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginStart="8dp"
                 android:text="@string/clear" />
-
         </LinearLayout>
-
     </LinearLayout>
 </ScrollView>
