@@ -9,6 +9,7 @@ import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -115,6 +116,8 @@ public class DetalleVentaActivity extends AppCompatActivity {
         };
         editTextUnitarioDetalleVenta.addTextChangedListener(watcher);
         editTextCantidadDetalleVenta.addTextChangedListener(watcher);
+        editTextUnitarioDetalleVenta.setFocusable(false); // Make non-editable
+        editTextUnitarioDetalleVenta.setClickable(false); // Make non-editable
         editTextTotalDetalleVenta.setFocusable(false);
         editTextTotalDetalleVenta.setClickable(false);
 
@@ -161,7 +164,7 @@ public class DetalleVentaActivity extends AppCompatActivity {
         articulos.add(0, new Articulo(-1, getString(R.string.select_articulo), this));
 
         ArrayAdapter<Articulo> adapterArticulo = new ArrayAdapter<Articulo>(this, android.R.layout.simple_spinner_item, articulos) {
-             @Override
+            @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 TextView view = (TextView) super.getView(position, convertView, parent);
                 Articulo articulo = getItem(position);
@@ -176,7 +179,7 @@ public class DetalleVentaActivity extends AppCompatActivity {
             public View getDropDownView(int position, View convertView, ViewGroup parent) {
                 TextView view = (TextView) super.getDropDownView(position, convertView, parent);
                 Articulo articulo = getItem(position);
-                 if (articulo.getIdArticulo() == -1) {
+                if (articulo.getIdArticulo() == -1) {
                     view.setText(getString(R.string.select_articulo));
                     view.setTextColor(Color.GRAY);
                 } else {
@@ -188,6 +191,23 @@ public class DetalleVentaActivity extends AppCompatActivity {
         };
         adapterArticulo.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerArticuloVenta.setAdapter(adapterArticulo);
+
+        spinnerArticuloVenta.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Articulo articuloSeleccionado = (Articulo) parent.getItemAtPosition(position);
+                if (articuloSeleccionado != null && articuloSeleccionado.getIdArticulo() != -1) {
+                    editTextUnitarioDetalleVenta.setText(String.format(Locale.getDefault(), "%.2f", articuloSeleccionado.getPrecioArticulo()));
+                } else {
+                    editTextUnitarioDetalleVenta.setText("");
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                editTextUnitarioDetalleVenta.setText("");
+            }
+        });
 
 
         editTextFechaDetalleVenta.setInputType(InputType.TYPE_NULL);
@@ -276,8 +296,8 @@ public class DetalleVentaActivity extends AppCompatActivity {
             detalleVentaDAO.addDetalleVenta(detalleVenta);
             fillList();
             clearFieldsDetalleVenta(editTextIdVentaDetalle, editTextFechaDetalleVenta, editTextUnitarioDetalleVenta,
-                                    editTextCantidadDetalleVenta, editTextTotalDetalleVenta,
-                                    spinnerArticuloVenta, spinnerFacturaVenta);
+                    editTextCantidadDetalleVenta, editTextTotalDetalleVenta,
+                    spinnerArticuloVenta, spinnerFacturaVenta);
         } catch (NumberFormatException e) {
             Toast.makeText(this, R.string.error_saving_data_format, Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
@@ -394,7 +414,7 @@ public class DetalleVentaActivity extends AppCompatActivity {
 
 
         TextWatcher watcher = new TextWatcher() {
-             @Override
+            @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -405,6 +425,8 @@ public class DetalleVentaActivity extends AppCompatActivity {
         };
         editTextUnitarioDetalleVenta.addTextChangedListener(watcher);
         editTextCantidadDetalleVenta.addTextChangedListener(watcher);
+        editTextUnitarioDetalleVenta.setFocusable(false); // Make non-editable
+        editTextUnitarioDetalleVenta.setClickable(false); // Make non-editable
         editTextTotalDetalleVenta.setFocusable(false);
         editTextTotalDetalleVenta.setClickable(false);
 
