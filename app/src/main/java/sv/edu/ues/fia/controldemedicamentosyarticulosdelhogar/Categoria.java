@@ -29,9 +29,8 @@ public class Categoria {
 
     @Override
     public String toString() {
-        return "Categoria:" +
-                "\nID= " + idCategoria +
-                "\nNombre='" + nombreCategoria;
+
+        return "ID: "+ getIdCategoria() + "\n" +"Nombre:" + getNombreCategoria();
     }
 }
 
