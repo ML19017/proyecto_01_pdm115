@@ -14,14 +14,12 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/id_sale_detail"
-            android:textSize="19sp" />
+            android:text="@string/id_sale_detail" />
         <EditText
             android:id="@+id/editTextIdVentaDetalle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="number"
-            android:minHeight="48dp"
             android:hint="@string/hint_id_sale_detail"
             tools:ignore="SpeakableTextPresentCheck" />
 
@@ -29,31 +27,26 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/invoice_sale"
-            android:textSize="19sp"/>
+            android:text="@string/invoice_sale" />
         <Spinner
             android:id="@+id/spinnerFacturaVenta"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="48dp"/>
+            android:layout_height="wrap_content" />
 
         <!-- Spinner for Articulo (provides IDARTICULO) -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/item"
-            android:textSize="19sp"/>
+            android:text="@string/item" />
         <Spinner
             android:id="@+id/spinnerArticuloVenta"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="48dp"/>
+            android:layout_height="wrap_content" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/date_sale_detail"
-            android:textSize="19sp" />
+            android:text="@string/date_sale_detail" />
         <EditText
             android:id="@+id/editTextFechaDetalleVenta"
             android:layout_width="match_parent"
@@ -61,44 +54,38 @@
             android:inputType="date"
             android:focusable="false"
             android:clickable="true"
-            android:minHeight="48dp"
             android:hint="@string/hint_date_sale_detail"
             tools:ignore="SpeakableTextPresentCheck" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/unit_price_sale"
-            android:textSize="19sp" />
+            android:text="@string/unit_price_sale" />
         <EditText
             android:id="@+id/editTextUnitarioDetalleVenta"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:digits="0123456789."
             android:inputType="numberDecimal"
-            android:minHeight="48dp"
             android:hint="@string/hint_unit_price_sale"
             tools:ignore="SpeakableTextPresentCheck" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/quantity_sale"
-            android:textSize="19sp" />
+            android:text="@string/quantity_sale" />
         <EditText
             android:id="@+id/editTextCantidadDetalleVenta"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="number"
-            android:minHeight="48dp"
             android:hint="@string/hint_quantity_sale"
             tools:ignore="SpeakableTextPresentCheck" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/total_sale_detail"
-            android:textSize="19sp" />
+            android:text="@string/total_sale_detail" />
         <EditText
             android:id="@+id/editTextTotalDetalleVenta"
             android:layout_width="match_parent"
@@ -107,7 +94,6 @@
             android:inputType="numberDecimal"
             android:focusable="false"
             android:clickable="false"
-            android:minHeight="48dp"
             android:hint="@string/hint_total_sale_detail"
             tools:ignore="SpeakableTextPresentCheck" />
 

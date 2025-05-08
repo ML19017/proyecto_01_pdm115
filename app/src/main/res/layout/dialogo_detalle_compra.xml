@@ -13,22 +13,19 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/id_purchase_detail"
-            android:textSize="19sp" />
+            android:text="@string/id_purchase_detail" />
 
         <EditText
             android:id="@+id/editTextIdDetalleCompra"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="number"
-            android:minHeight="48dp"
             tools:ignore="SpeakableTextPresentCheck" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/invoice_purchase"
-            android:textSize="19sp"/>
+            android:text="@string/invoice_purchase" />
 
         <Spinner
             android:id="@+id/spinnerFacturaCompra"
@@ -39,22 +36,19 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/date_purchase_detail"
-            android:textSize="19sp" />
+            android:text="@string/date_purchase_detail" />
 
         <EditText
             android:id="@+id/editTextFechaDetalleCompra"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="number"
-            android:minHeight="48dp"
             tools:ignore="SpeakableTextPresentCheck" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/items"
-            android:textSize="19sp"/>
+            android:text="@string/items" />
 
         <Spinner
             android:id="@+id/spinnerArticuloCompra"
@@ -65,8 +59,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/unit_price"
-            android:textSize="19sp" />
+            android:text="@string/unit_price" />
 
         <EditText
             android:id="@+id/editTextUnitarioDetalleCompra"
@@ -74,14 +67,12 @@
             android:layout_height="wrap_content"
             android:digits="0123456789."
             android:inputType="numberDecimal"
-            android:minHeight="48dp"
             tools:ignore="SpeakableTextPresentCheck" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/quantity"
-            android:textSize="19sp" />
+            android:text="@string/quantity" />
 
         <EditText
             android:id="@+id/editTextCantidadDetalleCompra"
@@ -89,14 +80,12 @@
             android:layout_height="wrap_content"
             android:digits="0123456789."
             android:inputType="numberDecimal"
-            android:minHeight="48dp"
             tools:ignore="SpeakableTextPresentCheck" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/total_purchase"
-            android:textSize="19sp" />
+            android:text="@string/total_purchase" />
 
         <EditText
             android:id="@+id/editTextTotalDetalleCompra"
@@ -104,7 +93,6 @@
             android:layout_height="wrap_content"
             android:digits="0123456789."
             android:inputType="numberDecimal"
-            android:minHeight="48dp"
             tools:ignore="SpeakableTextPresentCheck" />
 
         <LinearLayout
