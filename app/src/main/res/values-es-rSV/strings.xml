@@ -79,7 +79,7 @@
     <string name="category_prompt">Todos</string>
     <string name="id_doctor">Id Doctor</string>
     <string name="nombre_doctor">Nombre</string>
-    <string name="tipo_via_administracion">Tipo de via de administración</string>
+    <string name="tipo_via_administracion">Tipo de vía de administración</string>
     <string name="especialidad_doctor">Especialidad</string>
     <string name="jvpm">JVPM</string>
     <string name="query">Consulta</string>
