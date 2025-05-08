@@ -103,7 +103,7 @@ public class DetalleExistenciaActivity extends AppCompatActivity {
         List<Articulo> articulos =  detalleExistenciaDAO.getAllArticulos();
 
         SucursalFarmacia seleccionSucursalFarmacia= new SucursalFarmacia(-1, getString(R.string.select_sucursal));
-        Articulo seleccionArticulo = new Articulo(
+        /*Articulo seleccionArticulo = new Articulo(
                 -1,    // idArticulo
                 -1,    // idMarca
                 -1,    // idViaAdministracion
@@ -114,7 +114,7 @@ public class DetalleExistenciaActivity extends AppCompatActivity {
                 "",     // descripcionArticulo
                 false,  // restringidoArticulo
                  0.0     // precioArticulo
-                );
+                );*/
         sucursales.add(0, seleccionSucursalFarmacia);
         articulos.add(0, seleccionArticulo);
 
