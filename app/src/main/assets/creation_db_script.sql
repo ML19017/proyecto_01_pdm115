@@ -55,7 +55,9 @@ drop table if exists VIAADMINISTRACION ;
 create table ACCESOUSUARIO  (
    IDUSUARIO            TEXT(2)                         not null,
    IDOPCION             TEXT(3)                         not null,
-   constraint PK_ACCESOUSUARIO primary key (IDUSUARIO, IDOPCION)
+   constraint PK_ACCESOUSUARIO primary key (IDUSUARIO, IDOPCION),
+   FOREIGN KEY (IDUSUARIO) REFERENCES USUARIO(IDUSUARIO),
+   FOREIGN KEY (IDOPCION) REFERENCES OPCIONCRUD(IDOPCION)
 );
 
 /*==============================================================*/
@@ -80,22 +82,16 @@ create table ARTICULO  (
    IDMARCA              INTEGER                         not null,
    IDVIAADMINISTRACION  INTEGER                         not null,
    IDSUBCATEGORIA       INTEGER                         not null,
-   DET_IDARTICULO       INTEGER,
-   IDDETALLEEXISTENCIA  INTEGER,
-   MAR_IDMARCA          INTEGER,
    IDFORMAFARMACEUTICA  INTEGER                         not null,
    NOMBREARTICULO       TEXT(50)                    not null,
    DESCRIPCIONARTICULO  TEXT                            not null,
    RESTRINGIDOARTICULO  INTEGER                        not null,
    PRECIOARTICULO       REAL,
-   constraint PK_ARTICULO primary key (IDARTICULO)
-);
-
-/*==============================================================*/
-/* Index: RELATIONSHIP_1_FK                                     */
-/*==============================================================*/
-create index RELATIONSHIP_1_FK on ARTICULO (
-   MAR_IDMARCA ASC
+   constraint PK_ARTICULO primary key (IDARTICULO),
+   FOREIGN KEY (IDVIAADMINISTRACION) REFERENCES VIAADMINISTRACION(IDVIAADMINISTRACION),
+   FOREIGN KEY (IDMARCA) REFERENCES MARCA(IDMARCA),
+   FOREIGN KEY (IDSUBCATEGORIA) REFERENCES SUBCATEGORIA(IDSUBCATEGORIA),
+   FOREIGN KEY (IDFORMAFARMACEUTICA) REFERENCES FORMAFARMACEUTICA(IDFORMAFARMACEUTICA)
 );
 
 /*==============================================================*/
@@ -124,14 +120,6 @@ create index ADMINISTRADO_POR_FK on ARTICULO (
 /*==============================================================*/
 create index PRESENTADO_COMO_FK on ARTICULO (
    IDFORMAFARMACEUTICA ASC
-);
-
-/*==============================================================*/
-/* Index: DETALLA2_FK                                           */
-/*==============================================================*/
-create index DETALLA2_FK on ARTICULO (
-   DET_IDARTICULO ASC,
-   IDDETALLEEXISTENCIA ASC
 );
 
 /*==============================================================*/
@@ -174,7 +162,9 @@ create table DETALLECOMPRA  (
    PRECIOUNITARIOCOMPRA REAL                    not null,
    CANTIDADCOMPRA       INTEGER                         not null,
    TOTALDETALLECOMPRA   REAL,
-   constraint PK_DETALLECOMPRA primary key (IDCOMPRA, IDARTICULO, IDDETALLECOMPRA)
+   constraint PK_DETALLECOMPRA primary key (IDCOMPRA, IDARTICULO, IDDETALLECOMPRA),
+   FOREIGN KEY (IDCOMPRA) REFERENCES FACTURACOMPRA(IDCOMPRA),
+   FOREIGN KEY (IDARTICULO) REFERENCES ARTICULO(IDARTICULO)
 );
 
 /*==============================================================*/
@@ -200,7 +190,9 @@ create table DETALLEEXISTENCIA  (
    IDFARMACIA           INTEGER                         not null,
    CANTIDADEXISTENCIA   INTEGER,
    FECHADEVENCIMIENTO   TEXT,
-   constraint PK_DETALLEEXISTENCIA primary key (IDARTICULO, IDDETALLEEXISTENCIA)
+   constraint PK_DETALLEEXISTENCIA primary key (IDARTICULO, IDDETALLEEXISTENCIA),
+   FOREIGN KEY (IDARTICULO) REFERENCES ARTICULO(IDARTICULO),
+   FOREIGN KEY (IDFARMACIA) REFERENCES SUCURSALFARMACIA(IDFARMACIA)
 );
 
 -- comment on table DETALLEEXISTENCIA is
@@ -231,7 +223,9 @@ create table DETALLEVENTA  (
    PRECIOUNITARIOVENTA  REAL,
    FECHADEVENTA         TEXT,
    TOTALDETALLEVENTA    REAL,
-   constraint PK_DETALLEVENTA primary key (IDCLIENTE, IDVENTA, IDARTICULO, IDVENTADETALLE)
+   constraint PK_DETALLEVENTA primary key (IDCLIENTE, IDVENTA, IDARTICULO, IDVENTADETALLE),
+   FOREIGN KEY (IDARTICULO) REFERENCES ARTICULO(IDARTICULO),
+   FOREIGN KEY (IDCLIENTE, IDVENTA) REFERENCES FACTURAVENTA(IDCLIENTE, IDVENTA)
 );
 
 /*==============================================================*/
@@ -256,7 +250,8 @@ create table DIRECCION  (
    IDDIRECCION          INTEGER                         not null,
    IDDISTRITO           INTEGER                         not null,
    DIRECCIONEXACTA      TEXT(200)                   not null,
-   constraint PK_DIRECCION primary key (IDDIRECCION)
+   constraint PK_DIRECCION primary key (IDDIRECCION),
+   FOREIGN KEY (IDDISTRITO) REFERENCES DISTRITO(IDDISTRITO)
 );
 
 /*==============================================================*/
@@ -273,7 +268,8 @@ create table DISTRITO  (
    IDDISTRITO           INTEGER                         not null,
    IDMUNICIPIO          INTEGER                         not null,
    NOMBREDISTRITO       TEXT(30)                    not null,
-   constraint PK_DISTRITO primary key (IDDISTRITO)
+   constraint PK_DISTRITO primary key (IDDISTRITO),
+   FOREIGN KEY (IDMUNICIPIO) REFERENCES MUNICIPIO(IDMUNICIPIO)
 );
 
 /*==============================================================*/
@@ -303,7 +299,9 @@ create table FACTURACOMPRA  (
    IDPROVEEDOR          INTEGER                         not null,
    FECHACOMPRA          TEXT                            not null,
    TOTALCOMPRA          REAL                    not null,
-   constraint PK_FACTURACOMPRA primary key (IDCOMPRA)
+   constraint PK_FACTURACOMPRA primary key (IDCOMPRA),
+   FOREIGN KEY (IDFARMACIA) REFERENCES SUCURSALFARMACIA(IDFARMACIA),
+   FOREIGN KEY (IDPROVEEDOR) REFERENCES PROVEEDOR(IDPROVEEDOR)
 );
 
 /*==============================================================*/
@@ -329,7 +327,9 @@ create table FACTURAVENTA  (
    IDFARMACIA           INTEGER                         not null,
    FECHAVENTA           TEXT                            not null,
    TOTALVENTA           REAL                    not null,
-   constraint PK_FACTURAVENTA primary key (IDCLIENTE, IDVENTA)
+   constraint PK_FACTURAVENTA primary key (IDCLIENTE, IDVENTA),
+   FOREIGN KEY (IDFARMACIA) REFERENCES SUCURSALFARMACIA(IDFARMACIA),
+   FOREIGN KEY (IDCLIENTE) REFERENCES CLIENTE(IDCLIENTE)
 );
 
 /*==============================================================*/
@@ -371,7 +371,8 @@ create table MUNICIPIO  (
    IDMUNICIPIO          INTEGER not null,
    IDDEPARTAMENTO       INTEGER not null,
    NOMBREMUNICIPIO      TEXT(30) not null,
-   constraint PK_MUNICIPIO primary key (IDMUNICIPIO)
+   constraint PK_MUNICIPIO primary key (IDMUNICIPIO),
+   FOREIGN KEY (IDDEPARTAMENTO) REFERENCES DEPARTAMENTO(IDDEPARTAMENTO)
 );
 
 -- comment on table MUNICIPIO is
@@ -416,7 +417,9 @@ CREATE TABLE RECETA (
    IDRECETA       INTEGER NOT NULL,
    FECHAEXPEDIDA  TEXT    NOT NULL,
    DESCRIPCION    TEXT(100),
-   CONSTRAINT PK_RECETA PRIMARY KEY (IDDOCTOR, IDCLIENTE, IDRECETA)
+   CONSTRAINT PK_RECETA PRIMARY KEY (IDDOCTOR, IDCLIENTE, IDRECETA),
+   FOREIGN KEY (IDCLIENTE) REFERENCES CLIENTE(IDCLIENTE),
+   FOREIGN KEY (IDDOCTOR) REFERENCES DOCTOR(IDDOCTOR)
 );
 
 /*==============================================================*/
@@ -440,7 +443,8 @@ create table SUBCATEGORIA  (
    IDSUBCATEGORIA       INTEGER                         not null,
    IDCATEGORIA          INTEGER                         not null,
    NOMBRESUBCATEGORIA   TEXT(50)                    not null,
-   constraint PK_SUBCATEGORIA primary key (IDSUBCATEGORIA)
+   constraint PK_SUBCATEGORIA primary key (IDSUBCATEGORIA),
+   FOREIGN KEY (IDCATEGORIA) REFERENCES CATEGORIA(IDCATEGORIA)
 );
 
 /*==============================================================*/
@@ -457,7 +461,8 @@ create table SUCURSALFARMACIA  (
    IDFARMACIA           INTEGER                         not null,
    IDDIRECCION          INTEGER                         not null,
    NOMBREFARMACIA       TEXT(100)                   not null,
-   constraint PK_SUCURSALFARMACIA primary key (IDFARMACIA)
+   constraint PK_SUCURSALFARMACIA primary key (IDFARMACIA),
+   FOREIGN KEY (IDDIRECCION) REFERENCES DIRECCION(IDDIRECCION)
 );
 
 /*==============================================================*/
