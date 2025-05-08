@@ -80,6 +80,11 @@ public class ProveedorDAO {
     }
 
     public void updateProveedor(Proveedor proveedor) {
+        if (isDuplicateNIT(proveedor.getNitProveedor(), proveedor.getIdProveedor())) {
+            Toast.makeText(context, R.string.duplicate_nit_message, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         ContentValues values = new ContentValues();
         values.put("NOMBREPROVEEDOR", proveedor.getNombreProveedor());
         values.put("TELEFONOPROVEEDOR", proveedor.getTelefonoProveedor());
@@ -96,6 +101,7 @@ public class ProveedorDAO {
             Toast.makeText(context, R.string.update_message, Toast.LENGTH_SHORT).show();
         }
     }
+
 
     public void deleteProveedor(int idProveedor) {
         int rows = conexionDB.delete("PROVEEDOR", "IDPROVEEDOR = ?", new String[]{String.valueOf(idProveedor)});
@@ -118,6 +124,20 @@ public class ProveedorDAO {
         cursor.close();
         return exists;
     }
+
+    private boolean isDuplicateNIT(String nit, int currentId) {
+        Cursor cursor = conexionDB.rawQuery(
+                "SELECT COUNT(*) FROM PROVEEDOR WHERE NIT = ? AND IDPROVEEDOR != ?",
+                new String[]{nit, String.valueOf(currentId)}
+        );
+        boolean exists = false;
+        if (cursor.moveToFirst()) {
+            exists = cursor.getInt(0) > 0;
+        }
+        cursor.close();
+        return exists;
+    }
+
 
 }
 

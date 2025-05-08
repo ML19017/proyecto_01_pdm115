@@ -129,7 +129,6 @@ public class ProveedorActivity extends AppCompatActivity {
         String giro = edtGiro.getText().toString().trim();
 
         Proveedor proveedor = new Proveedor(id, nombre, telefono, direccion, rubro, numRegistro, nit, giro, this);
-        Toast.makeText(this, R.string.save_message, Toast.LENGTH_SHORT).show();
         proveedorDAO.addProveedor(proveedor);
         fillList();
 
@@ -146,7 +145,10 @@ public class ProveedorActivity extends AppCompatActivity {
         final AlertDialog dialog = builder.create();
 
         dialogView.findViewById(R.id.buttonView).setOnClickListener(v -> viewProveedor(proveedor));
-        dialogView.findViewById(R.id.buttonEdit).setOnClickListener(v -> editProveedor(proveedor));
+        dialogView.findViewById(R.id.buttonEdit).setOnClickListener(v -> {
+            dialog.dismiss();
+            editProveedor(proveedor);
+        });
         dialogView.findViewById(R.id.buttonDelete).setOnClickListener(v -> {
             if (vac.validarAcceso(4)) deleteProveedor(proveedor.getIdProveedor());
             else Toast.makeText(this, R.string.action_block, Toast.LENGTH_SHORT).show();
@@ -246,7 +248,6 @@ public class ProveedorActivity extends AppCompatActivity {
                 proveedor.setNumRegProveedor(edtNumReg.getText().toString());
                 proveedor.setNitProveedor(edtNIT.getText().toString());
                 proveedor.setGiroProveedor(edtGiro.getText().toString());
-
                 proveedorDAO.updateProveedor(proveedor);
                 fillList();
                 dialog.dismiss();

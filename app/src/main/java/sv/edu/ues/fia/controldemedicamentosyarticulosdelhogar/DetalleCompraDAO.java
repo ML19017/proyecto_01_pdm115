@@ -19,8 +19,13 @@ public class DetalleCompraDAO {
     }
 
     public void addDetalleCompra(DetalleCompra detalleCompra) {
-        if (isDuplicate(detalleCompra.getIdDetalleCompra())) {
-            Toast.makeText(context, R.string.duplicate_message, Toast.LENGTH_SHORT).show();
+        if (isDuplicateIdDetalle(detalleCompra.getIdDetalleCompra())) {
+            Toast.makeText(context, R.string.duplicate_iddetalle_message, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (isDuplicateArticuloEnFactura(detalleCompra.getIdCompra(), detalleCompra.getIdArticulo())) {
+            Toast.makeText(context, R.string.duplicate_articulo_in_factura_message, Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -38,8 +43,15 @@ public class DetalleCompraDAO {
     }
 
 
-
     public void updateDetalleCompra(DetalleCompra detalleCompra) {
+        if (existeOtroDetalleConMismoArticuloYFactura(
+                detalleCompra.getIdCompra(),
+                detalleCompra.getIdArticulo(),
+                detalleCompra.getIdDetalleCompra())) {
+
+            Toast.makeText(context, R.string.duplicate_articulo_in_factura_message, Toast.LENGTH_SHORT).show();
+            return;
+        }
         ContentValues values = new ContentValues();
         values.put("IDARTICULO", detalleCompra.getIdArticulo());
         values.put("FECHADECOMPRA", detalleCompra.getFechaDeCompra());
@@ -64,7 +76,6 @@ public class DetalleCompraDAO {
         }
     }
 
-
     public void deleteDetalleCompra(int idDetalle) {
         int rowsAffected = conexionDB.delete("DETALLECOMPRA", "IDDETALLECOMPRA = ?", new String[]{String.valueOf(idDetalle)});
 
@@ -74,7 +85,6 @@ public class DetalleCompraDAO {
             Toast.makeText(context, R.string.delete_message, Toast.LENGTH_SHORT).show();
         }
     }
-
 
     public List<DetalleCompra> getAllDetalleCompra() {
         List<DetalleCompra> detalleCompraList = new ArrayList<>();
@@ -141,8 +151,6 @@ public class DetalleCompraDAO {
         return lista;
     }
 
-
-
     public List<Articulo> getAllArticulo() {
         List<Articulo> lista = new ArrayList<>();
         String sql = "SELECT * FROM ARTICULO";
@@ -181,12 +189,38 @@ public class DetalleCompraDAO {
         return detalles;
     }
 
-    private boolean isDuplicate(int id) {
-        String sql = "SELECT * FROM DETALLECOMPRA WHERE IDDETALLECOMPRA = ?";
-        Cursor cursor = conexionDB.rawQuery(sql, new String[]{String.valueOf(id)});
+    private boolean isDuplicateIdDetalle(int idDetalleCompra) {
+        String sql = "SELECT 1 FROM DETALLECOMPRA WHERE IDDETALLECOMPRA = ?";
+        Cursor cursor = conexionDB.rawQuery(sql, new String[]{String.valueOf(idDetalleCompra)});
         boolean exists = cursor.moveToFirst();
         cursor.close();
         return exists;
+    }
+
+    private boolean isDuplicateArticuloEnFactura(int idCompra, int idArticulo) {
+        String sql = "SELECT 1 FROM DETALLECOMPRA WHERE IDCOMPRA = ? AND IDARTICULO = ?";
+        Cursor cursor = conexionDB.rawQuery(sql, new String[]{
+                String.valueOf(idCompra),
+                String.valueOf(idArticulo)
+        });
+        boolean exists = cursor.moveToFirst();
+        cursor.close();
+        return exists;
+    }
+
+
+    // Verifica si ya existe otro detalle con la misma factura y artículo, excluyendo el que se está editando
+    private boolean existeOtroDetalleConMismoArticuloYFactura(int idCompra, int idArticulo, int idDetalleCompraActual) {
+        String sql = "SELECT 1 FROM DETALLECOMPRA WHERE IDCOMPRA = ? AND IDARTICULO = ? AND IDDETALLECOMPRA != ?";
+        Cursor cursor = conexionDB.rawQuery(sql, new String[]{
+                String.valueOf(idCompra),
+                String.valueOf(idArticulo),
+                String.valueOf(idDetalleCompraActual)
+        });
+
+        boolean existe = cursor.moveToFirst(); // true si se encontró un duplicado
+        cursor.close();
+        return existe;
     }
 
 }

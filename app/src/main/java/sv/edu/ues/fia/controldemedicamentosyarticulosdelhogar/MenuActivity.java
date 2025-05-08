@@ -1,18 +1,12 @@
 package sv.edu.ues.fia.controldemedicamentosyarticulosdelhogar;
 
-import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ListView;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
@@ -78,8 +72,9 @@ public class MenuActivity extends AppCompatActivity {
             }
         });
 
-        ImageButton llenarBD = (ImageButton) findViewById(R.id.llenarDB);
+        Button llenarBD = (Button) findViewById(R.id.llenarDB);
         llenarBD.setOnClickListener(v -> {
+            llenarBD.setEnabled(false);
             ControlBD controlBD = new ControlBD(this);
             controlBD.llenarDB();
         });
