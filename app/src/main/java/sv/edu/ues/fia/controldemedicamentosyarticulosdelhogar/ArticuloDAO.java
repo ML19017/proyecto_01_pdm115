@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -23,21 +24,21 @@ public class ArticuloDAO {
     public boolean insertarArticulo(Articulo articulo) {
         long insercion = 0;
         //Comprobar que existan los registros de las llaves foraneas
-        boolean marcaValida = validarForaneas(articulo.getIdMarca(),1);
-        boolean viaAdminValida = validarForaneas(articulo.getIdViaAdministracion(),2);
-        boolean subCatValida = validarForaneas(articulo.getIdSubCategoria(),3);
-        boolean formaFarmValida = validarForaneas(articulo.getIdFormaFarmaceutica(),4);
+        boolean marcaValida = validarForaneas(articulo.getIdMarca(), 1);
+        boolean viaAdminValida = validarForaneas(articulo.getIdViaAdministracion(), 2);
+        boolean subCatValida = validarForaneas(articulo.getIdSubCategoria(), 3);
+        boolean formaFarmValida = validarForaneas(articulo.getIdFormaFarmaceutica(), 4);
         if (marcaValida && viaAdminValida && subCatValida && formaFarmValida) {
             ContentValues item = new ContentValues();
-            item.put("IDARTICULO",articulo.getIdArticulo());
-            item.put("IDMARCA",articulo.getIdMarca());
-            item.put("IDVIAADMINISTRACION",articulo.getIdViaAdministracion());
-            item.put("IDSUBCATEGORIA",articulo.getIdSubCategoria());
-            item.put("IDFORMAFARMACEUTICA",articulo.getIdFormaFarmaceutica());
-            item.put("NOMBREARTICULO",articulo.getNombreArticulo());
-            item.put("DESCRIPCIONARTICULO",articulo.getDescripcionArticulo());
-            item.put("RESTRINGIDOARTICULO",articulo.getRestringidoArticulo());
-            item.put("PRECIOARTICULO",articulo.getPrecioArticulo());
+            item.put("IDARTICULO", articulo.getIdArticulo());
+            item.put("IDMARCA", articulo.getIdMarca());
+            item.put("IDVIAADMINISTRACION", articulo.getIdViaAdministracion());
+            item.put("IDSUBCATEGORIA", articulo.getIdSubCategoria());
+            item.put("IDFORMAFARMACEUTICA", articulo.getIdFormaFarmaceutica());
+            item.put("NOMBREARTICULO", articulo.getNombreArticulo());
+            item.put("DESCRIPCIONARTICULO", articulo.getDescripcionArticulo());
+            item.put("RESTRINGIDOARTICULO", articulo.getRestringidoArticulo());
+            item.put("PRECIOARTICULO", articulo.getPrecioArticulo());
 
             insercion = dbConection.insert("ARTICULO", null, item);
             if (insercion == -1) {
@@ -45,14 +46,14 @@ public class ArticuloDAO {
                 return false;
             }
             return true;
-        } else{
+        } else {
             return false;
         }
     }
 
-    public ArrayList<Articulo> getAllRows(){
+    public ArrayList<Articulo> getAllRows() {
         ArrayList<Articulo> listado = new ArrayList<Articulo>();
-        Cursor listadoDB = getDbConection().query("ARTICULO",null,null,null,null,null,null);
+        Cursor listadoDB = getDbConection().query("ARTICULO", null, null, null, null, null, null);
         if (listadoDB.moveToFirst()) {
             listadoDB.moveToFirst();
             for (int i = 0; i < listadoDB.getCount(); i++) {
@@ -74,27 +75,30 @@ public class ArticuloDAO {
         return listado;
     }
 
-    public ArrayList<Articulo> getRowsFiltredByCategory(int idCategoria){
-        String [] id = {Integer.toString(idCategoria)};
+    public ArrayList<Articulo> getRowsFiltredByCategory(int idCategoria) {
+        String[] id = {Integer.toString(idCategoria)};
         ArrayList<Articulo> listado = new ArrayList<Articulo>();
         Cursor listadoSubCats = getDbConection().query("SUBCATEGORIA", null, "IDCATEGORIA = ?", id, null, null, null);
         if (listadoSubCats.moveToFirst()) {
             listadoSubCats.moveToFirst();
             for (int i = 0; i < listadoSubCats.getCount(); i++) {
-                String [] idSubCat =  {listadoSubCats.getString(0)};
-                Cursor listadoArticulos = getDbConection().query("ARTICULO", null, "IDSUBCATEGORIA = ?", idSubCat,null,null,null);
-                Articulo articulo = new Articulo();
-                articulo.setIdArticulo(listadoArticulos.getInt(0));
-                articulo.setIdMarca(listadoArticulos.getInt(1));
-                articulo.setIdViaAdministracion(listadoArticulos.getInt(2));
-                articulo.setIdSubCategoria(listadoArticulos.getInt(3));
-                articulo.setIdFormaFarmaceutica(listadoArticulos.getInt(4));
-                articulo.setNombreArticulo(listadoArticulos.getString(5));
-                articulo.setDescripcionArticulo(listadoArticulos.getString(6));
-                articulo.setRestringidoArticulo(Boolean.getBoolean(listadoArticulos.getString(7)));
-                articulo.setPrecioArticulo(listadoArticulos.getDouble(8));
-                listado.add(articulo);
-                listadoArticulos.moveToNext();
+                String[] idSubCat = {listadoSubCats.getString(0)};
+                Cursor listadoArticulos = getDbConection().query("ARTICULO", null, "IDSUBCATEGORIA = ?", idSubCat, null, null, null);
+                if (listadoArticulos.moveToFirst()) {
+                    listadoArticulos.moveToFirst();
+                    Articulo articulo = new Articulo();
+                    articulo.setIdArticulo(listadoArticulos.getInt(0));
+                    articulo.setIdMarca(listadoArticulos.getInt(1));
+                    articulo.setIdViaAdministracion(listadoArticulos.getInt(2));
+                    articulo.setIdSubCategoria(listadoArticulos.getInt(3));
+                    articulo.setIdFormaFarmaceutica(listadoArticulos.getInt(4));
+                    articulo.setNombreArticulo(listadoArticulos.getString(5));
+                    articulo.setDescripcionArticulo(listadoArticulos.getString(6));
+                    articulo.setRestringidoArticulo(Boolean.getBoolean(listadoArticulos.getString(7)));
+                    articulo.setPrecioArticulo(listadoArticulos.getDouble(8));
+                    listado.add(articulo);
+                    listadoArticulos.moveToNext();
+                }
             }
         }
         return listado;
