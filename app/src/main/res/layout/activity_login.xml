@@ -50,10 +50,4 @@
         android:layout_height="wrap_content"
         android:text="@string/login_text"/>
 
-    <TextView
-        android:id="@+id/login_credentials"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="gerente -> 'gerente123', farmaceutico -> 'farmaceutico123', cajero -> 'cajero123', admin -> '1234'" />
-
 </LinearLayout>
