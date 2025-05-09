@@ -10,19 +10,49 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/editTextNewCategoriaId"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="ID Categoria"
-            android:minHeight="48dp" />
+            android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/editTextNewCategoriaNombre"
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:text="@string/category_ID"
+                android:gravity="center_vertical"
+                android:paddingEnd="8dp"/>
+
+            <EditText
+                android:id="@+id/editTextNewCategoriaId"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="7"
+                android:hint="@string/category_ID"
+                android:minHeight="48dp" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nombre de la categoria"
-            android:minHeight="48dp" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:text="@string/category_name"
+                android:gravity="center_vertical"
+                android:paddingEnd="8dp"/>
+
+            <EditText
+                android:id="@+id/editTextNewCategoriaNombre"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="7"
+                android:hint="@string/category_name"
+                android:minHeight="48dp" />
+        </LinearLayout>
 
         <Button
             android:id="@+id/btnGuardarCategoria"
@@ -36,6 +66,5 @@
             android:layout_height="wrap_content"
             android:text="@string/clear"
             android:layout_marginTop="8dp" />
-
     </LinearLayout>
 </ScrollView>

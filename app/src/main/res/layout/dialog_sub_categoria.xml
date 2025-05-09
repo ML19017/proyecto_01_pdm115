@@ -9,32 +9,66 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        <TextView
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/category"/>
-        <EditText
-            android:id="@+id/editTextCategoriaPadreId"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:text="@string/category"
+                android:gravity="center_vertical"
+                android:paddingEnd="8dp"/>
+            <EditText
+                android:id="@+id/editTextCategoriaPadreId"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="7"
+                android:hint="@string/category_ID"
+                android:minHeight="48dp" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="ID Categoria"
-            android:minHeight="48dp" />
-        <TextView
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:text="@string/subcategory"
+                android:gravity="center_vertical"
+                android:paddingEnd="8dp"/>
+            <EditText
+                android:id="@+id/editTextsubCategoriaId"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="7"
+                android:hint="@string/subcategory_id"
+                android:minHeight="48dp" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/subcategory"/>
-        <EditText
-            android:id="@+id/editTextsubCategoriaId"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="ID SubCategoria"
-            android:minHeight="48dp" />
-        <EditText
-            android:id="@+id/editTextsubCategoriaNombre"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Nombre de la sub-categoria"
-            android:minHeight="48dp" />
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:text="@string/subcategory_name"
+                android:gravity="center_vertical"
+                android:paddingEnd="8dp"/>
+            <EditText
+                android:id="@+id/editTextsubCategoriaNombre"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="7"
+                android:hint="@string/subcategory_name"
+                android:minHeight="48dp" />
+        </LinearLayout>
 
         <Button
             android:id="@+id/btnGuardarSubCategoria"
@@ -48,6 +82,5 @@
             android:layout_height="wrap_content"
             android:text="@string/clear"
             android:layout_marginTop="8dp" />
-
     </LinearLayout>
 </ScrollView>
