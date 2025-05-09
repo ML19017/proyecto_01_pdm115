@@ -144,7 +144,6 @@
 
     <string name="select_valid_dep_mun_dis">You must select a valid Department, Municipality and District.</string>
     <string name="completar_Campos">Please complete all fields</string>
-    <string name="Address_Occupied">Address Occupied, Delete Pharmacy Before</string>
     <string name="select_addres">Select an Address</string>
     <string name="valid_addres">You must select a valid address.</string>
 

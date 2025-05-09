@@ -197,31 +197,12 @@ public class DireccionDAO {
 
     // hacer comprobacion de si esta siendo usada en una farmacia
     public void deleteDireccion(int id) {
-
-        String sql = "SELECT * FROM SUCURSALFARMACIA WHERE IDDIRECCION = ?";
-        Cursor cursor = conexionDB.rawQuery(sql, new String[]{String.valueOf(id)});
-        if (cursor.moveToFirst()) {
-
-            Toast.makeText(context, R.string.Address_Occupied, Toast.LENGTH_SHORT).show();
-
-            cursor.close();
-            return;
-        }
-        else
-        {
-            cursor.close();
             int rowsAffected = conexionDB.delete("DIRECCION", "IDDIRECCION = ?", new String[]{String.valueOf(id)});
             if (rowsAffected == 0) {
                 Toast.makeText(context, R.string.not_found_message, Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(context, R.string.delete_message, Toast.LENGTH_SHORT).show();
             }
-
-        }
-
-
-
-
     }
 
     private boolean isDuplicate(int id) {
