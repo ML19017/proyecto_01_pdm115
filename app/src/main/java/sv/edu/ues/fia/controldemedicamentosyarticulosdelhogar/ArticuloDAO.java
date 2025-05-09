@@ -50,6 +50,30 @@ public class ArticuloDAO {
         }
     }
 
+    public Articulo getArticulo(int id){
+        String [] idArticulo = {String.valueOf(id)};
+        Cursor cursor = getDbConection().query("ARTICULO",null, "IDARTICULO = ?",idArticulo,null,null,null );
+
+        if(cursor.moveToFirst()){
+            Articulo articulo = new Articulo();
+            articulo.setIdArticulo(cursor.getInt(0));
+            articulo.setIdMarca(cursor.getInt(1));
+            articulo.setIdViaAdministracion(cursor.getInt(2));
+            articulo.setIdSubCategoria(cursor.getInt(3));
+            articulo.setIdFormaFarmaceutica(cursor.getInt(4));
+            articulo.setNombreArticulo(cursor.getString(5));
+            articulo.setDescripcionArticulo(cursor.getString(6));
+            articulo.setRestringidoArticulo(Boolean.getBoolean(cursor.getString(7)));
+            articulo.setPrecioArticulo(cursor.getDouble(8));
+            cursor.close();
+            return articulo;
+        }
+        else{
+            Toast.makeText(context, R.string.not_found_message, Toast.LENGTH_SHORT).show();
+            return null;
+        }
+    }
+
     public ArrayList<Articulo> getAllRows() {
         ArrayList<Articulo> listado = new ArrayList<Articulo>();
         Cursor listadoDB = getDbConection().query("ARTICULO", null, null, null, null, null, null);

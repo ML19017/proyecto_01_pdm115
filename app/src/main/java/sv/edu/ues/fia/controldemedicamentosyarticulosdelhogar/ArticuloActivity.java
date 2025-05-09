@@ -1,6 +1,7 @@
 package sv.edu.ues.fia.controldemedicamentosyarticulosdelhogar;
 
 import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -22,6 +23,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +41,8 @@ public class ArticuloActivity extends AppCompatActivity implements AdapterView.O
 
     private List<Categoria> valuesCat = new ArrayList<>();
 
+    private Articulo busqueda = new Articulo();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +54,7 @@ public class ArticuloActivity extends AppCompatActivity implements AdapterView.O
         categoriaDAO = new CategoriaDAO(conection, this);
 
         //Spinner
-        adaptadorSpinner = new ArrayAdapter<Categoria>(this, android.R.layout.simple_spinner_item, valuesCat){
+        adaptadorSpinner = new ArrayAdapter<Categoria>(this, android.R.layout.simple_spinner_item, valuesCat) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 TextView view = (TextView) super.getView(position, convertView, parent);
@@ -70,7 +75,7 @@ public class ArticuloActivity extends AppCompatActivity implements AdapterView.O
                     view.setText(getString(R.string.category_prompt));
                     view.setTextColor(Color.GRAY);
                 } else {
-                    view.setText("ID : " + categoria.getIdCategoria() + ", "  + getString(R.string.category_name) + ": " + categoria.getNombreCategoria());
+                    view.setText("ID : " + categoria.getIdCategoria() + ", " + getString(R.string.category_name) + ": " + categoria.getNombreCategoria());
                     view.setTextColor(Color.BLACK);
                 }
                 return view;
@@ -82,6 +87,8 @@ public class ArticuloActivity extends AppCompatActivity implements AdapterView.O
         llenadoSpinner();
         spinner.setOnItemSelectedListener(this);
 
+        //textView
+        TextView categoriaFiltro = (TextView) findViewById(R.id.itemCategoryText);
 
         //ListV
         adaptadorListV = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, valuesArt);
@@ -89,11 +96,39 @@ public class ArticuloActivity extends AppCompatActivity implements AdapterView.O
         listV.setAdapter(adaptadorListV);
         listV.setOnItemClickListener(this);
 
+        //EditText
+        EditText buscar = (EditText) findViewById(R.id.editTextSearchItem);
+        buscar.setVisibility(GONE);
+
         //Botones
         Button btnAdd = (Button) findViewById(R.id.btnAddItem);
+        Button btnSearch = (Button) findViewById(R.id.btnSearchItem);
         btnAdd.setOnClickListener(v -> {
             showAddDialog();
         });
+
+        btnSearch.setOnClickListener(v -> {
+            if (buscar.getVisibility() == GONE) {
+                Log.d("inicial", "se activo");
+                categoriaFiltro.setVisibility(GONE);
+                spinner.setVisibility(GONE);
+                buscar.setVisibility(VISIBLE);
+                buscar.requestFocus();
+            }else if (buscar.getVisibility() == VISIBLE) {
+                if (buscar.getText().length() > 0) {
+                    Log.d("primero", "mas de 0");
+                    int id = Integer.parseInt(String.valueOf(buscar.getText()));
+                    buscarArticulo(id);
+                }else if(buscar.getText().length() == 0){
+                    Log.d("segundo", "cabal 0 ");
+                    buscar.setVisibility(GONE);
+                    actualizarListView(selected);
+                    categoriaFiltro.setVisibility(VISIBLE);
+                    spinner.setVisibility(VISIBLE);
+                }
+            }
+        });
+
 
     }
 
@@ -107,12 +142,20 @@ public class ArticuloActivity extends AppCompatActivity implements AdapterView.O
         if (!valuesArt.isEmpty()) {
             valuesArt.clear();
         }
-        int idFiltro = filtro.getIdCategoria();
-        if (idFiltro == -1) {
-            valuesArt.addAll(articuloDAO.getAllRows());
-            adaptadorListV.notifyDataSetChanged();
-        } else {
-            valuesArt.addAll(articuloDAO.getRowsFiltredByCategory(idFiltro));
+        if (filtro != null) {
+            int idFiltro = filtro.getIdCategoria();
+            if (idFiltro == -1) {
+                valuesArt.addAll(articuloDAO.getAllRows());
+                adaptadorListV.notifyDataSetChanged();
+            } else {
+                valuesArt.addAll(articuloDAO.getRowsFiltredByCategory(idFiltro));
+                adaptadorListV.notifyDataSetChanged();
+            }
+        } else if (filtro == null) {
+            valuesArt.clear();
+            if(busqueda!=null){
+            valuesArt.add(busqueda);
+            }
             adaptadorListV.notifyDataSetChanged();
         }
     }
@@ -217,7 +260,7 @@ public class ArticuloActivity extends AppCompatActivity implements AdapterView.O
         });
 
         btnDelete.setOnClickListener(v -> {
-             eliminarArticulo(articulo, dialog);
+            eliminarArticulo(articulo, dialog);
         });
         dialog.show();
 
@@ -374,6 +417,17 @@ public class ArticuloActivity extends AppCompatActivity implements AdapterView.O
         });
 
         dialog.show();
+    }
+
+    public void buscarArticulo(int id) {
+        Articulo articulo = articuloDAO.getArticulo(id);
+        if (articulo != null) {
+            busqueda = articulo;
+            actualizarListView(null);
+        }
+        else{
+            busqueda = null;
+        }
     }
 
     public void onNothingSelected(AdapterView<?> arg0) {
