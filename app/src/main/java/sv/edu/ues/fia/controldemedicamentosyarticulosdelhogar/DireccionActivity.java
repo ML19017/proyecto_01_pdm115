@@ -44,6 +44,22 @@ public class DireccionActivity extends AppCompatActivity {
 
         btnAgregar.setOnClickListener(v -> {showAddDialog();});
 
+        TextView txtBusqueda = (TextView) findViewById(R.id.txtBusquedaDireccion);
+        Button botonBuscar = findViewById(R.id.btnBuscarDireccion);
+        botonBuscar.setVisibility(vac.validarAcceso(2) || vac.validarAcceso(3) || vac.validarAcceso(4)? View.VISIBLE : View.INVISIBLE);
+        botonBuscar.setOnClickListener(v -> {
+            try {
+                int id = Integer.parseInt(txtBusqueda.getText().toString().trim());
+                buscarPorId(id);
+            }
+            catch (NumberFormatException e) {
+                e.printStackTrace();
+                Toast.makeText(this, R.string.invalid_search, Toast.LENGTH_LONG).show();
+            }
+        });
+
+
+
         listViewDireccion = findViewById(R.id.lvDireccion);
         listViewDireccion.setVisibility(vac.validarAcceso(3) || vac.validarAcceso(4) ? View.VISIBLE : View.INVISIBLE);
 
@@ -475,6 +491,63 @@ public class DireccionActivity extends AppCompatActivity {
             }
         }
         return 0; // por defecto el primero (como "Seleccione...")
+    }
+
+    private void buscarPorId(int id) {
+        Direccion direccion = direccionDAO.getDireccion(id);
+        if (direccion != null) {
+            viewDireccion(direccion);
+        } else {
+            Toast.makeText(this, R.string.not_found_message, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void viewDireccion(Direccion direccion) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.view);
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_direccion, null);
+        builder.setView(dialogView);
+
+        EditText editTextIdDireccion = dialogView.findViewById(R.id.editTextIdDireccion);
+        EditText editTextDireccionExacta = dialogView.findViewById(R.id.editTextDireccionExacta);
+
+
+        Button btnGuardar = dialogView.findViewById(R.id.btnGuardarDireccion);
+        Button btnLimpiar = dialogView.findViewById(R.id.btnLimpiarDireccion);
+
+
+//            Spinner o combo box o listas plegables
+
+        Spinner spinnerDepartamento = dialogView.findViewById(R.id.spinnerDepartamento);
+        Spinner spinnerMunicipio = dialogView.findViewById(R.id.spinnerMunicipio);
+        Spinner spinnerDistrito = dialogView.findViewById(R.id.spinnerDistrito);
+
+
+        //set text
+
+        editTextIdDireccion.setText(  String.valueOf((direccion.getIdDireccion())) );
+        editTextDireccionExacta.setText(  String.valueOf((direccion.getDireccionExacta())) );
+        Distrito dis =  direccionDAO.getDistrito(direccion.getIdDistrito());
+        Municipio mun = direccionDAO.getMunicipio(dis.getIdMunicipio());
+        Departamento dep = direccionDAO.getDepartamento(mun.getIdDepartamento());
+
+        editTextIdDireccion.setEnabled(false);
+        editTextIdDireccion.setTextColor(Color.BLACK);
+        editTextDireccionExacta.setEnabled(false);
+        editTextDireccionExacta.setTextColor(Color.BLACK);
+
+        spinnerDepartamento.setEnabled(false);
+        spinnerMunicipio.setEnabled(false);
+        spinnerDistrito.setEnabled(false);
+
+        spinnerDepartamento.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, new Departamento[] { dep }));
+        spinnerMunicipio.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, new Municipio[] { mun }));
+        spinnerDistrito.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, new Distrito[] { dis }));
+        btnGuardar.setVisibility(View.GONE);
+        btnLimpiar.setVisibility(View.GONE);
+
+        builder.show();
     }
 
 

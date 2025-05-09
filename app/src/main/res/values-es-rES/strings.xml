@@ -207,4 +207,30 @@
     <!-- Fin DetalleVenta -->
 
 
+
+    <!-- Detalle de Existencia -->
+    <string name="existence_amount">Cantidad Existente</string>
+    <string name="expiration_Date">Fecha de Expiración</string>
+    <string name="select_sucursal">Seleccione una Sucursal</string>
+    <string name="datos_validos">Por favor ingrese datos válidos</string>
+    <!-- Fin Detalle de Existencia -->
+
+
+    <!-- Dirección -->
+    <string name="select_departamento">Seleccione un Departamento</string>
+    <string name="select_municipio">Seleccione un Municipio</string>
+    <string name="select_distrito">Seleccione un Distrito</string>
+    <string name="departamento">Departamento</string>
+    <string name="municipio">Municipio</string>
+    <string name="distrito">Distrito</string>
+    <string name="select_valid_dep_mun_dis">Debe seleccionar un Departamento, Municipio y Distrito válidos.</string>
+    <string name="completar_Campos">Por favor complete todos los campos</string>
+    <string name="select_addres">Seleccione una Dirección</string>
+    <string name="valid_addres">Debe seleccionar una dirección válida.</string>
+    <!-- Fin Dirección -->
+
+    <string name="date">dd - mm - yyyy</string>
+
+
+
 </resources>

@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -53,6 +54,23 @@ public class SucursalFarmaciaActivity extends AppCompatActivity {
         cargarLista();
 
         Button boton = findViewById(R.id.btnAddBranch);
+
+
+        TextView txtBusqueda = (TextView) findViewById(R.id.txtBusquedaSucursal);
+        Button botonBuscar = findViewById(R.id.btnSearchBranch);
+        botonBuscar.setVisibility(vac.validarAcceso(2) || vac.validarAcceso(3) || vac.validarAcceso(4)? View.VISIBLE : View.INVISIBLE);
+        botonBuscar.setOnClickListener(v -> {
+            try {
+                int id = Integer.parseInt(txtBusqueda.getText().toString().trim());
+                buscarPorId(id);
+            }
+            catch (NumberFormatException e) {
+                e.printStackTrace();
+                Toast.makeText(this, R.string.invalid_search, Toast.LENGTH_LONG).show();
+            }
+        });
+
+
 
         boton.setVisibility(vac.validarAcceso(1) ? View.VISIBLE : View.INVISIBLE);
 
@@ -375,6 +393,15 @@ public class SucursalFarmaciaActivity extends AppCompatActivity {
         dialog.findViewById(R.id.buttonSave).setVisibility(View.GONE);
         dialog.findViewById(R.id.buttonClear).setVisibility(View.GONE);
 
+    }
+
+    private void buscarPorId(int id) {
+        SucursalFarmacia sucursalFarmacia = sucursalFarmaciaDAO.getSucursalFarmacia(id);
+        if (sucursalFarmacia != null) {
+            viewDireccion(sucursalFarmacia);
+        } else {
+            Toast.makeText(this, R.string.not_found_message, Toast.LENGTH_SHORT).show();
+        }
     }
 
 
