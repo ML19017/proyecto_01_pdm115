@@ -32,7 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/doctor_name"
-            android:inputType="text|textCapCharacters" />
+            android:inputType="text" />
 
         <TextView
             android:layout_width="match_parent"
@@ -44,7 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/doctor_specialty"
-            android:inputType="text|textCapCharacters" />
+            android:inputType="text" />
 
         <TextView
             android:layout_width="match_parent"
@@ -56,7 +56,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/doctor_jvpm"
-            android:inputType="text|textCapWords" />
+            android:inputType="text" />
 
         <Button
             android:id="@+id/btnGuardarDoctor"
