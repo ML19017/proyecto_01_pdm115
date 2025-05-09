@@ -48,7 +48,6 @@ public class FacturaCompraActivity extends AppCompatActivity {
         SQLiteDatabase conexionDB = new ControlBD(this).getConnection();
         facturaCompraDAO = new FacturaCompraDAO(conexionDB, this);
         detalleCompraDAO = new DetalleCompraDAO(conexionDB, this);
-        insertarArticulosIniciales(conexionDB);
 
         TextView txtBusqueda = (TextView) findViewById(R.id.busquedaFacturaCompra);
 
@@ -644,37 +643,4 @@ public class FacturaCompraActivity extends AppCompatActivity {
             Toast.makeText(this, R.string.not_found_message, Toast.LENGTH_SHORT).show();
         }
     }
-
-    public void insertarArticulosIniciales(SQLiteDatabase conexionDB) {
-        Cursor cursor = conexionDB.rawQuery("SELECT COUNT(*) FROM ARTICULO", null);
-        if (cursor.moveToFirst()) {
-            int count = cursor.getInt(0);
-            if (count == 0) {
-
-                conexionDB.execSQL("INSERT INTO MARCA VALUES (1, 'Bayer'), (2, 'Pfizer'), (3, 'Sanofi')");
-                conexionDB.execSQL("INSERT INTO VIAADMINISTRACION VALUES (1, 'Oral'), (2, 'Intravenosa'), (3, 'Tópica')");
-                conexionDB.execSQL("INSERT INTO CATEGORIA VALUES (1, 'Medicamento'), (2, 'Suplemento')");
-                conexionDB.execSQL("INSERT INTO SUBCATEGORIA VALUES (1, 1, 'Antibiótico'), (2, 1, 'Analgésico'), (3, 2, 'Vitamina'), (4, 1, 'Gastrointestinal')");
-                conexionDB.execSQL("INSERT INTO FORMAFARMACEUTICA VALUES (1, 'Tableta'), (2, 'Jarabe'), (3, 'Inyectable')");
-                conexionDB.execSQL("INSERT INTO SUCURSALFARMACIA VALUES (1, 'Sucursal Centro', '22223333'), (2, 'Sucursal Norte', '22224444')");
-                conexionDB.execSQL("INSERT INTO PROVEEDOR VALUES (1, 'Distribuidora MED', '77778888', 'contacto@med.com'), (2, 'Salud Global', '66667777', 'info@saludglobal.com')");
-                conexionDB.execSQL("INSERT INTO FACTURACOMPRA VALUES (1, 1, 1, '2025-05-01', 150.00), (2, 2, 2, '2025-05-02', 320.00)");
-
-                conexionDB.execSQL("INSERT INTO ARTICULO VALUES (1, 1, 1, 1, 1, 'Paracetamol', 'Analgésico y antipirético', 0, 0.50)");
-                conexionDB.execSQL("INSERT INTO ARTICULO VALUES (2, 2, 2, 2, 2, 'Ibuprofeno', 'Antiinflamatorio no esteroideo', 0, 0.75)");
-                conexionDB.execSQL("INSERT INTO ARTICULO VALUES (3, 1, 1, 3, 1, 'Amoxicilina', 'Antibiótico penicilínico', 1, 1.20)");
-                conexionDB.execSQL("INSERT INTO ARTICULO VALUES (4, 3, 3, 2, 3, 'Loratadina', 'Antihistamínico para alergias', 0, 0.90)");
-                conexionDB.execSQL("INSERT INTO ARTICULO VALUES (5, 2, 1, 4, 2, 'Omeprazol', 'Inhibidor de la bomba de protones', 0, 1.10)");
-                conexionDB.execSQL("INSERT INTO ARTICULO VALUES (6, 3, 2, 3, 1, 'Metformina', 'Tratamiento de la diabetes tipo 2', 1, 0.60)");
-                conexionDB.execSQL("INSERT INTO ARTICULO VALUES (7, 2, 3, 4, 3, 'Salbutamol', 'Broncodilatador para asma', 0, 1.30)");
-                conexionDB.execSQL("INSERT INTO ARTICULO VALUES (8, 1, 1, 2, 2, 'Aspirina', 'Analgésico y antiinflamatorio', 0, 0.40)");
-                conexionDB.execSQL("INSERT INTO ARTICULO VALUES (9, 1, 2, 1, 1, 'Ranitidina', 'Tratamiento de úlceras gástricas', 1, 0.85)");
-                conexionDB.execSQL("INSERT INTO ARTICULO VALUES (10, 2, 2, 3, 2, 'Clorfenamina', 'Antialérgico', 0, 0.55)");
-            }
-        }
-        cursor.close();
-    }
-
-
-
 }
