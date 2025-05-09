@@ -1,69 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:padding="16dp"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/id" />
+        android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/edtIdDoctor"
-        android:hint="@string/id"
-        android:inputType="number"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/id" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/doctor_name" />
+        <EditText
+            android:id="@+id/edtIdDoctor"
+            android:hint="@string/id"
+            android:inputType="number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
-    <EditText
-        android:id="@+id/edtNombreDoctor"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/doctor_name"
-        android:inputType="text|textCapCharacters" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/doctor_name" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/doctor_specialty" />
+        <EditText
+            android:id="@+id/edtNombreDoctor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/doctor_name"
+            android:inputType="text|textCapCharacters" />
 
-    <EditText
-        android:id="@+id/edtEspecialidadDoctor"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/doctor_specialty"
-        android:inputType="text|textCapCharacters" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/doctor_specialty" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/doctor_jvpm" />
+        <EditText
+            android:id="@+id/edtEspecialidadDoctor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/doctor_specialty"
+            android:inputType="text|textCapCharacters" />
 
-    <EditText
-        android:id="@+id/edtJVPM"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/doctor_jvpm"
-        android:inputType="text|textCapWords" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/doctor_jvpm" />
 
-    <Button
-        android:id="@+id/btnGuardarDoctor"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/save"
-        android:layout_marginTop="16dp" />
+        <EditText
+            android:id="@+id/edtJVPM"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/doctor_jvpm"
+            android:inputType="text|textCapWords" />
 
-    <Button
-        android:id="@+id/btnLimpiarDoctor"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/clear"
-        android:layout_marginTop="8dp" />
+        <Button
+            android:id="@+id/btnGuardarDoctor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/save"
+            android:layout_marginTop="16dp" />
 
+        <Button
+            android:id="@+id/btnLimpiarDoctor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/clear"
+            android:layout_marginTop="8dp" />
+    </LinearLayout>
 </ScrollView>

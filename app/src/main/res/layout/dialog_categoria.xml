@@ -5,30 +5,37 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/editTextNewCategoriaId"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="ID Categoria"
-        android:minHeight="48dp" />
+        android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/editTextNewCategoriaNombre"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Nombre de la categoria"
-        android:minHeight="48dp" />
+        <EditText
+            android:id="@+id/editTextNewCategoriaId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="ID Categoria"
+            android:minHeight="48dp" />
 
-    <Button
-        android:id="@+id/btnGuardarCategoria"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/save" />
+        <EditText
+            android:id="@+id/editTextNewCategoriaNombre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nombre de la categoria"
+            android:minHeight="48dp" />
 
-    <Button
-        android:id="@+id/btnLimpiarNewCategoria"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/clear"
-        android:layout_marginTop="8dp" />
+        <Button
+            android:id="@+id/btnGuardarCategoria"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/save" />
+
+        <Button
+            android:id="@+id/btnLimpiarNewCategoria"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/clear"
+            android:layout_marginTop="8dp" />
+
+    </LinearLayout>
 </ScrollView>
