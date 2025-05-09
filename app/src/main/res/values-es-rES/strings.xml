@@ -12,6 +12,8 @@
     <string name="purchase_detail">Detalle de Compra</string>
     <string name="purchase_invoice">Factura de Compra</string>
     <string name="supplier">Proveedor</string>
+    <string name="brandID">Marca ID</string>
+    <string name="ROAID">Via de administracion ID</string>
     <string name="pharmaceutical_form">Forma Farmaceutica</string>
     <string name="brand">Marca</string>
     <string name="route_of_administration">Vía de Administración</string>
@@ -126,6 +128,7 @@
     <string name="quantity">Cantidad</string>
     <string name="total_purchase">Total de compra</string>
     <string name="items">Artículos</string>
+    <string name="restricted">Restringido</string>
     <string name="price">Precio</string>
     <!-- Fin detalleCompra -->
 
@@ -201,6 +204,8 @@
     <string name="fill_database">Llenar Base de Datos</string>
     <string name="farma_exists">Ya existe una Farmacia con ese ID</string>
     <string name="existence_detail_id">Detalle Existencia ID</string>
+    <string name="pharmaceuticalFormID">Forma Farmaceutica ID</string>
+    <string name="emptyWarning">Este campo es obligatorio</string>
     <string name="category_ID">ID Categoria</string>
     <string name="category_name">Nombre Categoria</string>
     <string name="subcategory_id">SubCategoria ID</string>
@@ -217,6 +222,7 @@
 
 
     <!-- Dirección -->
+    <string name="mostrar_articulo">Mostrar articulo</string>
     <string name="select_departamento">Seleccione un Departamento</string>
     <string name="select_municipio">Seleccione un Municipio</string>
     <string name="select_distrito">Seleccione un Distrito</string>
@@ -230,7 +236,8 @@
     <!-- Fin Dirección -->
 
     <string name="date">dd - mm - yyyy</string>
-
+    <string name="item_name">Nombre articulo</string>
+    <string name="item_description">Descripcion articulo</string>
 
 
 </resources>

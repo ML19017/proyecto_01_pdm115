@@ -178,6 +178,19 @@
     <string name="tipo_via_administracion">Type</string>
     <string name="especialidad_doctor">Specialization</string>
 
+
+    <string name="brandID">Brand ID</string>
+    <string name="ROAID">Route of administration ID</string>
+    <string name="item_name">Item name</string>
+    <string name="item_description">Item description</string>
+    <string name="restricted">Restricted</string>
+    <string name="pharmaceuticalFormID">Pharmaceutical Form ID</string>
+
+    <string name="emptyWarning">This field is required</string>
+
+
+
+
     <!--Fin Articulo-->
 
     <!-- Categoria -->
