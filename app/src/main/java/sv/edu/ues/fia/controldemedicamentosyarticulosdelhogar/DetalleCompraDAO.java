@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.widget.Toast;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,8 +23,29 @@ public class DetalleCompraDAO {
             return;
         }
 
-        if (isDuplicateArticuloEnFactura(detalleCompra.getIdCompra(), detalleCompra.getIdArticulo())) {
-            Toast.makeText(context, R.string.duplicate_articulo_in_factura_message, Toast.LENGTH_SHORT).show();
+        if (!existeDetalleExistencia(detalleCompra.getIdArticulo(), detalleCompra.getIdCompra())) {
+            Toast.makeText(context, context.getString(R.string.error_detalle_existencia_no_encontrado), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        int idExistente = getIdDetalleCompraExistente(
+                detalleCompra.getIdCompra(),
+                detalleCompra.getIdArticulo(),
+                detalleCompra.getPrecioUnitarioCompra()
+        );
+
+        if (idExistente != -1) {
+            String sql = "UPDATE DETALLECOMPRA SET CANTIDADCOMPRA = CANTIDADCOMPRA + ?, " +
+                    "TOTALDETALLECOMPRA = TOTALDETALLECOMPRA + ? WHERE IDDETALLECOMPRA = ?";
+            conexionDB.execSQL(sql, new Object[]{
+                    detalleCompra.getCantidadCompra(),
+                    detalleCompra.getTotalDetalleCompra(),
+                    idExistente
+            });
+
+            Toast.makeText(context,
+                    context.getString(R.string.stock_updated_message) + idExistente,
+                    Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -42,16 +62,8 @@ public class DetalleCompraDAO {
         Toast.makeText(context, R.string.save_message, Toast.LENGTH_SHORT).show();
     }
 
-
     public void updateDetalleCompra(DetalleCompra detalleCompra) {
-        if (existeOtroDetalleConMismoArticuloYFactura(
-                detalleCompra.getIdCompra(),
-                detalleCompra.getIdArticulo(),
-                detalleCompra.getIdDetalleCompra())) {
 
-            Toast.makeText(context, R.string.duplicate_articulo_in_factura_message, Toast.LENGTH_SHORT).show();
-            return;
-        }
         ContentValues values = new ContentValues();
         values.put("IDARTICULO", detalleCompra.getIdArticulo());
         values.put("FECHADECOMPRA", detalleCompra.getFechaDeCompra());
@@ -131,7 +143,6 @@ public class DetalleCompraDAO {
         return null;
     }
 
-
     public List<FacturaCompra> getAllFacturaCompra() {
         List<FacturaCompra> lista = new ArrayList<>();
         String sql = "SELECT * FROM FACTURACOMPRA";
@@ -197,28 +208,34 @@ public class DetalleCompraDAO {
         return exists;
     }
 
-    private boolean isDuplicateArticuloEnFactura(int idCompra, int idArticulo) {
-        String sql = "SELECT 1 FROM DETALLECOMPRA WHERE IDCOMPRA = ? AND IDARTICULO = ?";
-        Cursor cursor = conexionDB.rawQuery(sql, new String[]{
-                String.valueOf(idCompra),
-                String.valueOf(idArticulo)
-        });
-        boolean exists = cursor.moveToFirst();
-        cursor.close();
-        return exists;
-    }
-
-
-    // Verifica si ya existe otro detalle con la misma factura y artículo, excluyendo el que se está editando
-    private boolean existeOtroDetalleConMismoArticuloYFactura(int idCompra, int idArticulo, int idDetalleCompraActual) {
-        String sql = "SELECT 1 FROM DETALLECOMPRA WHERE IDCOMPRA = ? AND IDARTICULO = ? AND IDDETALLECOMPRA != ?";
+    private int getIdDetalleCompraExistente(int idCompra, int idArticulo, double precioUnitario) {
+        String sql = "SELECT IDDETALLECOMPRA FROM DETALLECOMPRA WHERE IDCOMPRA = ? AND IDARTICULO = ? AND PRECIOUNITARIOCOMPRA = ?";
         Cursor cursor = conexionDB.rawQuery(sql, new String[]{
                 String.valueOf(idCompra),
                 String.valueOf(idArticulo),
-                String.valueOf(idDetalleCompraActual)
+                String.valueOf(precioUnitario)
         });
 
-        boolean existe = cursor.moveToFirst(); // true si se encontró un duplicado
+        int idDetalle = -1;
+        if (cursor.moveToFirst()) {
+            idDetalle = cursor.getInt(0);
+        }
+        cursor.close();
+        return idDetalle;
+    }
+
+    private boolean existeDetalleExistencia(int idArticulo, int idCompra) {
+        String query = "SELECT 1 " +
+                "FROM DETALLEEXISTENCIA DE " +
+                "INNER JOIN FACTURACOMPRA FC ON DE.IDFARMACIA = FC.IDFARMACIA " +
+                "WHERE DE.IDARTICULO = ? AND FC.IDCOMPRA = ?";
+
+        Cursor cursor = conexionDB.rawQuery(query, new String[]{
+                String.valueOf(idArticulo),
+                String.valueOf(idCompra)
+        });
+
+        boolean existe = cursor.moveToFirst();
         cursor.close();
         return existe;
     }

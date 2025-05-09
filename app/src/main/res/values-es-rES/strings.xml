@@ -76,6 +76,9 @@
     <string name="not_found_message">No se ha encontrado la referencia</string>
     <string name="duplicate_message">La clave del registro ya existe</string>
     <string name="provider_exists">Ya existe un proveedor con este ID o NIT</string>
+    <string name="stock_updated_message">"Stock actualizado correctamente en el detalle # "</string>
+    <string name="dialog_message_update_stock">Ya existe un detalle con esta factura, artículo y precio. ¿Desea actualizar el stock?</string>
+    <string name="error_detalle_existencia_no_encontrado">No hay existencia de este artículo en la farmacia indicada.</string>
     <string name="doctor_name">Nombre</string>
     <string name="doctor_specialty">Especialidad</string>
     <string name="doctor_jvpm">Doctor JVPM</string>
@@ -210,7 +213,7 @@
     <string name="category_name">Nombre Categoria</string>
     <string name="subcategory_id">SubCategoria ID</string>
     <!-- Fin DetalleVenta -->
-
+    <string name="dialog_title_duplicate">Registro ya existe</string>
 
 
     <!-- Detalle de Existencia -->

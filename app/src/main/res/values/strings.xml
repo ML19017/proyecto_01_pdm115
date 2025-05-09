@@ -111,6 +111,9 @@
     <string name="total_purchase">Total Purchase</string>
     <string name="items">Items</string>
     <string name="price">Price</string>
+    <string name="stock_updated_message">"Stock successfully updated in detail # "</string>
+    <string name="error_detalle_existencia_no_encontrado">There is no stock of this item in the specified pharmacy.</string>
+
     <!-- Fin DetallCompra -->
 
     <string name="doctor_name">Name</string>
@@ -168,7 +171,7 @@
     <string name="invalid_search">Invalid search</string>
     <string name="nombre_marca">Brand name</string>
     <string name="id_marca">ID Brand</string>
-    <string name="date" translatable="false">dd - mm - yyyy</string>
+    <string name="date">dd - mm - yyyy</string>
     <string name="description">Description</string>
     <string name="id_cliente">ID Client</string>
     <string name="id_receta">ID Prescription</string>

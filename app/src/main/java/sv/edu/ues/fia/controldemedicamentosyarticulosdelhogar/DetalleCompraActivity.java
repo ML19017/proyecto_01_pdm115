@@ -210,8 +210,8 @@ public class DetalleCompraActivity extends AppCompatActivity {
         );
 
         List<String> listaRegex = Arrays.asList(
-                "\\d+", "\\d{4}-\\d{2}-\\d{2}", "\\d+(\\.\\d{1,2})?", "\\d+", "\\d+(\\.\\d{1,2})?",
-                "\\d+", "\\d+"
+                "\\d+", "\\d{4}-\\d{2}-\\d{2}", "^(?!0(\\.0+)?$)\\d+(\\.\\d{1,2})?$",
+                "^[1-9]\\d*$", "^(?!0(\\.0+)?$)\\d+(\\.\\d{1,2})?$", "\\d+", "\\d+"
         );
 
         List<Integer> mensajesDeError = Arrays.asList(
@@ -248,7 +248,6 @@ public class DetalleCompraActivity extends AppCompatActivity {
         int cantidadArticulos = Integer.parseInt(editTextCantidadDetalleCompra.getText().toString());
         double totalDetalle = Double.parseDouble(editTextTotalDetalleCompra.getText().toString());
 
-        // obtener todas la factura seleccionada y validar que esa factura guarda el id y no un string
         FacturaCompra facturaSeleccionada = (FacturaCompra) spinnerFacturaCompra.getSelectedItem();
         Articulo articuloSeleccionado = (Articulo) spinnerArticuloCompra.getSelectedItem();
             DetalleCompra detalleCompra = new DetalleCompra(facturaSeleccionada.getIdCompra(), articuloSeleccionado.getIdArticulo(), idDetalleCompra, fecha,
@@ -450,6 +449,16 @@ public class DetalleCompraActivity extends AppCompatActivity {
         editTextFechaDetalleCompra.setFocusableInTouchMode(false);
         editTextFechaDetalleCompra.setFocusable(false);
         editTextFechaDetalleCompra.setClickable(false);
+
+        spinnerArticuloCompra.setEnabled(false);
+        spinnerFacturaCompra.setEnabled(false);
+
+        editTextCantidadDetalleCompra.setInputType(InputType.TYPE_NULL);
+        editTextCantidadDetalleCompra.setFocusableInTouchMode(false);
+        editTextCantidadDetalleCompra.setFocusable(false);
+        editTextCantidadDetalleCompra.setClickable(false);
+
+
 
         // obtener lista de facturas compra
         List<FacturaCompra> facturas = detalleCompraDAO.getAllFacturaCompra();
