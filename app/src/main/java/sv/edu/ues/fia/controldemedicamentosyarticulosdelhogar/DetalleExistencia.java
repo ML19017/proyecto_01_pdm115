@@ -64,7 +64,7 @@ public class DetalleExistencia {
     @Override
     public String toString() {
         return  context.getString(R.string.existence_detail_id)+ " : " +idDetalleExistencia + "\n"+
-                ", idArticulo=" + idArticulo +
+                " IdArticulo=" + idArticulo + "\n" +
                 context.getString(R.string.existence_amount)+ " : " +cantidadExistencia + "\n" ;
     }
 }

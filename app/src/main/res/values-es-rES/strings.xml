@@ -197,7 +197,7 @@
     <string name="only_numbers_price">El precio solo debe contener números y un punto decimal opcional.</string>
     <string name="only_numbers_quantity">La cantidad solo debe contener números.</string>
     <string name="only_numbers_total">El total solo debe contener números y un punto decimal opcional.</string>
-    <string name="main_menu">Menu Principal</string>
+    <string name="main_menu">Menú Principal</string>
     <string name="fill_database">Llenar Base de Datos</string>
     <string name="farma_exists">Ya existe una Farmacia con ese ID</string>
     <string name="existence_detail_id">Detalle Existencia ID</string>
@@ -205,6 +205,32 @@
     <string name="category_name">Nombre Categoria</string>
     <string name="subcategory_id">SubCategoria ID</string>
     <!-- Fin DetalleVenta -->
+
+
+
+    <!-- Detalle de Existencia -->
+    <string name="existence_amount">Cantidad Existente</string>
+    <string name="expiration_Date">Fecha de Expiración</string>
+    <string name="select_sucursal">Seleccione una Sucursal</string>
+    <string name="datos_validos">Por favor ingrese datos válidos</string>
+    <!-- Fin Detalle de Existencia -->
+
+
+    <!-- Dirección -->
+    <string name="select_departamento">Seleccione un Departamento</string>
+    <string name="select_municipio">Seleccione un Municipio</string>
+    <string name="select_distrito">Seleccione un Distrito</string>
+    <string name="departamento">Departamento</string>
+    <string name="municipio">Municipio</string>
+    <string name="distrito">Distrito</string>
+    <string name="select_valid_dep_mun_dis">Debe seleccionar un Departamento, Municipio y Distrito válidos.</string>
+    <string name="completar_Campos">Por favor complete todos los campos</string>
+    <string name="select_addres">Seleccione una Dirección</string>
+    <string name="valid_addres">Debe seleccionar una dirección válida.</string>
+    <!-- Fin Dirección -->
+
+    <string name="date">dd - mm - yyyy</string>
+
 
 
 </resources>

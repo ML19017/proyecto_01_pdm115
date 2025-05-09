@@ -131,6 +131,10 @@
     <string name="expiration_Date">Expiration Date</string>
     <string name="select_sucursal">Select a Branch</string>
     <string name="datos_validos">Please enter valid data</string>
+    <string name="mostrar_farmacia">Show Branchs</string>
+    <string name="mostrar_articulo">Show Items</string>
+
+
 
     <!--    End Existence detail-->
 
@@ -144,7 +148,6 @@
 
     <string name="select_valid_dep_mun_dis">You must select a valid Department, Municipality and District.</string>
     <string name="completar_Campos">Please complete all fields</string>
-    <string name="Address_Occupied">Address Occupied, Delete Pharmacy Before</string>
     <string name="select_addres">Select an Address</string>
     <string name="valid_addres">You must select a valid address.</string>
 
@@ -165,7 +168,7 @@
     <string name="invalid_search">Invalid search</string>
     <string name="nombre_marca">Brand name</string>
     <string name="id_marca">ID Brand</string>
-    <string name="date">dd - mm - yyyy</string>
+    <string name="date" translatable="false">dd - mm - yyyy</string>
     <string name="description">Description</string>
     <string name="id_cliente">ID Client</string>
     <string name="id_receta">ID Prescription</string>

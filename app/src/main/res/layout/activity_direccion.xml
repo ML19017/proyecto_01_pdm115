@@ -33,6 +33,14 @@
                 android:text="@string/direction"
                 android:textAlignment="center"
                 android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/txtBusquedaDireccion"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:ems="10"
+                android:hint="@string/search"
+                android:inputType="number"/>
         </LinearLayout>
 
     </LinearLayout>
@@ -61,6 +69,14 @@
             android:layout_margin="5dp"
             android:layout_weight="5"
             android:text="@string/add" />
+
+        <Button
+            android:id="@+id/btnBuscarDireccion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_weight="5"
+            android:text="@string/search" />
 
 
     </LinearLayout>
