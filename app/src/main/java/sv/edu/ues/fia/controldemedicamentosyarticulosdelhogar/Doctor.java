@@ -52,8 +52,6 @@ public class Doctor {
     @Override
     public String toString() {
         return context.getString(R.string.id_doctor) + ": " + getIdDoctor() + "\n"
-                + context.getString(R.string.nombre_doctor) + ": " + getNombreDoctor() + "\n"
-                + context.getString(R.string.especialidad_doctor) + ": " + getEspecialidadDoctor() + "\n"
-                + context.getString(R.string.jvpm) + ": " + getJvpm();
+                + context.getString(R.string.nombre_doctor) + ": " + getNombreDoctor();
     }
 }
