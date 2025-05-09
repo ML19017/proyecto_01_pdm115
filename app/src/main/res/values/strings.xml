@@ -165,7 +165,7 @@
     <string name="invalid_search">Invalid search</string>
     <string name="nombre_marca">Brand name</string>
     <string name="id_marca">ID Brand</string>
-    <string name="date">dd - mm - yyyy</string>
+    <string name="date" translatable="false">dd - mm - yyyy</string>
     <string name="description">Description</string>
     <string name="id_cliente">ID Client</string>
     <string name="id_receta">ID Prescription</string>
