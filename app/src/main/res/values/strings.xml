@@ -131,6 +131,10 @@
     <string name="expiration_Date">Expiration Date</string>
     <string name="select_sucursal">Select a Branch</string>
     <string name="datos_validos">Please enter valid data</string>
+    <string name="mostrar_farmacia">Show Branchs</string>
+    <string name="mostrar_articulo">Show Items</string>
+
+
 
     <!--    End Existence detail-->
 

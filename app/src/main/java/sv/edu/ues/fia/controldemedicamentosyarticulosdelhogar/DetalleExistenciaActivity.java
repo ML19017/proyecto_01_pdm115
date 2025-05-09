@@ -18,9 +18,6 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import java.util.Arrays;
 import java.util.Calendar;
@@ -50,9 +47,12 @@ public class DetalleExistenciaActivity extends AppCompatActivity {
         sucursalFarmaciaDAO = new SucursalFarmaciaDAO(this, conexionDB);
 
         Button btnAgregar = findViewById(R.id.btnAgregarExistence);
+        Button btnBuscar = findViewById(R.id.btnBuscarExistence);
+
 
 
         btnAgregar.setOnClickListener(v -> {showAddDialog();});
+        btnBuscar.setOnClickListener(v -> {showSearchDialog();});
 
         btnAgregar.setVisibility(vac.validarAcceso(1) ? View.VISIBLE : View.GONE);
 
@@ -61,6 +61,9 @@ public class DetalleExistenciaActivity extends AppCompatActivity {
         listViewDetalleExistencia.setVisibility(vac.validarAcceso(3) || vac.validarAcceso(4) ? View.VISIBLE : View.GONE);
 
         fillList();
+
+        btnBuscar.setVisibility(vac.validarAcceso(2) ? View.VISIBLE : View.GONE);
+
 
 
         listViewDetalleExistencia.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -461,6 +464,101 @@ public class DetalleExistenciaActivity extends AppCompatActivity {
 
     }
 
+    public  void showSearchDialog()
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.search);
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_buscar, null);
+        builder.setView(dialogView);
+
+        Button botonMostrarFarmacia  = dialogView.findViewById(R.id.btnMostrarFarmacia);
+        Button botonMostrarArticulo = dialogView.findViewById(R.id.btnMostrarArticulo);
+        Button btnSearchDetailExistence = dialogView.findViewById(R.id.btnSearchDetailExistence);
+
+
+
+
+        Spinner spinnerIdFarmacia = dialogView.findViewById(R.id.spinnerFarmaciaB);
+        Spinner spinnerIdArticulo = dialogView.findViewById(R.id.spinnerArticuloB);
+
+        spinnerIdFarmacia.setVisibility(View.GONE);
+        spinnerIdArticulo.setVisibility(View.GONE);
+
+        botonMostrarFarmacia.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                spinnerIdFarmacia.setVisibility(View.VISIBLE);
+                spinnerIdArticulo.setVisibility(View.GONE);
+            }
+        });
+
+// Mostrar el spinner de artículo y ocultar el de farmacia
+        botonMostrarArticulo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                spinnerIdArticulo.setVisibility(View.VISIBLE);
+                spinnerIdFarmacia.setVisibility(View.GONE);
+            }
+        });
+
+
+        List<SucursalFarmacia> sucursales = sucursalFarmaciaDAO.getAllSucursalFarmacia();
+        List<Articulo> articulos =  detalleExistenciaDAO.getAllArticulos();
+
+        SucursalFarmacia seleccionSucursalFarmacia= new SucursalFarmacia(-1, getString(R.string.select_sucursal));
+        Articulo seleccionArticulo = new Articulo(
+                -1,    // idArticulo
+                getString(R.string.select_articulo), // nombreArticulo
+                this
+        );
+        sucursales.add(0, seleccionSucursalFarmacia);
+        articulos.add(0, seleccionArticulo);
+
+        ArrayAdapter<SucursalFarmacia> adapterSucursales = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, sucursales);
+        adapterSucursales.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerIdFarmacia.setAdapter(adapterSucursales);
+
+        ArrayAdapter<Articulo> adapterArticulos = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, articulos);
+        adapterArticulos.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerIdArticulo.setAdapter(adapterArticulos);
+
+        final AlertDialog dialog = builder.create();
+
+        dialog.show();
+
+        btnSearchDetailExistence.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (spinnerIdFarmacia.getVisibility() == View.GONE) {
+                    Articulo articuloSeleccionado = (Articulo) spinnerIdArticulo.getSelectedItem();
+                    // Aquí haces lo que necesites con el artículo seleccionado
+                    List<DetalleExistencia> detalles = detalleExistenciaDAO.getAllDetallesExistenciaByIdArticulo(articuloSeleccionado.getIdArticulo());
+                    dialog.dismiss();
+                    fillList(detalles);
+
+                } else {
+                    SucursalFarmacia farmaciaSeleccionada = (SucursalFarmacia) spinnerIdFarmacia.getSelectedItem();
+                    List<DetalleExistencia> detalles = detalleExistenciaDAO.getAllDetallesExistenciaByIdFarm(farmaciaSeleccionada.getIdFarmacia());
+                    dialog.dismiss();
+                    fillList(detalles);
+
+                    // Aquí haces lo que necesites con la farmacia seleccionada
+                }
+            }
+        });
+
+
+
+
+
+
+    }
+
+private void fillList(List<DetalleExistencia>  detalles){
+    listaDetalleExistencia = detalles;
+    adaptadorDetalleExistencia = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listaDetalleExistencia);
+    listViewDetalleExistencia.setAdapter(adaptadorDetalleExistencia);
+}
 
 
 }
