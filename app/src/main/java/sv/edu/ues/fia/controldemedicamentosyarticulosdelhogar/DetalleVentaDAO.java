@@ -20,11 +20,29 @@ public class DetalleVentaDAO {
 
     public void addDetalleVenta(DetalleVenta detalleVenta) {
 
-        if (isDuplicate(detalleVenta.getIdCliente(), detalleVenta.getIdVenta(), detalleVenta.getIdArticulo(), detalleVenta.getIdVentaDetalle())) {
+        // 1. Validación de duplicado de clave primaria
+        if (isDuplicate(detalleVenta.getIdCliente(), detalleVenta.getIdVenta(),
+                detalleVenta.getIdArticulo(), detalleVenta.getIdVentaDetalle())) {
             Toast.makeText(context, R.string.duplicate_message, Toast.LENGTH_SHORT).show();
             return;
         }
 
+        // 2. Verificar si hay existencia registrada para el artículo en esa sucursal
+        if (!existeDetalleExistenciaVenta(detalleVenta.getIdArticulo(), detalleVenta.getIdVenta(), detalleVenta.getIdCliente())) {
+            Toast.makeText(context, R.string.error_detalle_existencia_no_encontrado, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // 3. Validar si hay stock suficiente
+        int stockDisponible = getStockDisponible(detalleVenta.getIdArticulo(), detalleVenta.getIdVenta(), detalleVenta.getIdCliente());
+        if (detalleVenta.getCantidadVenta() > stockDisponible) {
+            Toast.makeText(context,
+                    context.getString(R.string.stock_insuficiente_message, stockDisponible),
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        // 4. Inserción del detalle de venta
         ContentValues values = new ContentValues();
         values.put("IDCLIENTE", detalleVenta.getIdCliente());
         values.put("IDVENTA", detalleVenta.getIdVenta());
@@ -35,9 +53,14 @@ public class DetalleVentaDAO {
         values.put("FECHADEVENTA", detalleVenta.getFechaDeVenta());
         values.put("TOTALDETALLEVENTA", detalleVenta.getTotalDetalleVenta());
 
-        conexionDB.insert("DETALLEVENTA", null, values);
-        Toast.makeText(context, R.string.save_message, Toast.LENGTH_SHORT).show();
+        long result = conexionDB.insert("DETALLEVENTA", null, values);
+        if (result == -1) {
+            Toast.makeText(context, R.string.error_saving_detail, Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, R.string.save_message, Toast.LENGTH_SHORT).show();
+        }
     }
+
 
     public void updateDetalleVenta(DetalleVenta detalleVenta) {
         ContentValues values = new ContentValues();
@@ -215,4 +238,40 @@ public class DetalleVentaDAO {
         cursor.close();
         return exists;
     }
+
+    private boolean existeDetalleExistenciaVenta(int idArticulo, int idVenta, int idCliente) {
+        String query = "SELECT 1 FROM DETALLEEXISTENCIA DE " +
+                "INNER JOIN FACTURAVENTA FV ON DE.IDFARMACIA = FV.IDFARMACIA " +
+                "WHERE DE.IDARTICULO = ? AND FV.IDVENTA = ? AND FV.IDCLIENTE = ?";
+
+        Cursor cursor = conexionDB.rawQuery(query, new String[]{
+                String.valueOf(idArticulo),
+                String.valueOf(idVenta),
+                String.valueOf(idCliente)
+        });
+
+        boolean existe = cursor.moveToFirst();
+        cursor.close();
+        return existe;
+    }
+
+    private int getStockDisponible(int idArticulo, int idVenta, int idCliente) {
+        String query = "SELECT DE.CANTIDADEXISTENCIA FROM DETALLEEXISTENCIA DE " +
+                "INNER JOIN FACTURAVENTA FV ON DE.IDFARMACIA = FV.IDFARMACIA " +
+                "WHERE DE.IDARTICULO = ? AND FV.IDVENTA = ? AND FV.IDCLIENTE = ?";
+
+        Cursor cursor = conexionDB.rawQuery(query, new String[]{
+                String.valueOf(idArticulo),
+                String.valueOf(idVenta),
+                String.valueOf(idCliente)
+        });
+
+        int stock = 0;
+        if (cursor.moveToFirst()) {
+            stock = cursor.getInt(0);
+        }
+        cursor.close();
+        return stock;
+    }
+
 }

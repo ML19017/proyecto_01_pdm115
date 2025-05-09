@@ -278,5 +278,8 @@
     <string name="duplicate_nit_message">The NIT is already registered with another supplier.</string>
     <string name="duplicate_articulo_in_factura_message">This item is already registered in the selected invoice.</string>
     <string name="duplicate_iddetalle_message">This detail ID already exists.</string>
+    <string name="error_detalle_existencia_no_encontrado_venta">Stock not found for this item in the branch.</string>
+    <string name="stock_insuficiente_message">"Insufficient stock. Available: "</string>
+    <string name="error_saving_detail">Error saving the sales detail.</string>
     <!-- End SaleDetail -->
 </resources>

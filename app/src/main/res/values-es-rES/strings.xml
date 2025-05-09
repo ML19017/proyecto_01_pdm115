@@ -77,7 +77,6 @@
     <string name="duplicate_message">La clave del registro ya existe</string>
     <string name="provider_exists">Ya existe un proveedor con este ID o NIT</string>
     <string name="stock_updated_message">"Stock actualizado correctamente en el detalle # "</string>
-    <string name="dialog_message_update_stock">Ya existe un detalle con esta factura, artículo y precio. ¿Desea actualizar el stock?</string>
     <string name="error_detalle_existencia_no_encontrado">No hay existencia de este artículo en la farmacia indicada.</string>
     <string name="doctor_name">Nombre</string>
     <string name="doctor_specialty">Especialidad</string>
@@ -213,7 +212,6 @@
     <string name="category_name">Nombre Categoria</string>
     <string name="subcategory_id">SubCategoria ID</string>
     <!-- Fin DetalleVenta -->
-    <string name="dialog_title_duplicate">Registro ya existe</string>
 
 
     <!-- Detalle de Existencia -->
@@ -225,6 +223,7 @@
 
 
     <!-- Dirección -->
+    <string name="mostrar_farmacia">Mostrar sucursales</string>
     <string name="mostrar_articulo">Mostrar articulo</string>
     <string name="select_departamento">Seleccione un Departamento</string>
     <string name="select_municipio">Seleccione un Municipio</string>
@@ -241,6 +240,9 @@
     <string name="date">dd - mm - yyyy</string>
     <string name="item_name">Nombre articulo</string>
     <string name="item_description">Descripcion articulo</string>
+    <string name="error_detalle_existencia_no_encontrado_venta">No se encontró stock para este artículo en la sucursal.</string>
+    <string name="stock_insuficiente_message">"Stock insuficiente. Disponible: "</string>
+    <string name="error_saving_detail">Error al guardar el detalle de venta.</string>
 
 
 </resources>

@@ -78,6 +78,17 @@
     <string name="id_farmacia">Id Farmacia</string>
     <string name="id_direccion">Id Dirección</string>
     <string name="nombre_farmacia">Nombre de la Farmacia</string>
+    <string name="mostrar_articulo">Mostrar articulo</string>
+    <string name="select_departamento">Seleccione un Departamento</string>
+    <string name="select_municipio">Seleccione un Municipio</string>
+    <string name="select_distrito">Seleccione un Distrito</string>
+    <string name="departamento">Departamento</string>
+    <string name="municipio">Municipio</string>
+    <string name="distrito">Distrito</string>
+    <string name="select_valid_dep_mun_dis">Debe seleccionar un Departamento, Municipio y Distrito válidos.</string>
+    <string name="completar_Campos">Por favor complete todos los campos</string>
+    <string name="select_addres">Seleccione una Dirección</string>
+    <string name="valid_addres">Debe seleccionar una dirección válida.</string>
     <string name="category_prompt">Todos</string>
     <string name="item_ID">" ID Item"</string>
     <string name="id_doctor">Id Doctor</string>
@@ -91,6 +102,7 @@
     <string name="invalid_search">Búsqueda invalida</string>
     <string name="nombre_marca">Nombre de la marca</string>
     <string name="id_marca">Id Marca</string>
+    <string name="date">dd - mm - yyyy</string>
     <string name="description">Desctipción</string>
     <string name="id_cliente">Id Cliente</string>
     <string name="id_receta">Id Receta</string>
@@ -202,8 +214,25 @@
     <string name="doctor_specialty">Especialidad</string>
     <string name="farma_exists">Ya existe una Farmacia con ese ID</string>
     <string name="existence_detail_id">Detalle Existencia ID</string>
+    <string name="brandID">Marca ID</string>
+    <string name="ROAID">Via de administracion ID</string>
+    <string name="item_name">Nombre articulo</string>
+    <string name="item_description">Descripcion articulo</string>
+    <string name="restricted">Restringido</string>
+    <string name="pharmaceuticalFormID">Forma Farmaceutica ID</string>
+    <string name="emptyWarning">Este campo es obligatorio</string>
     <string name="category_ID">ID Categoria</string>
     <string name="category_name">Nombre Categoria</string>
     <string name="subcategory_id">SubCategoria ID</string>
+    <string name="stock_updated_message">"Stock actualizado correctamente en el detalle # "</string>
+    <string name="error_detalle_existencia_no_encontrado">No se encontró stock para este artículo en la sucursal.</string>
+    <string name="error_detalle_existencia_no_encontrado_venta">No se encontró stock para este artículo en la sucursal.</string>
+    <string name="stock_insuficiente_message">"Stock insuficiente. Disponible: "</string>
+    <string name="error_saving_detail">Error al guardar el detalle de venta.</string>
+    <string name="existence_amount">Cantidad Existente</string>
+    <string name="expiration_Date">Fecha de Expiración</string>
+    <string name="select_sucursal">Seleccione una Sucursal</string>
+    <string name="datos_validos">Por favor ingrese datos válidos</string>
+    <string name="mostrar_farmacia">Mostrar sucursales</string>
     <!-- Fin DetalleVenta -->
 </resources>
