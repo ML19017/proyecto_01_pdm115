@@ -17,6 +17,8 @@ public class Cliente {
         this.context = context;
     }
 
+
+
     public Cliente(int idCliente, String nombreCliente, Context context) {
         this.idCliente = idCliente;
         this.nombreCliente = nombreCliente;

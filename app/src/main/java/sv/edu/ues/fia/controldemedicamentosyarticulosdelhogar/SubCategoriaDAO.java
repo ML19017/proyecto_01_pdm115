@@ -8,6 +8,7 @@ import android.content.Context;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SubCategoriaDAO {
     private SQLiteDatabase dbConection;
@@ -131,4 +132,23 @@ public class SubCategoriaDAO {
     public void setContext(Context context) {
         this.context = context;
     }
+
+    public List<Categoria> getAllCategoria() {
+        List<Categoria> lista = new ArrayList<>();
+        String sql = "SELECT * FROM CATEGORIA";
+        Cursor cursor = dbConection.rawQuery(sql, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                int idcategoria = cursor.getInt(cursor.getColumnIndexOrThrow("IDCATEGORIA"));
+                String nombrecategoria = cursor.getString(cursor.getColumnIndexOrThrow("NOMBRECATEGORIA"));
+
+                lista.add(new Categoria(idcategoria, nombrecategoria, context));
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return lista;
+    }
+
 }

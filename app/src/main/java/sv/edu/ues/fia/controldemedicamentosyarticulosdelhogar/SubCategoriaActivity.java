@@ -140,44 +140,96 @@ public class SubCategoriaActivity extends AppCompatActivity implements AdapterVi
         builder.setView(dialogView);
 
         EditText idNewSubCategoria = dialogView.findViewById(R.id.editTextsubCategoriaId);
-        EditText idCategoriaPadre = dialogView.findViewById(R.id.editTextCategoriaPadreId);
         EditText nameNewSubCategoria = dialogView.findViewById(R.id.editTextsubCategoriaNombre);
         Button btnSaveCategoria = dialogView.findViewById(R.id.btnGuardarSubCategoria);
         Button btnClear = dialogView.findViewById(R.id.btnLimpiarSubCategoria);
+        Spinner spinnerIdCategoria = dialogView.findViewById(R.id.spinnerIdCategoria);
 
-        EditText[] campos = {idNewSubCategoria, idCategoriaPadre, nameNewSubCategoria};
+        List<Categoria> categorias = subCategoriaDAO.getAllCategoria();
+        categorias.add(0, new Categoria(-1, getString(R.string.select_categoria), this)); // opción por defecto
+        ArrayAdapter<Categoria> adapterCategoria = new ArrayAdapter<Categoria>(this, android.R.layout.simple_spinner_item, categorias) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                TextView view = (TextView) super.getView(position, convertView, parent);
+                Categoria categoria = getItem(position);
+                view.setText(categoria.getIdCategoria() == -1 ? getString(R.string.select_categoria) : categoria.getNombreCategoria());
+                return view;
+            }
 
-        AlertDialog dialog = builder.create();
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                TextView view = (TextView) super.getDropDownView(position, convertView, parent);
+                Categoria categoria = getItem(position);
+                view.setText(categoria.getIdCategoria() == -1
+                        ? getString(R.string.select_categoria)
+                        : categoria.getNombreCategoria() + " (ID: " + categoria.getIdCategoria() + ")");
+                view.setTextColor(categoria.getIdCategoria() == -1 ? Color.GRAY : Color.BLACK);
+                return view;
+            }
+        };
+        adapterCategoria.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerIdCategoria.setAdapter(adapterCategoria);
 
         Cursor cursor = subCategoriaDAO.getDbConection().rawQuery("SELECT COUNT(*) FROM SUBCATEGORIA", null);
         if (cursor.moveToFirst()) {
             numRegistros = cursor.getInt(0);
         }
-        idNewSubCategoria.setText(Integer.toString(numRegistros + 1));
+        idNewSubCategoria.setText(String.valueOf(numRegistros + 1));
 
+        AlertDialog dialog = builder.create();
 
         btnClear.setOnClickListener(v -> {
             idNewSubCategoria.setText("");
-            idCategoriaPadre.setText("");
+            spinnerIdCategoria.setSelection(0);
             nameNewSubCategoria.setText("");
         });
 
         btnSaveCategoria.setOnClickListener(v -> {
-            if (!areFieldsEmpty(campos)) {
-                int id = Integer.parseInt(String.valueOf(idNewSubCategoria.getText()));
-                int idCategoria = Integer.parseInt(String.valueOf(idCategoriaPadre.getText()));
-                String name = String.valueOf(nameNewSubCategoria.getText());
-                SubCategoria subCat = new SubCategoria(id, idCategoria, name);
-                boolean exito = subCategoriaDAO.insertarSubCategoria(subCat);
-                if (exito) {
-                    dialog.dismiss();
+            Categoria categoriaSeleccionada = (Categoria) spinnerIdCategoria.getSelectedItem();
+
+            boolean valido = true;
+
+            if (categoriaSeleccionada == null || categoriaSeleccionada.getIdCategoria() == -1) {
+                Toast.makeText(this, getString(R.string.error_select_categoria), Toast.LENGTH_SHORT).show();
+                TextView errorText = (TextView) spinnerIdCategoria.getSelectedView();
+                if (errorText != null) {
+                    errorText.setError(getString(R.string.field_empty));
+                    errorText.setTextColor(Color.RED);
                 }
+                valido = false;
+            }
+
+            String nombre = nameNewSubCategoria.getText().toString().trim();
+            String idTexto = idNewSubCategoria.getText().toString().trim();
+
+            if (idTexto.isEmpty()) {
+                idNewSubCategoria.setError(getString(R.string.field_empty));
+                valido = false;
+            }
+
+            if (nombre.isEmpty()) {
+                nameNewSubCategoria.setError(getString(R.string.field_empty));
+                valido = false;
+            }
+
+            if (!valido) return;
+
+            int id = Integer.parseInt(idTexto);
+            int idCategoria = categoriaSeleccionada.getIdCategoria();
+
+            SubCategoria subCat = new SubCategoria(id, idCategoria, nombre);
+            boolean exito = subCategoriaDAO.insertarSubCategoria(subCat);
+            if (exito) {
+                dialog.dismiss();
                 actualizarListView(selected);
+            } else {
+                Toast.makeText(this, getString(R.string.error_guardar_subcategoria), Toast.LENGTH_SHORT).show();
             }
         });
-        dialog.show();
 
+        dialog.show();
     }
+
 
     public void showOptionsDialog(SubCategoria subCategoria) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -214,13 +266,46 @@ public class SubCategoriaActivity extends AppCompatActivity implements AdapterVi
         AlertDialog dialog = builder.create();
 
         EditText idSubCategoria = dialogView.findViewById(R.id.editTextsubCategoriaId);
-        EditText idCategoriaPadre = dialogView.findViewById(R.id.editTextCategoriaPadreId);
         EditText nameSubCategoria = dialogView.findViewById(R.id.editTextsubCategoriaNombre);
+        Spinner spinnerIdCategoria = dialogView.findViewById(R.id.spinnerIdCategoria);
         Button btnSaveCategoria = dialogView.findViewById(R.id.btnGuardarSubCategoria);
         Button btnClear = dialogView.findViewById(R.id.btnLimpiarSubCategoria);
 
-        idCategoriaPadre.setText(Integer.toString(subCategoria.getIdCategoria()));
-        idCategoriaPadre.setEnabled(false);
+        spinnerIdCategoria.setEnabled(false);
+
+        List<Categoria> categorias = subCategoriaDAO.getAllCategoria();
+        categorias.add(0, new Categoria(-1, getString(R.string.select_categoria), this)); // opción por defecto
+        ArrayAdapter<Categoria> adapterCategoria = new ArrayAdapter<Categoria>(this, android.R.layout.simple_spinner_item, categorias) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                TextView view = (TextView) super.getView(position, convertView, parent);
+                Categoria categoria = getItem(position);
+                view.setText(categoria.getIdCategoria() == -1 ? getString(R.string.select_categoria) : categoria.getNombreCategoria());
+                return view;
+            }
+
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                TextView view = (TextView) super.getDropDownView(position, convertView, parent);
+                Categoria categoria = getItem(position);
+                view.setText(categoria.getIdCategoria() == -1
+                        ? getString(R.string.select_categoria)
+                        : categoria.getNombreCategoria() + " (ID: " + categoria.getIdCategoria() + ")");
+                view.setTextColor(categoria.getIdCategoria() == -1 ? Color.GRAY : Color.BLACK);
+                return view;
+            }
+        };
+        adapterCategoria.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerIdCategoria.setAdapter(adapterCategoria);
+
+        for (int i = 0; i < categorias.size(); i++) {
+            if (categorias.get(i).getIdCategoria() == subCategoria.getIdCategoria()) {
+                spinnerIdCategoria.setSelection(i);
+                break;
+            }
+        }
+
+
         idSubCategoria.setText(Integer.toString(subCategoria.getIdSubCategoria()));
         idSubCategoria.setEnabled(false);
         nameSubCategoria.setText(subCategoria.getNombreSubCategoria());
@@ -239,41 +324,91 @@ public class SubCategoriaActivity extends AppCompatActivity implements AdapterVi
         AlertDialog dialog = builder.create();
 
         EditText idSubCategoria = dialogView.findViewById(R.id.editTextsubCategoriaId);
-        EditText idCategoriaPadre = dialogView.findViewById(R.id.editTextCategoriaPadreId);
         EditText nameSubCategoria = dialogView.findViewById(R.id.editTextsubCategoriaNombre);
+        Spinner spinnerIdCategoria = dialogView.findViewById(R.id.spinnerIdCategoria);
         Button btnSaveSubCategoria = dialogView.findViewById(R.id.btnGuardarSubCategoria);
         Button btnClear = dialogView.findViewById(R.id.btnLimpiarSubCategoria);
 
-        EditText[] campos = {idSubCategoria, idCategoriaPadre, nameSubCategoria};
+        List<Categoria> categorias = subCategoriaDAO.getAllCategoria();
+        categorias.add(0, new Categoria(-1, getString(R.string.select_categoria), this)); // opción por defecto
 
-        idSubCategoria.setText(Integer.toString(subCategoria.getIdSubCategoria()));
-        idCategoriaPadre.setText(Integer.toString(subCategoria.getIdCategoria()));
-        nameSubCategoria.setText(subCategoria.getNombreSubCategoria());
+        ArrayAdapter<Categoria> adapterCategoria = new ArrayAdapter<Categoria>(this, android.R.layout.simple_spinner_item, categorias) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                TextView view = (TextView) super.getView(position, convertView, parent);
+                Categoria categoria = getItem(position);
+                view.setText(categoria.getIdCategoria() == -1 ? getString(R.string.select_categoria) : categoria.getNombreCategoria());
+                return view;
+            }
+
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                TextView view = (TextView) super.getDropDownView(position, convertView, parent);
+                Categoria categoria = getItem(position);
+                view.setText(categoria.getIdCategoria() == -1
+                        ? getString(R.string.select_categoria)
+                        : categoria.getNombreCategoria() + " (ID: " + categoria.getIdCategoria() + ")");
+                view.setTextColor(categoria.getIdCategoria() == -1 ? Color.GRAY : Color.BLACK);
+                return view;
+            }
+        };
+        adapterCategoria.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerIdCategoria.setAdapter(adapterCategoria);
+
+        for (int i = 0; i < categorias.size(); i++) {
+            if (categorias.get(i).getIdCategoria() == subCategoria.getIdCategoria()) {
+                spinnerIdCategoria.setSelection(i);
+                break;
+            }
+        }
+
+        idSubCategoria.setText(String.valueOf(subCategoria.getIdSubCategoria()));
         idSubCategoria.setEnabled(false);
+        nameSubCategoria.setText(subCategoria.getNombreSubCategoria());
 
         btnSaveSubCategoria.setOnClickListener(v -> {
-            if (!areFieldsEmpty(campos)) {
+            Categoria categoriaSeleccionada = (Categoria) spinnerIdCategoria.getSelectedItem();
+            boolean valido = true;
 
-                subCategoria.setIdCategoria(Integer.parseInt(String.valueOf(idCategoriaPadre.getText())));
-                subCategoria.setNombreSubCategoria(String.valueOf(nameSubCategoria.getText()));
-                int respuesta = subCategoriaDAO.updateSubCategoria(subCategoria);
-                switch (respuesta) {
-                    case 1:
-                        actualizarListView(selected);
-                        dialog.dismiss();
-                        dialogoPadre.dismiss();
-                        break;
-                    case 2:
-                        idCategoriaPadre.setError("Invalido");
+            if (categoriaSeleccionada == null || categoriaSeleccionada.getIdCategoria() == -1) {
+                Toast.makeText(this, getString(R.string.error_select_categoria), Toast.LENGTH_SHORT).show();
+                TextView errorView = (TextView) spinnerIdCategoria.getSelectedView();
+                if (errorView != null) {
+                    errorView.setError(getString(R.string.field_empty));
+                    errorView.setTextColor(Color.RED);
                 }
+                valido = false;
+            }
+
+            String nombre = nameSubCategoria.getText().toString().trim();
+            if (nombre.isEmpty()) {
+                nameSubCategoria.setError(getString(R.string.field_empty));
+                valido = false;
+            }
+
+            if (!valido) return;
+
+            subCategoria.setIdCategoria(categoriaSeleccionada.getIdCategoria());
+            subCategoria.setNombreSubCategoria(nombre);
+            int respuesta = subCategoriaDAO.updateSubCategoria(subCategoria);
+
+            if (respuesta == 1) {
+                actualizarListView(selected);
+                dialog.dismiss();
+                dialogoPadre.dismiss();
+            } else {
+                Toast.makeText(this, getString(R.string.error_guardar_subcategoria), Toast.LENGTH_SHORT).show();
             }
         });
+
         btnClear.setOnClickListener(v -> {
-            idCategoriaPadre.setText("");
+            spinnerIdCategoria.setSelection(0);
             nameSubCategoria.setText("");
         });
+
         dialog.show();
     }
+
 
     public void eliminarSubCategoria(SubCategoria subCategoria, AlertDialog dialogoPadre) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

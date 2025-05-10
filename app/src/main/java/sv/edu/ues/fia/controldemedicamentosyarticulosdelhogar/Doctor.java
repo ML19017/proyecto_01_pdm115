@@ -17,6 +17,12 @@ public class Doctor {
         this.context = context;
     }
 
+    public Doctor(int idDoctor, String nombreDoctor, Context context) {
+        this.idDoctor = idDoctor;
+        this.nombreDoctor = nombreDoctor;
+        this.context = context;
+    }
+
     public int getIdDoctor() {
         return idDoctor;
     }

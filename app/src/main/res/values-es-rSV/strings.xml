@@ -103,7 +103,7 @@
     <string name="nombre_marca">Nombre de la marca</string>
     <string name="id_marca">Id Marca</string>
     <string name="date">dd - mm - yyyy</string>
-    <string name="description">Desctipción</string>
+    <string name="description">Descripción</string>
     <string name="id_cliente">Id Cliente</string>
     <string name="id_receta">Id Receta</string>
     <string name="fecha_receta">Fecha de la receta</string>
@@ -247,6 +247,12 @@
     <string name="select_subcategory">Seleccione una subcategoría</string>
     <string name="select_pharma_form">Seleccione una forma farmacéutica</string>
     <string name="save_error">No se ha podido guardar el artículo. Comprueba los datos.</string>
+
+    <string name="select_doctor">Seleccione un doctor</string>
+    <string name="select_cliente">Seleccione un cliente</string>
+    <string name="select_categoria">Seleccione una categoría</string>
+    <string name="error_select_categoria">Debe seleccionar una categoría válida</string>
+    <string name="error_guardar_subcategoria">Error saving the subcategory</string>
 
 
 </resources>

@@ -124,6 +124,42 @@ public class RecetaDAO {
         }
     }
 
+    public List<Doctor> getAllDoctor() {
+        List<Doctor> lista = new ArrayList<>();
+        String sql = "SELECT * FROM DOCTOR";
+        Cursor cursor = db.rawQuery(sql, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                int idDoctor = cursor.getInt(cursor.getColumnIndexOrThrow("IDDOCTOR"));
+                String nombreDoctor = cursor.getString(cursor.getColumnIndexOrThrow("NOMBREDOCTOR"));
+
+                lista.add(new Doctor(idDoctor, nombreDoctor, context));
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return lista;
+    }
+
+    public List<Cliente> getAllCliente() {
+        List<Cliente> lista = new ArrayList<>();
+        String sql = "SELECT * FROM CLIENTE";
+        Cursor cursor = db.rawQuery(sql, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                int idCliente = cursor.getInt(cursor.getColumnIndexOrThrow("IDCLIENTE"));
+                String nombreCliente = cursor.getString(cursor.getColumnIndexOrThrow("NOMBRECLIENTE"));
+
+                lista.add(new Cliente(idCliente, nombreCliente, context));
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return lista;
+    }
+
     private boolean isDuplicate(int idReceta) {
         String sql = "SELECT 1 FROM RECETA WHERE IDRECETA=?";
         Cursor cursor = db.rawQuery(sql, new String[]{
