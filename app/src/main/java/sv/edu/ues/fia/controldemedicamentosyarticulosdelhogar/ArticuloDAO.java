@@ -192,63 +192,51 @@ public class ArticuloDAO {
     }
 
     public boolean validarForaneas(Integer idForanea, Integer opcion) {
-        /*Opciones:
-        1 - Marca
-        2 - Via Administracion
-        3 - SubCategoria
-        4- Forma farmaceutica
-        */
+    /* Opciones:
+       1 - Marca
+       2 - Vía Administración (puede ser nula)
+       3 - SubCategoría
+       4 - Forma Farmacéutica (puede ser nula)
+    */
 
         switch (opcion) {
-            case 1:
+            case 1: // Marca
                 String[] marca = {Integer.toString(idForanea)};
                 Cursor findMarca = getDbConection().query("MARCA", null, "IDMARCA = ?", marca, null, null, null);
-                if (findMarca.getCount()== 1) {
+                if (findMarca.getCount() == 1) {
                     return true;
-                } else if (findMarca.getCount() > 1) {
-                    Toast.makeText(this.context, R.string.brand_not_found, Toast.LENGTH_SHORT).show();
-                    return false;
                 } else {
                     Toast.makeText(this.context, R.string.brand_not_found, Toast.LENGTH_SHORT).show();
                     return false;
                 }
-            case 2:
+
+            case 2: // Vía Administración (puede ser nula)
+                if (idForanea == null) return true;
                 String[] viaAdmin = {Integer.toString(idForanea)};
                 Cursor findViaAdmin = getDbConection().query("VIAADMINISTRACION", null, "IDVIAADMINISTRACION = ?", viaAdmin, null, null, null);
-                if (findViaAdmin.getCount() == 1) {
-                    return true;
-                } else if (findViaAdmin.getCount() > 1) {
-                    return true;
-                } else {
-                    return true;
-                }
-            case 3:
+                return findViaAdmin.getCount() == 1;
+
+            case 3: // SubCategoría
                 String[] subCat = {Integer.toString(idForanea)};
                 Cursor findSubCat = getDbConection().query("SUBCATEGORIA", null, "IDSUBCATEGORIA = ?", subCat, null, null, null);
-                if (findSubCat.getCount()== 1) {
+                if (findSubCat.getCount() == 1) {
                     return true;
-                } else if (findSubCat.getCount() > 1) {
-                    Toast.makeText(this.context, R.string.sub_category_not_foud, Toast.LENGTH_SHORT).show();
-                    return false;
                 } else {
                     Toast.makeText(this.context, R.string.sub_category_not_foud, Toast.LENGTH_SHORT).show();
                     return false;
                 }
 
-            case 4:
+            case 4: // Forma Farmacéutica (puede ser nula)
+                if (idForanea == null) return true;
                 String[] formaFarm = {Integer.toString(idForanea)};
                 Cursor findFormaFarm = getDbConection().query("FORMAFARMACEUTICA", null, "IDFORMAFARMACEUTICA = ?", formaFarm, null, null, null);
-                if (findFormaFarm.getCount() == 1) {
-                    return true;
-                } else if (findFormaFarm.getCount() > 1) {
-                    return true;
-                } else {
-                    return true;
-                }
+                return findFormaFarm.getCount() == 1;
+
             default:
                 return false;
         }
     }
+
 }
 
 
