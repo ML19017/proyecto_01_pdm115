@@ -288,5 +288,7 @@
     <string name="error_category_not_found">Error: Category does not exist</string>
 
 
+    <string name="sub_category_not_foud">Sub category not found</string>
+    <string name="brand_not_found">Brand not found</string>
     <!-- End SaleDetail -->
 </resources>
