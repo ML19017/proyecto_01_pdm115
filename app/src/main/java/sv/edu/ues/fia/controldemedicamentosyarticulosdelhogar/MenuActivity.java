@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
@@ -37,6 +39,7 @@ public class MenuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SharedPreferences preferencias = getSharedPreferences("PERMISOS_APP", Context.MODE_PRIVATE);
+
         List<String> opcionesFiltradas = new ArrayList<>();
         List<Integer> iconosFiltrados = new ArrayList<>();
         List<String> idMenuFiltrado = new ArrayList<>();
@@ -75,6 +78,9 @@ public class MenuActivity extends AppCompatActivity {
                 exp.printStackTrace();
             }
         });
+
+        TextView username = (TextView) findViewById(R.id.tvUsername);
+        username.setText(preferencias.getString("user_name", null));
 
         Button llenarBD = (Button) findViewById(R.id.llenarDB);
         llenarBD.setOnClickListener(v -> {

@@ -66,6 +66,7 @@ public class LoginActivity extends AppCompatActivity {
                     } while (permisosMenuCursor.moveToNext());
                 }
                 editor.putString("id_usuario",cursor.getString(cursor.getColumnIndexOrThrow("IDUSUARIO")));
+                editor.putString("user_name", username);
                 editor.apply();
                 permisosMenuCursor.close();
             }

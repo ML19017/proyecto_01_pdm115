@@ -44,6 +44,16 @@
                     android:text="@string/fill_database"
                     android:backgroundTint="@color/green"/>
 
+                <TextView
+                    android:id="@+id/tvUsername"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="1dp"
+                    android:paddingEnd="12dp"
+                    android:textAlignment="textEnd"
+                    android:text="@string/username_text"
+                    android:textColor="@color/white"/>
+
             </LinearLayout>
 
             <TextView
