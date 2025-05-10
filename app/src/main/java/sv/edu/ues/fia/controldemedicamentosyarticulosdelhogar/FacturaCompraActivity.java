@@ -66,6 +66,7 @@ public class FacturaCompraActivity extends AppCompatActivity {
 
 
         listViewFacturaCompra = findViewById(R.id.lvFacturaCompra);
+        listViewFacturaCompra.setVisibility(vac.validarAcceso(3) || vac.validarAcceso(4) ? View.VISIBLE : View.INVISIBLE);
         fillList();
 
         listViewFacturaCompra.setOnItemClickListener((parent, view, position, id) -> {
@@ -245,20 +246,42 @@ public class FacturaCompraActivity extends AppCompatActivity {
         Button btnVerDetalles = dialogView.findViewById(R.id.buttonViewDetails);
 
         if (this instanceof FacturaCompraActivity) {
-            btnVerDetalles.setVisibility(View.VISIBLE);
-            btnVerDetalles.setEnabled(true);
-            btnVerDetalles.setOnClickListener(v -> {
-                mostrarDetallesFactura(facturaCompra.getIdCompra());
+            if(vac.validarAcceso(2)){
+                btnVerDetalles.setVisibility(View.VISIBLE);
+                btnVerDetalles.setEnabled(true);
+                btnVerDetalles.setOnClickListener(v -> {
+                    mostrarDetallesFactura(facturaCompra.getIdCompra());
+                    dialog.dismiss();
+                });
+            }else{
+                Toast.makeText(getApplicationContext(), R.string.action_block, Toast.LENGTH_LONG).show();
                 dialog.dismiss();
-            });
+            }
         }
 
-        dialogView.findViewById(R.id.buttonView).setOnClickListener(v -> viewFacturaCompra(facturaCompra));
-        dialogView.findViewById(R.id.buttonEdit).setOnClickListener(v -> {
-            dialog.dismiss();
-            editFacturaCompra(facturaCompra);
+        dialogView.findViewById(R.id.buttonView).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(vac.validarAcceso(2))
+                    viewFacturaCompra(facturaCompra);
+                else
+                    Toast.makeText(getApplicationContext(), R.string.action_block, Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+            }
         });
-        dialogView.findViewById(R.id.buttonDelete).setOnClickListener(v -> deleteFacturaCompra(facturaCompra.getIdCompra()));
+        dialogView.findViewById(R.id.buttonEdit).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(vac.validarAcceso(2)){
+                    dialog.dismiss();
+                    editFacturaCompra(facturaCompra);
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), R.string.action_block, Toast.LENGTH_LONG).show();
+                    dialog.dismiss();
+                }
+            }
+        });
         dialogView.findViewById(R.id.buttonDelete).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

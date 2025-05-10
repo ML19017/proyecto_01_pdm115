@@ -32,6 +32,7 @@ public class SubCategoriaActivity extends AppCompatActivity implements AdapterVi
     private ArrayAdapter<SubCategoria> adaptadorListV;
     private ArrayAdapter<Categoria> adaptadorSpinner;
     private Categoria selected;
+    private final ValidarAccesoCRUD vac = new ValidarAccesoCRUD(this);
 
     private List<SubCategoria> valuesSubCat = new ArrayList<>();
     private List<Categoria> valuesCat = new ArrayList<>();
@@ -82,6 +83,7 @@ public class SubCategoriaActivity extends AppCompatActivity implements AdapterVi
         //List view
         adaptadorListV = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, valuesSubCat);
         ListView listV = (ListView) findViewById(R.id.subCategoryListv);
+        listV.setVisibility(vac.validarAcceso(3) || vac.validarAcceso(4) ? View.VISIBLE : View.INVISIBLE);
         listV.setAdapter(adaptadorListV);
         listV.setOnItemClickListener(this);
 
@@ -191,16 +193,37 @@ public class SubCategoriaActivity extends AppCompatActivity implements AdapterVi
 
         AlertDialog dialog = builder.create();
 
-        btnView.setOnClickListener(v -> {
-            verSubCategoria(subCategoria);
+        dialogView.findViewById(R.id.buttonView).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(vac.validarAcceso(2))
+                    verSubCategoria(subCategoria);
+                else
+                    Toast.makeText(getApplicationContext(), R.string.action_block, Toast.LENGTH_LONG).show();
+                dialog.dismiss();
+            }
         });
 
-        btnUpdate.setOnClickListener(v -> {
-            editSubCategoria(subCategoria, dialog);
+        dialogView.findViewById(R.id.buttonEdit).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(vac.validarAcceso(3))
+                    editSubCategoria(subCategoria, dialog);
+                else
+                    Toast.makeText(getApplicationContext(), R.string.action_block, Toast.LENGTH_LONG).show();
+                dialog.dismiss();
+            }
         });
 
-        btnDelete.setOnClickListener(v -> {
-            eliminarSubCategoria(subCategoria, dialog);
+        dialogView.findViewById(R.id.buttonDelete).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(vac.validarAcceso(4))
+                    eliminarSubCategoria(subCategoria, dialog);
+                else
+                    Toast.makeText(getApplicationContext(), R.string.action_block, Toast.LENGTH_LONG).show();
+                dialog.dismiss();
+            }
         });
         dialog.show();
 

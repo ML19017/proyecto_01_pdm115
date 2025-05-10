@@ -60,6 +60,7 @@ public class DetalleCompraActivity extends AppCompatActivity {
         });
 
         listViewDetalleCompra = findViewById(R.id.lvDetalleCompra);
+        listViewDetalleCompra.setVisibility(vac.validarAcceso(3) || vac.validarAcceso(4) ? View.VISIBLE : View.INVISIBLE);
         fillList();
 
         listViewDetalleCompra.setOnItemClickListener((parent, view, position, id) -> {
@@ -269,20 +270,41 @@ public class DetalleCompraActivity extends AppCompatActivity {
 
         final AlertDialog dialog = builder.create();
 
-        dialogView.findViewById(R.id.buttonView).setOnClickListener(v -> viewDetalleCompra(detalleCompra));
-
-        dialogView.findViewById(R.id.buttonEdit).setOnClickListener(v -> {
-            dialog.dismiss();
-            editDetalleCompra(detalleCompra);
+        dialogView.findViewById(R.id.buttonView).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(vac.validarAcceso(2))
+                    viewDetalleCompra(detalleCompra);
+                else
+                    Toast.makeText(getApplicationContext(), R.string.action_block, Toast.LENGTH_LONG).show();
+                dialog.dismiss();
+            }
         });
 
-        dialogView.findViewById(R.id.buttonDelete).setOnClickListener(v -> {
-            if (vac.validarAcceso(4)) {
-                deleteDetalleCompra(detalleCompra.getIdDetalleCompra());
-            } else {
-                Toast.makeText(getApplicationContext(), R.string.action_block, Toast.LENGTH_LONG).show();
+        dialogView.findViewById(R.id.buttonEdit).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(vac.validarAcceso(3)) {
+                    dialog.dismiss();
+                    editDetalleCompra(detalleCompra);
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), R.string.action_block, Toast.LENGTH_LONG).show();
+                    dialog.dismiss();
+                }
             }
-            dialog.dismiss();
+        });
+
+        dialogView.findViewById(R.id.buttonDelete).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (vac.validarAcceso(4)) {
+                    deleteDetalleCompra(detalleCompra.getIdDetalleCompra());
+                } else {
+                    Toast.makeText(getApplicationContext(), R.string.action_block, Toast.LENGTH_LONG).show();
+                }
+                dialog.dismiss();
+            }
         });
 
         dialog.show();

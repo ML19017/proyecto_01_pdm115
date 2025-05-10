@@ -52,6 +52,7 @@ public class ProveedorActivity extends AppCompatActivity {
         });
 
         listViewProveedores = findViewById(R.id.listViewProveedores);
+        listViewProveedores.setVisibility(vac.validarAcceso(3) || vac.validarAcceso(4) ? View.VISIBLE : View.INVISIBLE);
         fillList();
 
         listViewProveedores.setOnItemClickListener((parent, view, position, id) -> {
@@ -144,15 +145,40 @@ public class ProveedorActivity extends AppCompatActivity {
 
         final AlertDialog dialog = builder.create();
 
-        dialogView.findViewById(R.id.buttonView).setOnClickListener(v -> viewProveedor(proveedor));
-        dialogView.findViewById(R.id.buttonEdit).setOnClickListener(v -> {
-            dialog.dismiss();
-            editProveedor(proveedor);
+        dialogView.findViewById(R.id.buttonView).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(vac.validarAcceso(2))
+                    viewProveedor(proveedor);
+                else
+                    Toast.makeText(getApplicationContext(), R.string.action_block, Toast.LENGTH_LONG).show();
+                dialog.dismiss();
+            }
         });
-        dialogView.findViewById(R.id.buttonDelete).setOnClickListener(v -> {
-            if (vac.validarAcceso(4)) deleteProveedor(proveedor.getIdProveedor());
-            else Toast.makeText(this, R.string.action_block, Toast.LENGTH_SHORT).show();
-            dialog.dismiss();
+        dialogView.findViewById(R.id.buttonEdit).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(vac.validarAcceso(3)) {
+                    dialog.dismiss();
+                    editProveedor(proveedor);
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), R.string.action_block, Toast.LENGTH_LONG).show();
+                    dialog.dismiss();
+                }
+            }
+        });
+        dialogView.findViewById(R.id.buttonDelete).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (vac.validarAcceso(4)) {
+                    deleteProveedor(proveedor.getIdProveedor());
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), R.string.action_block, Toast.LENGTH_LONG).show();
+                    dialog.dismiss();
+                }
+            }
         });
 
         dialog.show();
