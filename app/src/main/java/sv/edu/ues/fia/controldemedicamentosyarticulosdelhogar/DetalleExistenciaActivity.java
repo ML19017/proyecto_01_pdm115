@@ -266,12 +266,6 @@ public class DetalleExistenciaActivity extends AppCompatActivity {
         if(!vac.validarAcceso(4))
                     dialogView.findViewById(R.id.buttonDelete).setVisibility(View.GONE);
 
-
-
-
-
-
-
         dialogView.findViewById(R.id.buttonView).setOnClickListener(v -> viewExistence(detalleExistencia, dialog));
         dialogView.findViewById(R.id.buttonEdit).setOnClickListener(v -> editExistence(detalleExistencia, dialog));
         dialogView.findViewById(R.id.buttonDelete).setOnClickListener(v -> deleteExistence(detalleExistencia.getIdDetalleExistencia(), dialog));
@@ -457,11 +451,21 @@ public class DetalleExistenciaActivity extends AppCompatActivity {
         }
 
     }
-    public void deleteExistence(int id , AlertDialog dialog) {
-        dialog.dismiss();
-        detalleExistenciaDAO.deleteExistencia(id);
-        fillList();
+    public void deleteExistence(int id , AlertDialog dialog_init) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.confirm_delete);
+        builder.setMessage(getString(R.string.confirm_delete_message) + ": " + id);
 
+        builder.setPositiveButton(R.string.yes, (dialog, which) -> {
+            detalleExistenciaDAO.deleteExistencia(id);
+            fillList();
+        });
+
+        builder.setNegativeButton(R.string.no, (dialog, which) -> dialog.dismiss());
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+        dialog_init.dismiss();
     }
 
     public  void showSearchDialog()

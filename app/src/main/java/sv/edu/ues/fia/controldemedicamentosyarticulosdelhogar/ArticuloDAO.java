@@ -41,9 +41,10 @@ public class ArticuloDAO {
 
             insercion = dbConection.insert("ARTICULO", null, item);
             if (insercion == -1) {
-                Toast.makeText(this.context, "Registro con id duplicado", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this.context, R.string.duplicate_message, Toast.LENGTH_SHORT).show();
                 return false;
             }
+            Toast.makeText(context, R.string.save_message, Toast.LENGTH_SHORT).show();
             return true;
         } else {
             return false;
@@ -152,16 +153,17 @@ public class ArticuloDAO {
 
                 int control = dbConection.update("ARTICULO", cambios, "IDARTICULO = ?", id);
                 if (control == 1) {
+                    Toast.makeText(context,R.string.update_message, Toast.LENGTH_SHORT).show();
                     return true;
                 } else {
                     return false;
                 }
             }
         } else if (item.getCount() > 1) {
-            Toast.makeText(this.context, "Error: mas de un ARTICULO ENCONTRADO ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this.context, R.string.not_found_message, Toast.LENGTH_SHORT).show();
             return false;
         } else {
-            Toast.makeText(this.context, "No existe el ARTICULO", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this.context, R.string.not_found_message, Toast.LENGTH_SHORT).show();
             return false;
         }
         return false;
@@ -204,10 +206,10 @@ public class ArticuloDAO {
                 if (findMarca.getCount()== 1) {
                     return true;
                 } else if (findMarca.getCount() > 1) {
-                    Toast.makeText(this.context, "Error: mas de una MARCA encontrada", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this.context, R.string.brand_not_found, Toast.LENGTH_SHORT).show();
                     return false;
                 } else {
-                    Toast.makeText(this.context, "No existe la MARCA", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this.context, R.string.brand_not_found, Toast.LENGTH_SHORT).show();
                     return false;
                 }
             case 2:
@@ -216,11 +218,9 @@ public class ArticuloDAO {
                 if (findViaAdmin.getCount() == 1) {
                     return true;
                 } else if (findViaAdmin.getCount() > 1) {
-                    Toast.makeText(this.context, "Error: mas de una VIA ADMINISTRACION encontrada", Toast.LENGTH_SHORT).show();
-                    return false;
+                    return true;
                 } else {
-                    Toast.makeText(this.context, "No existe la VIA ADMINISTRACION", Toast.LENGTH_SHORT).show();
-                    return false;
+                    return true;
                 }
             case 3:
                 String[] subCat = {Integer.toString(idForanea)};
@@ -228,10 +228,10 @@ public class ArticuloDAO {
                 if (findSubCat.getCount()== 1) {
                     return true;
                 } else if (findSubCat.getCount() > 1) {
-                    Toast.makeText(this.context, "Error: mas de una SUB-CATEGORIA encontrada", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this.context, R.string.sub_category_not_foud, Toast.LENGTH_SHORT).show();
                     return false;
                 } else {
-                    Toast.makeText(this.context, "No existe la SUB-CATEGORIA", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this.context, R.string.sub_category_not_foud, Toast.LENGTH_SHORT).show();
                     return false;
                 }
 
@@ -241,11 +241,9 @@ public class ArticuloDAO {
                 if (findFormaFarm.getCount() == 1) {
                     return true;
                 } else if (findFormaFarm.getCount() > 1) {
-                    Toast.makeText(this.context, "Error: mas de una FORMA FARMACEUTICA encontrada", Toast.LENGTH_SHORT).show();
-                    return false;
+                    return true;
                 } else {
-                    Toast.makeText(this.context, "No existe la FORMA FARMACEUTICA", Toast.LENGTH_SHORT).show();
-                    return false;
+                    return true;
                 }
             default:
                 return false;

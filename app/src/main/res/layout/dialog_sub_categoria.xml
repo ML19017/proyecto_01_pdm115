@@ -38,9 +38,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                android:text="@string/subcategory"
-                android:gravity="center_vertical"
-                android:paddingEnd="8dp"/>
+                android:text="@string/subcategory_id"
+                android:gravity="center_vertical" />
             <EditText
                 android:id="@+id/editTextsubCategoriaId"
                 android:layout_width="0dp"

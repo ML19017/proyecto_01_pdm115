@@ -417,7 +417,7 @@ public class ArticuloActivity extends AppCompatActivity implements AdapterView.O
 
     public void eliminarArticulo(Articulo articulo, AlertDialog dialogoPadre) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("WARNING");
+        builder.setTitle(R.string.delete);
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_confirmation, null);
         builder.setView(dialogView);
         AlertDialog dialog = builder.create();
@@ -426,13 +426,13 @@ public class ArticuloActivity extends AppCompatActivity implements AdapterView.O
         Button btnConfirmar = dialogView.findViewById(R.id.btnConfirm);
         Button btnCancelar = dialogView.findViewById(R.id.btnDecline);
 
-        advertencia.setText("Está a punto de eliminar el artículo con id: " + articulo.getIdArticulo() + "\nEsta acción no se puede revertir. ¿Desea continuar?");
+        advertencia.setText(getText(R.string.confirm_delete_message) + ": " + articulo.getIdArticulo());
 
         btnConfirmar.setOnClickListener(v -> {
             int filasAfectadas = articuloDAO.deleteArticulo(articulo);
             if (filasAfectadas > 0) {
                 actualizarListView(selected);
-                Toast.makeText(this, "Se ha eliminado el artículo con id: " + articulo.getIdArticulo(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.delete_message)+ ": " + articulo.getIdArticulo(), Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
                 dialogoPadre.dismiss();
             } else {

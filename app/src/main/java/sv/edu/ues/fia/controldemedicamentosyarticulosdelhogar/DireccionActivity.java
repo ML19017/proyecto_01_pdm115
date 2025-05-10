@@ -291,11 +291,21 @@ public class DireccionActivity extends AppCompatActivity {
         spinnerDistrito.setSelection(0); // "Seleccione un Distrito"
         spinnerDistrito.setEnabled(false);
     }
-    private void deleteDireccion(int idDireccion, AlertDialog dialog) {
-        dialog.dismiss();
-        direccionDAO.deleteDireccion(idDireccion);
-        fillList();
+    private void deleteDireccion(int idDireccion, AlertDialog dialog_init) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.confirm_delete);
+        builder.setMessage(getString(R.string.confirm_delete_message) + ": " + idDireccion);
 
+        builder.setPositiveButton(R.string.yes, (dialog, which) -> {
+            direccionDAO.deleteDireccion(idDireccion);
+            fillList();
+        });
+
+        builder.setNegativeButton(R.string.no, (dialog, which) -> dialog.dismiss());
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+        dialog_init.dismiss();
     }
 
     private void viewDireccion(Direccion direccion, AlertDialog dialog) {

@@ -246,16 +246,26 @@ public class SucursalFarmaciaActivity extends AppCompatActivity {
     }
 
     private void deleteSucursalFarmacia(int id) {
-        int rowsAffected = sucursalFarmaciaDAO.eliminarSucursal(id);
 
-        if (rowsAffected == 0) {
-            Toast.makeText(this, R.string.not_found_message, Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, R.string.delete_message, Toast.LENGTH_SHORT).show();
-        }
-        cargarLista();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.confirm_delete);
+        builder.setMessage(getString(R.string.confirm_delete_message) + ": " + id);
 
-        // Refresh ListView or handle post-delete actions
+        builder.setPositiveButton(R.string.yes, (dialog, which) -> {
+
+            int rowsAffected = sucursalFarmaciaDAO.eliminarSucursal(id);
+            cargarLista();
+
+            if (rowsAffected == 0) {
+                Toast.makeText(this, R.string.not_found_message, Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, R.string.delete_message, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        builder.setNegativeButton(R.string.no, (dialog, which) -> dialog.dismiss());
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private void editarFarmacia(SucursalFarmacia sucursalFarmacia) {
@@ -403,9 +413,4 @@ public class SucursalFarmaciaActivity extends AppCompatActivity {
             Toast.makeText(this, R.string.not_found_message, Toast.LENGTH_SHORT).show();
         }
     }
-
-
-
-
-
 }
