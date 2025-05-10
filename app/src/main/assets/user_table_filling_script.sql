@@ -5,7 +5,7 @@ INSERT INTO USUARIO (IDUSUARIO, NOMBREUSUARIO, CLAVE) VALUES
 ('03', 'cajero', 'cajero123'),
 ('04', 'admin', '1234'),
 ('05', 'auxiliar', 'auxiliar123'),
-('06', 'consulor', 'consultor123'),
+('06', 'consultor', 'consultor123'),
 ('07', 'tester', 'tester123'),
 ('08', 'editor', 'editor123');
 
