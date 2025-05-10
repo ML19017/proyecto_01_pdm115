@@ -284,6 +284,9 @@
 
 
     <string name="delete_failed_message">The item could not be deleted.</string>
+    <string name="error_multiple_categories">Error: More than one category found</string>
+    <string name="error_category_not_found">Error: Category does not exist</string>
+
 
     <!-- End SaleDetail -->
 </resources>

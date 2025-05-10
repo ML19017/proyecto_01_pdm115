@@ -272,7 +272,7 @@ public class CategoriaActivity extends AppCompatActivity implements AdapterView.
         boolean hayVacios = false;
         for (EditText campo : campos) {
             if (campo.getText().toString().trim().isEmpty()) {
-                campo.setError("Este campo es obligatorio");
+                campo.setError(getString(R.string.emptyWarning));
                 hayVacios = true;
             }
         }
