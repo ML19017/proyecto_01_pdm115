@@ -10,7 +10,7 @@ public class Receta {
     private String descripcion;
     private Context context;
 
-    public Receta(int idDoctor, int idCliente, int idReceta, String fechaExpedida, String descripcio, Context context) {
+    public Receta(int idDoctor, int idCliente, int idReceta, String fechaExpedida, String descripcion, Context context) {
         this.idDoctor = idDoctor;
         this.idCliente = idCliente;
         this.idReceta = idReceta;

@@ -88,7 +88,7 @@ public class DoctorActivity extends AppCompatActivity {
         Button btnLimpiarDoctor = dialogView.findViewById(R.id.btnLimpiarDoctor);
 
         List<View> vistas = Arrays.asList(editTextIdDoctor, editTextNombreDoctor, editTextEspecialidadDoctor, editTextJvpm);
-        List<String> listaRegex = Arrays.asList("\\d+", "[a-zA-Z]+", "[a-zA-Z]+", "[a-zA-Z]+");
+        List<String> listaRegex = Arrays.asList("\\d+", "[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+", "[a-zA-ZáéíóúÁÉÍÓÚñÑ ]++", "[a-zA-ZáéíóúÁÉÍÓÚñÑ ]++");
         List<Integer> mensajesDeError = Arrays.asList(R.string.only_numbers, R.string.only_letters, R.string.only_letters, R.string.only_letters);
 
         ValidadorDeCampos validadorDeCampos = new ValidadorDeCampos(this, vistas, listaRegex, mensajesDeError);
