@@ -555,9 +555,10 @@ public class DetalleExistenciaActivity extends AppCompatActivity {
     }
 
 private void fillList(List<DetalleExistencia>  detalles){
-    listaDetalleExistencia = detalles;
-    adaptadorDetalleExistencia = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listaDetalleExistencia);
-    listViewDetalleExistencia.setAdapter(adaptadorDetalleExistencia);
+        listViewDetalleExistencia.setVisibility( View.VISIBLE);
+        listaDetalleExistencia = detalles;
+        adaptadorDetalleExistencia = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listaDetalleExistencia);
+        listViewDetalleExistencia.setAdapter(adaptadorDetalleExistencia);
 }
 
 
