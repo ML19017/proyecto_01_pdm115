@@ -188,7 +188,10 @@ public class ArticuloActivity extends AppCompatActivity implements AdapterView.O
         CheckBox isRestricted = dialogView.findViewById(R.id.checkBoxItemRestricted);
         EditText price = dialogView.findViewById(R.id.editTextItemPrice);
 
-        EditText[] campos = {idMarca, idROA, idSubCat, idPF, idArticulo, name, description, price};
+        EditText[] campos = {idMarca, idSubCat, idArticulo, name, description, price};
+
+        //idROA, idPF
+        EditText[] camposNulos = {idROA, idPF};
 
         Button btnSaveArticulo = dialogView.findViewById(R.id.btnGuardarArticulo);
         Button btnClear = dialogView.findViewById(R.id.btnLimpiarArticulo);
@@ -216,22 +219,43 @@ public class ArticuloActivity extends AppCompatActivity implements AdapterView.O
         });
 
         btnSaveArticulo.setOnClickListener(v -> {
-            if (!areFieldsEmpty(campos)) {
+            if(!areFieldsEmpty(camposNulos)) {
+                if (!areFieldsEmpty(campos)) {
 
-                int id = Integer.parseInt(String.valueOf(idArticulo.getText()));
-                int brand = Integer.parseInt(String.valueOf(idMarca.getText()));
-                int ROA = Integer.parseInt(String.valueOf(idROA.getText()));
-                int subCat = Integer.parseInt(String.valueOf(idSubCat.getText()));
-                int PF = Integer.parseInt(String.valueOf(idPF.getText()));
-                String nombre = String.valueOf(name.getText());
-                String descipcion = String.valueOf(description.getText());
-                Boolean restringido = isRestricted.isChecked();
-                Double precio = Double.parseDouble(String.valueOf(price.getText()));
-                Articulo art = new Articulo(id, brand, ROA, subCat, PF, nombre, descipcion, restringido, precio);
-                boolean exito = articuloDAO.insertarArticulo(art);
-                if (exito) {
-                    dialog.dismiss();
-                    actualizarListView(selected);
+                    int id = Integer.parseInt(String.valueOf(idArticulo.getText()));
+                    int brand = Integer.parseInt(String.valueOf(idMarca.getText()));
+                    int ROA = Integer.parseInt(String.valueOf(idROA.getText()));
+                    int subCat = Integer.parseInt(String.valueOf(idSubCat.getText()));
+                    int PF = Integer.parseInt(String.valueOf(idPF.getText()));
+                    String nombre = String.valueOf(name.getText());
+                    String descipcion = String.valueOf(description.getText());
+                    Boolean restringido = isRestricted.isChecked();
+                    Double precio = Double.parseDouble(String.valueOf(price.getText()));
+                    Articulo art = new Articulo(id, brand, ROA, subCat, PF, nombre, descipcion, restringido, precio);
+                    boolean exito = articuloDAO.insertarArticulo(art);
+                    if (exito) {
+                        dialog.dismiss();
+                        actualizarListView(selected);
+                    }
+                }
+            }
+            else {
+                if (areFieldsEmpty(camposNulos) && !areFieldsEmpty(campos)) {
+                    int id = Integer.parseInt(String.valueOf(idArticulo.getText()));
+                    int brand = Integer.parseInt(String.valueOf(idMarca.getText()));
+                    int ROA = -1;
+                    int subCat = Integer.parseInt(String.valueOf(idSubCat.getText()));
+                    int PF = -1;
+                    String nombre = String.valueOf(name.getText());
+                    String descipcion = String.valueOf(description.getText());
+                    Boolean restringido = isRestricted.isChecked();
+                    Double precio = Double.parseDouble(String.valueOf(price.getText()));
+                    Articulo art = new Articulo(id, brand, ROA, subCat, PF, nombre, descipcion, restringido, precio);
+                    boolean exito = articuloDAO.insertarArticulo(art);
+                    if (exito) {
+                        dialog.dismiss();
+                        actualizarListView(selected);
+                    }
                 }
             }
         });
@@ -382,9 +406,9 @@ public class ArticuloActivity extends AppCompatActivity implements AdapterView.O
                 if (areFieldsEmpty(camposNulos) && !areFieldsEmpty(campos)) {
                     articulo.setIdArticulo(Integer.parseInt(String.valueOf(idArticulo.getText())));
                     articulo.setIdMarca(Integer.parseInt(String.valueOf(idMarca.getText())));
-                    articulo.setIdViaAdministracion(Integer.parseInt(String.valueOf(idROA.getText())));
+                    articulo.setIdViaAdministracion(-1);
                     articulo.setIdSubCategoria(Integer.parseInt(String.valueOf(idSubCat.getText())));
-                    articulo.setIdFormaFarmaceutica(Integer.parseInt(String.valueOf(idPF.getText())));
+                    articulo.setIdFormaFarmaceutica(-1);
                     articulo.setNombreArticulo(String.valueOf(name.getText()));
                     articulo.setDescripcionArticulo(String.valueOf(description.getText()));
                     articulo.setRestringidoArticulo(isRestricted.isChecked());
