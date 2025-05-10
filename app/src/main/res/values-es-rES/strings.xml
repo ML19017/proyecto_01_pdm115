@@ -243,6 +243,9 @@
     <string name="error_detalle_existencia_no_encontrado_venta">No se encontró stock para este artículo en la sucursal.</string>
     <string name="error_saving_detail">Error al guardar el detalle de venta.</string>
     <string name="stock_insuficiente_message">Stock insuficiente. Disponible: %1$d unidades.</string>
+    <string name="delete_failed_message">No se pudo eliminar el elemento</string>
+    <string name="error_multiple_categories">Error: Más de una categoría encontrada</string>
+    <string name="error_category_not_found">Error: No existe la categoría</string>
 
 
 </resources>

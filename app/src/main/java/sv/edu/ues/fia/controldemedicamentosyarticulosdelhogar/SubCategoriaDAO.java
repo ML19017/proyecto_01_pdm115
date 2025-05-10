@@ -29,15 +29,15 @@ public class SubCategoriaDAO {
             subCategory.put("NOMBRESUBCATEGORIA", subCategoria.getNombreSubCategoria());
             insercion = dbConection.insert("SUBCATEGORIA", null, subCategory);
             if (insercion == -1) {
-                Toast.makeText(this.context, "Registro con id duplicado", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this.context, context.getString(R.string.duplicate_message), Toast.LENGTH_SHORT).show();
                 return false;
             }
             return true;
         } else if (categoria.getCount() > 1) {
-            Toast.makeText(this.context, "Error: mas de una categoria encontrada", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this.context, context.getString(R.string.error_multiple_categories), Toast.LENGTH_SHORT).show();
             return false;
         } else {
-            Toast.makeText(this.context, "No existe la CATEGORIA", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this.context, context.getString(R.string.error_category_not_found), Toast.LENGTH_SHORT).show();
             return false;
         }
 
@@ -97,10 +97,10 @@ public class SubCategoriaDAO {
             }
 
         } else if (categoria.getCount() < 1) {
-            Toast.makeText(this.context, "No existe la CATEGORIA", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this.context, context.getString(R.string.error_category_not_found), Toast.LENGTH_SHORT).show();
             return 2;
         } else {
-            Toast.makeText(this.context, "Error: mas de una categoria encontrada", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this.context, context.getString(R.string.error_multiple_categories), Toast.LENGTH_SHORT).show();
             return 2;
         }
 

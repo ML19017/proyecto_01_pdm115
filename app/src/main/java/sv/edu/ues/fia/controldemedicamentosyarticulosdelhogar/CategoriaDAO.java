@@ -32,7 +32,7 @@ public class CategoriaDAO {
         try {
             insercion = dbConection.insert("CATEGORIA", null, category);
             if (insercion == -1){
-                Toast.makeText(this.context, "Registro con id duplicado", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this.context, context.getString(R.string.duplicate_message), Toast.LENGTH_SHORT).show();
                 return false;
             }
             return true;
