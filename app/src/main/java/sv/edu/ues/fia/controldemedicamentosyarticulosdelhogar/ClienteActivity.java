@@ -56,6 +56,7 @@ public class ClienteActivity extends AppCompatActivity {
         }
 
         listViewClientes = findViewById(R.id.listViewClientes);
+        listViewClientes.setVisibility(vac.validarAcceso(2) || vac.validarAcceso(3) || vac.validarAcceso(4) ? View.VISIBLE : View.INVISIBLE);
         fillList();
 
         listViewClientes.setOnItemClickListener((parent, view, position, id) -> {
@@ -154,7 +155,8 @@ public class ClienteActivity extends AppCompatActivity {
         final AlertDialog dialog = builder.create();
 
         dialogView.findViewById(R.id.buttonView).setOnClickListener(v -> {
-            viewCliente(cliente);
+            if (vac.validarAcceso(2)) viewCliente(cliente);
+            else Toast.makeText(this, R.string.action_block, Toast.LENGTH_SHORT).show();
             dialog.dismiss();
         });
         dialogView.findViewById(R.id.buttonEdit).setOnClickListener(v -> {

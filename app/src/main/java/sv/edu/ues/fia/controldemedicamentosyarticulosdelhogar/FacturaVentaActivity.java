@@ -75,6 +75,7 @@ public class FacturaVentaActivity extends AppCompatActivity {
 
 
         listViewFacturasVenta = findViewById(R.id.listViewFacturasVenta);
+        listViewFacturasVenta.setVisibility(vac.validarAcceso(2) || vac.validarAcceso(3) || vac.validarAcceso(4) ? View.VISIBLE : View.INVISIBLE);
         fillList();
 
         btnAddFacturaVenta = findViewById(R.id.btnAddFacturaVenta);
@@ -278,7 +279,11 @@ public class FacturaVentaActivity extends AppCompatActivity {
             btnViewDetails.setVisibility(View.VISIBLE);
             btnViewDetails.setText(R.string.sale_detail);
             btnViewDetails.setOnClickListener(v -> {
-                mostrarDetallesVenta(factura);
+                if (vac.validarAcceso(2)) {
+                    mostrarDetallesVenta(factura);
+                } else {
+                    Toast.makeText(this, R.string.action_block, Toast.LENGTH_SHORT).show();
+                }
                 dialog.dismiss();
             });
         }

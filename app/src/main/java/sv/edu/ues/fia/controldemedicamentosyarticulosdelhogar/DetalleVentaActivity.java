@@ -66,6 +66,7 @@ public class DetalleVentaActivity extends AppCompatActivity {
         });
 
         listViewDetalleVenta = findViewById(R.id.lvDetalleVenta);
+        listViewDetalleVenta.setVisibility(vac.validarAcceso(2) || vac.validarAcceso(3) || vac.validarAcceso(4) ? View.VISIBLE : View.INVISIBLE);
         fillList();
 
         listViewDetalleVenta.setOnItemClickListener((parent, view, position, id) -> {
@@ -74,6 +75,7 @@ public class DetalleVentaActivity extends AppCompatActivity {
         });
 
         Button btnAgregarDetalleVenta = findViewById(R.id.btnAgregarDetalleVenta);
+        btnAgregarDetalleVenta.setVisibility(vac.validarAcceso(1) ? View.VISIBLE : View.INVISIBLE);
         btnAgregarDetalleVenta.setOnClickListener(v -> showAddDialog());
     }
 
@@ -314,8 +316,22 @@ public class DetalleVentaActivity extends AppCompatActivity {
         builder.setView(dialogView);
         final AlertDialog dialog = builder.create();
 
-        dialogView.findViewById(R.id.buttonView).setOnClickListener(v -> { viewDetalleVenta(detalleVenta); dialog.dismiss(); });
-        dialogView.findViewById(R.id.buttonEdit).setOnClickListener(v -> { editDetalleVenta(detalleVenta); dialog.dismiss(); });
+        dialogView.findViewById(R.id.buttonView).setOnClickListener(v -> {
+            if (vac.validarAcceso(2)) {
+                viewDetalleVenta(detalleVenta);
+            } else {
+                Toast.makeText(getApplicationContext(), R.string.action_block, Toast.LENGTH_LONG).show();
+            }
+            dialog.dismiss();
+        });
+        dialogView.findViewById(R.id.buttonEdit).setOnClickListener(v -> {
+            if (vac.validarAcceso(3)) {
+                editDetalleVenta(detalleVenta);
+            } else {
+                Toast.makeText(getApplicationContext(), R.string.action_block, Toast.LENGTH_LONG).show();
+            }
+            dialog.dismiss();
+        });
         dialogView.findViewById(R.id.buttonDelete).setOnClickListener(v -> {
             if (vac.validarAcceso(4)) {
                 deleteDetalleVenta(detalleVenta);
