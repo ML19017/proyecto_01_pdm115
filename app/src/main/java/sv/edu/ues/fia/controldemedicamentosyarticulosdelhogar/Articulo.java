@@ -3,18 +3,20 @@ package sv.edu.ues.fia.controldemedicamentosyarticulosdelhogar;
 import android.content.Context;
 
 public class Articulo {
-    private int idArticulo;
-    private int idMarca;
-    private int idViaAdministracion;
-    private int idSubCategoria;
-    private int idFormaFarmaceutica;
+    private Integer idArticulo;
+    private Integer idMarca;
+    private Integer idViaAdministracion;
+    private Integer idSubCategoria;
+    private Integer idFormaFarmaceutica;
     private String nombreArticulo;
     private String descripcionArticulo;
-    private boolean restringidoArticulo;
-    private double precioArticulo;
+    private Boolean restringidoArticulo;
+    private Double precioArticulo;
     private Context context;
 
-    public Articulo(int idArticulo, int idMarca, int idViaAdministracion, int idSubCategoria, int idFormaFarmaceutica, String nombreArticulo, String descripcionArticulo, boolean restringidoArticulo, double precioArticulo) {
+    public Articulo(Integer idArticulo, Integer idMarca, Integer idViaAdministracion, Integer idSubCategoria,
+                    Integer idFormaFarmaceutica, String nombreArticulo, String descripcionArticulo,
+                    Boolean restringidoArticulo, Double precioArticulo) {
         this.idArticulo = idArticulo;
         this.idMarca = idMarca;
         this.idViaAdministracion = idViaAdministracion;
@@ -35,43 +37,43 @@ public class Articulo {
     public Articulo() {
     }
 
-    public int getIdArticulo() {
+    public Integer getIdArticulo() {
         return idArticulo;
     }
 
-    public void setIdArticulo(int idArticulo) {
+    public void setIdArticulo(Integer idArticulo) {
         this.idArticulo = idArticulo;
     }
 
-    public int getIdMarca() {
+    public Integer getIdMarca() {
         return idMarca;
     }
 
-    public void setIdMarca(int idMarca) {
+    public void setIdMarca(Integer idMarca) {
         this.idMarca = idMarca;
     }
 
-    public int getIdViaAdministracion() {
+    public Integer getIdViaAdministracion() {
         return idViaAdministracion;
     }
 
-    public void setIdViaAdministracion(int idViaAdministracion) {
+    public void setIdViaAdministracion(Integer idViaAdministracion) {
         this.idViaAdministracion = idViaAdministracion;
     }
 
-    public int getIdSubCategoria() {
+    public Integer getIdSubCategoria() {
         return idSubCategoria;
     }
 
-    public void setIdSubCategoria(int idSubCategoria) {
+    public void setIdSubCategoria(Integer idSubCategoria) {
         this.idSubCategoria = idSubCategoria;
     }
 
-    public int getIdFormaFarmaceutica() {
+    public Integer getIdFormaFarmaceutica() {
         return idFormaFarmaceutica;
     }
 
-    public void setIdFormaFarmaceutica(int idFormaFarmaceutica) {
+    public void setIdFormaFarmaceutica(Integer idFormaFarmaceutica) {
         this.idFormaFarmaceutica = idFormaFarmaceutica;
     }
 
@@ -91,19 +93,19 @@ public class Articulo {
         this.descripcionArticulo = descripcionArticulo;
     }
 
-    public boolean getRestringidoArticulo() {
+    public Boolean getRestringidoArticulo() {
         return restringidoArticulo;
     }
 
-    public void setRestringidoArticulo(boolean restringidoArticulo) {
+    public void setRestringidoArticulo(Boolean restringidoArticulo) {
         this.restringidoArticulo = restringidoArticulo;
     }
 
-    public double getPrecioArticulo() {
+    public Double getPrecioArticulo() {
         return precioArticulo;
     }
 
-    public void setPrecioArticulo(double precioArticulo) {
+    public void setPrecioArticulo(Double precioArticulo) {
         this.precioArticulo = precioArticulo;
     }
 

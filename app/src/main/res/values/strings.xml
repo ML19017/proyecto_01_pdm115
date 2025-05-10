@@ -289,4 +289,14 @@
     <string name="sub_category_not_foud">Sub category not found</string>
     <string name="brand_not_found">Brand not found</string>
 
+    <string name="admin_route_not_found">Administration route not found</string>
+    <string name="pharma_form_not_found">Pharmaceutical form not found</string>
+
+    <string name="select_brand">Select a brand</string>
+    <string name="select_admin_route">Select an administration route</string>
+    <string name="select_subcategory">Select a subcategory</string>
+    <string name="select_pharma_form">Select a pharmaceutical form</string>
+    <string name="save_error">Could not save the item. Please check the data.</string>
+
+
 </resources>

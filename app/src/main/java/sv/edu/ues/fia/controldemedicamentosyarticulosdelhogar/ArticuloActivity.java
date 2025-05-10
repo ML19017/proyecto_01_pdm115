@@ -42,6 +42,8 @@ public class ArticuloActivity extends AppCompatActivity implements AdapterView.O
     private List<Categoria> valuesCat = new ArrayList<>();
 
     private Articulo busqueda = new Articulo();
+    private final ValidarAccesoCRUD vac = new ValidarAccesoCRUD(this);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +85,7 @@ public class ArticuloActivity extends AppCompatActivity implements AdapterView.O
         };
         adaptadorSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         Spinner spinner = (Spinner) findViewById(R.id.itemCategorySpinner);
+        spinner.setVisibility(vac.validarAcceso(2) ? View.VISIBLE : View.INVISIBLE);
         spinner.setAdapter(adaptadorSpinner);
         llenadoSpinner();
         spinner.setOnItemSelectedListener(this);
@@ -95,6 +98,7 @@ public class ArticuloActivity extends AppCompatActivity implements AdapterView.O
         ListView listV = (ListView) findViewById(R.id.itemListv);
         listV.setAdapter(adaptadorListV);
         listV.setOnItemClickListener(this);
+        listV.setVisibility(vac.validarAcceso(3) || vac.validarAcceso(4) ? View.VISIBLE : View.INVISIBLE);
 
         //EditText
         EditText buscar = (EditText) findViewById(R.id.editTextSearchItem);
@@ -103,6 +107,7 @@ public class ArticuloActivity extends AppCompatActivity implements AdapterView.O
         //Botones
         Button btnAdd = (Button) findViewById(R.id.btnAddItem);
         Button btnSearch = (Button) findViewById(R.id.btnSearchItem);
+        btnSearch.setVisibility(vac.validarAcceso(2) ? View.VISIBLE : View.INVISIBLE);
         btnAdd.setOnClickListener(v -> {
             showAddDialog();
         });
@@ -129,6 +134,10 @@ public class ArticuloActivity extends AppCompatActivity implements AdapterView.O
             }
         });
 
+        listV.setOnItemClickListener((parent, view, position, id) -> {
+            Articulo articulo = (Articulo) parent.getItemAtPosition(position);
+            showOptionsDialog(articulo);
+        });
 
     }
 
@@ -177,25 +186,157 @@ public class ArticuloActivity extends AppCompatActivity implements AdapterView.O
         builder.setTitle(R.string.add);
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_articulo, null);
         builder.setView(dialogView);
-
-        EditText idMarca = dialogView.findViewById(R.id.editTextItemIdBrand);
-        EditText idROA = dialogView.findViewById(R.id.editTextItemIdROA);
-        EditText idSubCat = dialogView.findViewById(R.id.editTextItemIdSubCategory);
-        EditText idPF = dialogView.findViewById(R.id.editTextItemPharmaceuticalForm);
         EditText idArticulo = dialogView.findViewById(R.id.editTextItemId);
         EditText name = dialogView.findViewById(R.id.editTextItemName);
         EditText description = dialogView.findViewById(R.id.editTextItemDescription);
         CheckBox isRestricted = dialogView.findViewById(R.id.checkBoxItemRestricted);
         EditText price = dialogView.findViewById(R.id.editTextItemPrice);
 
-        EditText[] campos = {idMarca, idSubCat, idArticulo, name, description, price};
 
-        //idROA, idPF
-        EditText[] camposNulos = {idROA, idPF};
+        Spinner spinnerItemMarca = dialogView.findViewById(R.id.spinnerItemMarca);
+        Spinner spinnerItemROA = dialogView.findViewById(R.id.spinnerItemROA);
+        Spinner spinnerItemSubCategoria = dialogView.findViewById(R.id.spinnerItemSubCategoria);
+        Spinner spinnerItemFormaFarmaceutica = dialogView.findViewById(R.id.spinnerItemFormaFarmaceutica);
+
+        List<Marca> marcas = articuloDAO.getAllMarca();
+        marcas.add(0, new Marca(-1, getString(R.string.select_brand), this));
+
+        ArrayAdapter<Marca> adapterMarca = new ArrayAdapter<Marca>(this, android.R.layout.simple_spinner_item, marcas) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                TextView view = (TextView) super.getView(position, convertView, parent);
+                Marca marca = getItem(position);
+                if (marca.getIdMarca() == -1) {
+                    view.setText(getString(R.string.select_brand));
+                } else {
+                    view.setText(marca.getNombreMarca());
+                }
+                return view;
+            }
+
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                TextView view = (TextView) super.getDropDownView(position, convertView, parent);
+                Marca marca = getItem(position);
+                if (marca.getIdMarca() == -1) {
+                    view.setText(getString(R.string.select_brand));
+                    view.setTextColor(Color.GRAY);
+                } else {
+                    view.setText(marca.getNombreMarca() + " (ID: " + marca.getIdMarca() + ")");
+                    view.setTextColor(Color.BLACK);
+                }
+                return view;
+            }
+        };
+        adapterMarca.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerItemMarca.setAdapter(adapterMarca);
+
+        // VIA AMNISTRACION
+        List<ViaAdministracion> vias = articuloDAO.getAllViaAdministracion();
+        vias.add(0, new ViaAdministracion(-1, getString(R.string.select_admin_route), this));
+
+        ArrayAdapter<ViaAdministracion> adapterVia = new ArrayAdapter<ViaAdministracion>(this, android.R.layout.simple_spinner_item, vias) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                TextView view = (TextView) super.getView(position, convertView, parent);
+                ViaAdministracion via = getItem(position);
+                if (via.getIdViaAdministracion() == -1) {
+                    view.setText(getString(R.string.select_admin_route));
+                } else {
+                    view.setText(via.getTipoAdministracion());
+                }
+                return view;
+            }
+
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                TextView view = (TextView) super.getDropDownView(position, convertView, parent);
+                ViaAdministracion via = getItem(position);
+                if (via.getIdViaAdministracion() == -1) {
+                    view.setText(getString(R.string.select_admin_route));
+                    view.setTextColor(Color.GRAY);
+                } else {
+                    view.setText(via.getTipoAdministracion() + " (ID: " + via.getIdViaAdministracion() + ")");
+                    view.setTextColor(Color.BLACK);
+                }
+                return view;
+            }
+        };
+        adapterVia.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerItemROA.setAdapter(adapterVia);
+
+        //SUVCATEGORIA
+        List<SubCategoria> subcategorias = articuloDAO.getAllSubCategoria();
+        subcategorias.add(0, new SubCategoria(-1, getString(R.string.select_subcategory), this));
+
+        ArrayAdapter<SubCategoria> adapterSubCat = new ArrayAdapter<SubCategoria>(this, android.R.layout.simple_spinner_item, subcategorias) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                TextView view = (TextView) super.getView(position, convertView, parent);
+                SubCategoria sub = getItem(position);
+                if (sub.getIdSubCategoria() == -1) {
+                    view.setText(getString(R.string.select_subcategory));
+                } else {
+                    view.setText(sub.getNombreSubCategoria());
+                }
+                return view;
+            }
+
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                TextView view = (TextView) super.getDropDownView(position, convertView, parent);
+                SubCategoria sub = getItem(position);
+                if (sub.getIdSubCategoria() == -1) {
+                    view.setText(getString(R.string.select_subcategory));
+                    view.setTextColor(Color.GRAY);
+                } else {
+                    view.setText(sub.getNombreSubCategoria() + " (ID: " + sub.getIdSubCategoria() + ")");
+                    view.setTextColor(Color.BLACK);
+                }
+                return view;
+            }
+        };
+        adapterSubCat.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerItemSubCategoria.setAdapter(adapterSubCat);
+
+        //FOrMA Farmaceutica
+        List<FormaFarmaceutica> formas = articuloDAO.getAllFormaFarmaceutica();
+        formas.add(0, new FormaFarmaceutica(-1, getString(R.string.select_pharma_form), this));
+
+        ArrayAdapter<FormaFarmaceutica> adapterForma = new ArrayAdapter<FormaFarmaceutica>(this, android.R.layout.simple_spinner_item, formas) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                TextView view = (TextView) super.getView(position, convertView, parent);
+                FormaFarmaceutica forma = getItem(position);
+                if (forma.getIdFormaFarmaceutica() == -1) {
+                    view.setText(getString(R.string.select_pharma_form));
+                } else {
+                    view.setText(forma.getTipoFormaFarmaceutica());
+                }
+                return view;
+            }
+
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                TextView view = (TextView) super.getDropDownView(position, convertView, parent);
+                FormaFarmaceutica forma = getItem(position);
+                if (forma.getIdFormaFarmaceutica() == -1) {
+                    view.setText(getString(R.string.select_pharma_form));
+                    view.setTextColor(Color.GRAY);
+                } else {
+                    view.setText(forma.getTipoFormaFarmaceutica() + " (ID: " + forma.getIdFormaFarmaceutica() + ")");
+                    view.setTextColor(Color.BLACK);
+                }
+                return view;
+            }
+        };
+        adapterForma.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerItemFormaFarmaceutica.setAdapter(adapterForma);
+
+        EditText[] campos = {idArticulo, name, description, price};
 
         Button btnSaveArticulo = dialogView.findViewById(R.id.btnGuardarArticulo);
         Button btnClear = dialogView.findViewById(R.id.btnLimpiarArticulo);
-
 
         AlertDialog dialog = builder.create();
 
@@ -207,10 +348,10 @@ public class ArticuloActivity extends AppCompatActivity implements AdapterView.O
         idArticulo.setText(Integer.toString(numRegistros + 1));
 
         btnClear.setOnClickListener(v -> {
-            idMarca.setText("");
-            idROA.setText("");
-            idSubCat.setText("");
-            idPF.setText("");
+            spinnerItemMarca.setSelection(0);
+            spinnerItemROA.setSelection(0);
+            spinnerItemSubCategoria.setSelection(0);
+            spinnerItemFormaFarmaceutica.setSelection(0);
             idArticulo.setText("");
             name.setText("");
             description.setText("");
@@ -219,39 +360,82 @@ public class ArticuloActivity extends AppCompatActivity implements AdapterView.O
         });
 
         btnSaveArticulo.setOnClickListener(v -> {
-            // Validar que los campos obligatorios no estén vacíos
-            if (!areFieldsEmpty(campos)) {
-                try {
-                    int id = Integer.parseInt(String.valueOf(idArticulo.getText()));
-                    int brand = Integer.parseInt(String.valueOf(idMarca.getText()));
-                    int subCat = Integer.parseInt(String.valueOf(idSubCat.getText()));
+            boolean hayError = false;
 
-                    // ROA y PF pueden estar vacíos; asignar -1 si es así
-                    int ROA = idROA.getText().toString().isEmpty() ? -1 : Integer.parseInt(String.valueOf(idROA.getText()));
-                    int PF = idPF.getText().toString().isEmpty() ? -1 : Integer.parseInt(String.valueOf(idPF.getText()));
+            String nombre = name.getText().toString().trim();
+            String descripcion = description.getText().toString().trim();
+            String precioTexto = price.getText().toString().trim();
 
-                    String nombre = String.valueOf(name.getText());
-                    String descipcion = String.valueOf(description.getText());
-                    boolean restringido = isRestricted.isChecked();
-                    double precio = Double.parseDouble(String.valueOf(price.getText()));
+            if (nombre.isEmpty()) {
+                name.setError(getString(R.string.field_empty));
+                hayError = true;
+            }
 
-                    Articulo art = new Articulo(id, brand, ROA, subCat, PF, nombre, descipcion, restringido, precio);
-                    boolean exito = articuloDAO.insertarArticulo(art);
-                    if (exito) {
-                        dialog.dismiss();
-                        actualizarListView(selected);
-                    }
-                } catch (NumberFormatException e) {
-                    Toast.makeText(this, "Verifica que los campos numéricos estén bien ingresados.", Toast.LENGTH_SHORT).show();
+            if (descripcion.isEmpty()) {
+                description.setError(getString(R.string.field_empty));
+                hayError = true;
+            }
+
+            if (precioTexto.isEmpty()) {
+                price.setError(getString(R.string.field_empty));
+                hayError = true;
+            }
+
+            Marca marcaSeleccionada = (Marca) spinnerItemMarca.getSelectedItem();
+            SubCategoria subSeleccionada = (SubCategoria) spinnerItemSubCategoria.getSelectedItem();
+            ViaAdministracion viaSeleccionada = (ViaAdministracion) spinnerItemROA.getSelectedItem();
+            FormaFarmaceutica formaSeleccionada = (FormaFarmaceutica) spinnerItemFormaFarmaceutica.getSelectedItem();
+
+            if (marcaSeleccionada.getIdMarca() == -1) {
+                View view = spinnerItemMarca.getSelectedView();
+                if (view instanceof TextView) {
+                    ((TextView) view).setError("");
+                    ((TextView) view).setTextColor(Color.RED);
                 }
-            } else {
-                Toast.makeText(this, "Completa todos los campos obligatorios.", Toast.LENGTH_SHORT).show();
+                hayError = true;
+            }
+
+            if (subSeleccionada.getIdSubCategoria() == -1) {
+                View view = spinnerItemSubCategoria.getSelectedView();
+                if (view instanceof TextView) {
+                    ((TextView) view).setError("");
+                    ((TextView) view).setTextColor(Color.RED);
+                }
+                hayError = true;
+            }
+
+            if (hayError) {
+                Toast.makeText(this, getString(R.string.field_empty), Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            try {
+                int id = Integer.parseInt(idArticulo.getText().toString());
+                int brand = marcaSeleccionada.getIdMarca();
+                int subCat = subSeleccionada.getIdSubCategoria();
+                Integer ROA = (viaSeleccionada.getIdViaAdministracion() == -1) ? null : viaSeleccionada.getIdViaAdministracion();
+                Integer PF = (formaSeleccionada.getIdFormaFarmaceutica() == -1) ? null : formaSeleccionada.getIdFormaFarmaceutica();
+                boolean restringido = isRestricted.isChecked();
+                double precio = Double.parseDouble(precioTexto);
+
+                Articulo art = new Articulo(id, brand, ROA, subCat, PF, nombre, descripcion, restringido, precio);
+                boolean exito = articuloDAO.insertarArticulo(art);
+                if (exito) {
+                    dialog.dismiss();
+                    actualizarListView(selected);
+                } else {
+                    Toast.makeText(this, getString(R.string.save_error), Toast.LENGTH_LONG).show();
+                }
+            } catch (NumberFormatException e) {
+                Toast.makeText(this, getString(R.string.only_numbers), Toast.LENGTH_SHORT).show();
             }
         });
 
-        dialog.show();
 
+
+        dialog.show();
     }
+
 
     public void showOptionsDialog(Articulo articulo) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -259,22 +443,43 @@ public class ArticuloActivity extends AppCompatActivity implements AdapterView.O
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_options, null);
         builder.setView(dialogView);
 
-        Button btnView = dialogView.findViewById(R.id.buttonView);
-        Button btnUpdate = dialogView.findViewById(R.id.buttonEdit);
-        Button btnDelete = dialogView.findViewById(R.id.buttonDelete);
-
         AlertDialog dialog = builder.create();
 
-        btnView.setOnClickListener(v -> {
-            verArticulo(articulo);
+        dialogView.findViewById(R.id.buttonView).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(vac.validarAcceso(2))
+                    verArticulo(articulo);
+                else
+                    Toast.makeText(getApplicationContext(), R.string.action_block, Toast.LENGTH_LONG).show();
+                dialog.dismiss();
+            }
         });
 
-        btnUpdate.setOnClickListener(v -> {
-            editArticulo(articulo, dialog);
+        dialogView.findViewById(R.id.buttonEdit).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(vac.validarAcceso(3)) {
+                    dialog.dismiss();
+                    editArticulo(articulo, dialog);
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), R.string.action_block, Toast.LENGTH_LONG).show();
+                    dialog.dismiss();
+                }
+            }
         });
 
-        btnDelete.setOnClickListener(v -> {
-            eliminarArticulo(articulo, dialog);
+        dialogView.findViewById(R.id.buttonDelete).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (vac.validarAcceso(4)) {
+                    eliminarArticulo(articulo, dialog);
+                } else {
+                    Toast.makeText(getApplicationContext(), R.string.action_block, Toast.LENGTH_LONG).show();
+                }
+                dialog.dismiss();
+            }
         });
         dialog.show();
 
@@ -288,10 +493,11 @@ public class ArticuloActivity extends AppCompatActivity implements AdapterView.O
         AlertDialog dialog = builder.create();
 
 
-        EditText idMarca = dialogView.findViewById(R.id.editTextItemIdBrand);
-        EditText idROA = dialogView.findViewById(R.id.editTextItemIdROA);
-        EditText idSubCat = dialogView.findViewById(R.id.editTextItemIdSubCategory);
-        EditText idPF = dialogView.findViewById(R.id.editTextItemPharmaceuticalForm);
+        Spinner spinnerItemMarca = dialogView.findViewById(R.id.spinnerItemMarca);
+        Spinner spinnerItemROA = dialogView.findViewById(R.id.spinnerItemROA);
+        Spinner spinnerItemSubCategoria = dialogView.findViewById(R.id.spinnerItemSubCategoria);
+        Spinner spinnerItemFormaFarmaceutica = dialogView.findViewById(R.id.spinnerItemFormaFarmaceutica);
+
         EditText idArticulo = dialogView.findViewById(R.id.editTextItemId);
         EditText name = dialogView.findViewById(R.id.editTextItemName);
         EditText description = dialogView.findViewById(R.id.editTextItemDescription);
@@ -301,21 +507,189 @@ public class ArticuloActivity extends AppCompatActivity implements AdapterView.O
         Button btnSaveArticulo = dialogView.findViewById(R.id.btnGuardarArticulo);
         Button btnClear = dialogView.findViewById(R.id.btnLimpiarArticulo);
 
+        List<Marca> marcas = articuloDAO.getAllMarca();
+        marcas.add(0, new Marca(-1, getString(R.string.select_brand), this));
 
-        idMarca.setText(Integer.toString(articulo.getIdMarca()));
-        idROA.setText(Integer.toString(articulo.getIdViaAdministracion()));
-        idSubCat.setText(Integer.toString(articulo.getIdSubCategoria()));
-        idPF.setText(Integer.toString(articulo.getIdFormaFarmaceutica()));
+        ArrayAdapter<Marca> adapterMarca = new ArrayAdapter<Marca>(this, android.R.layout.simple_spinner_item, marcas) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                TextView view = (TextView) super.getView(position, convertView, parent);
+                Marca marca = getItem(position);
+                if (marca.getIdMarca() == -1) {
+                    view.setText(getString(R.string.select_brand));
+                } else {
+                    view.setText(marca.getNombreMarca());
+                }
+                return view;
+            }
+
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                TextView view = (TextView) super.getDropDownView(position, convertView, parent);
+                Marca marca = getItem(position);
+                if (marca.getIdMarca() == -1) {
+                    view.setText(getString(R.string.select_brand));
+                    view.setTextColor(Color.GRAY);
+                } else {
+                    view.setText(marca.getNombreMarca() + " (ID: " + marca.getIdMarca() + ")");
+                    view.setTextColor(Color.BLACK);
+                }
+                return view;
+            }
+        };
+        adapterMarca.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerItemMarca.setAdapter(adapterMarca);
+
+        // VIA AMNISTRACION
+        List<ViaAdministracion> vias = articuloDAO.getAllViaAdministracion();
+        vias.add(0, new ViaAdministracion(-1, getString(R.string.select_admin_route), this));
+
+        boolean viaExiste = false;
+        if (articulo.getIdViaAdministracion() != null) {
+            for (ViaAdministracion v : vias) {
+                if (v.getIdViaAdministracion() == articulo.getIdViaAdministracion()) {
+                    viaExiste = true;
+                    break;
+                }
+            }
+            if (!viaExiste) {
+                vias.add(0, new ViaAdministracion(articulo.getIdViaAdministracion(), "NULL", this));
+            }
+        }
+
+        ArrayAdapter<ViaAdministracion> adapterVia = new ArrayAdapter<ViaAdministracion>(this, android.R.layout.simple_spinner_item, vias) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                TextView view = (TextView) super.getView(position, convertView, parent);
+                view.setText(vias.get(position).getTipoAdministracion());
+                return view;
+            }
+
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                TextView view = (TextView) super.getDropDownView(position, convertView, parent);
+                view.setText(vias.get(position).getTipoAdministracion());
+                view.setTextColor(position == 0 ? Color.GRAY : Color.BLACK);
+                return view;
+            }
+        };
+        adapterVia.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerItemROA.setAdapter(adapterVia);
+
+        int indexVia = 0;
+        for (int i = 0; i < vias.size(); i++) {
+            if (vias.get(i).getIdViaAdministracion() == articulo.getIdViaAdministracion()) {
+                indexVia = i;
+                break;
+            }
+        }
+        spinnerItemROA.setSelection(indexVia);
+
+
+        //SUVCATEGORIA
+        List<SubCategoria> subcategorias = articuloDAO.getAllSubCategoria();
+        subcategorias.add(0, new SubCategoria(-1, getString(R.string.select_subcategory), this));
+
+        ArrayAdapter<SubCategoria> adapterSubCat = new ArrayAdapter<SubCategoria>(this, android.R.layout.simple_spinner_item, subcategorias) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                TextView view = (TextView) super.getView(position, convertView, parent);
+                SubCategoria sub = getItem(position);
+                if (sub.getIdSubCategoria() == -1) {
+                    view.setText(getString(R.string.select_subcategory));
+                } else {
+                    view.setText(sub.getNombreSubCategoria());
+                }
+                return view;
+            }
+
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                TextView view = (TextView) super.getDropDownView(position, convertView, parent);
+                SubCategoria sub = getItem(position);
+                if (sub.getIdSubCategoria() == -1) {
+                    view.setText(getString(R.string.select_subcategory));
+                    view.setTextColor(Color.GRAY);
+                } else {
+                    view.setText(sub.getNombreSubCategoria() + " (ID: " + sub.getIdSubCategoria() + ")");
+                    view.setTextColor(Color.BLACK);
+                }
+                return view;
+            }
+        };
+        adapterSubCat.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerItemSubCategoria.setAdapter(adapterSubCat);
+
+        //FOrMA Farmaceutica
+        List<FormaFarmaceutica> formas = articuloDAO.getAllFormaFarmaceutica();
+        formas.add(0, new FormaFarmaceutica(-1, getString(R.string.select_pharma_form), this));
+
+        boolean formaExiste = false;
+        if (articulo.getIdFormaFarmaceutica() != null) {
+            for (FormaFarmaceutica f : formas) {
+                if (f.getIdFormaFarmaceutica() == articulo.getIdFormaFarmaceutica()) {
+                    formaExiste = true;
+                    break;
+                }
+            }
+            if (!formaExiste) {
+                formas.add(0, new FormaFarmaceutica(articulo.getIdFormaFarmaceutica(), "NULL", this));
+            }
+        }
+
+        ArrayAdapter<FormaFarmaceutica> adapterForma = new ArrayAdapter<FormaFarmaceutica>(this, android.R.layout.simple_spinner_item, formas) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                TextView view = (TextView) super.getView(position, convertView, parent);
+                view.setText(formas.get(position).getTipoFormaFarmaceutica());
+                return view;
+            }
+
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                TextView view = (TextView) super.getDropDownView(position, convertView, parent);
+                view.setText(formas.get(position).getTipoFormaFarmaceutica());
+                view.setTextColor(position == 0 ? Color.GRAY : Color.BLACK);
+                return view;
+            }
+        };
+        adapterForma.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerItemFormaFarmaceutica.setAdapter(adapterForma);
+
+        int indexForma = 0;
+        for (int i = 0; i < formas.size(); i++) {
+            if (formas.get(i).getIdFormaFarmaceutica() == articulo.getIdFormaFarmaceutica()) {
+                indexForma = i;
+                break;
+            }
+        }
+        spinnerItemFormaFarmaceutica.setSelection(indexForma);
+
+        // seleccionar relacionada
+        for (int i = 0; i < marcas.size(); i++) {
+            if (marcas.get(i).getIdMarca() == articulo.getIdMarca()) {
+                spinnerItemMarca.setSelection(i);
+                break;
+            }
+        }
+
+        for (int i = 0; i < subcategorias.size(); i++) {
+            if (subcategorias.get(i).getIdSubCategoria() == articulo.getIdSubCategoria()) {
+                spinnerItemSubCategoria.setSelection(i);
+                break;
+            }
+        }
+
         idArticulo.setText(Integer.toString(articulo.getIdArticulo()));
         name.setText(articulo.getNombreArticulo());
         description.setText(articulo.getDescripcionArticulo());
         isRestricted.setChecked(articulo.getRestringidoArticulo());
         price.setText(Double.toString(articulo.getPrecioArticulo()));
 
-        idMarca.setEnabled(false);
-        idROA.setEnabled(false);
-        idSubCat.setEnabled(false);
-        idPF.setEnabled(false);
+        spinnerItemMarca.setEnabled(false);
+        spinnerItemROA.setEnabled(false);
+        spinnerItemSubCategoria.setEnabled(false);
+        spinnerItemFormaFarmaceutica.setEnabled(false);
         idArticulo.setEnabled(false);
         name.setEnabled(false);
         description.setEnabled(false);
@@ -340,91 +714,255 @@ public class ArticuloActivity extends AppCompatActivity implements AdapterView.O
         builder.setView(dialogView);
         AlertDialog dialog = builder.create();
 
-        EditText idMarca = dialogView.findViewById(R.id.editTextItemIdBrand);
-        EditText idROA = dialogView.findViewById(R.id.editTextItemIdROA);
-        EditText idSubCat = dialogView.findViewById(R.id.editTextItemIdSubCategory);
-        EditText idPF = dialogView.findViewById(R.id.editTextItemPharmaceuticalForm);
+        // Spinners y campos
+        Spinner spinnerItemMarca = dialogView.findViewById(R.id.spinnerItemMarca);
+        Spinner spinnerItemROA = dialogView.findViewById(R.id.spinnerItemROA);
+        Spinner spinnerItemSubCategoria = dialogView.findViewById(R.id.spinnerItemSubCategoria);
+        Spinner spinnerItemFormaFarmaceutica = dialogView.findViewById(R.id.spinnerItemFormaFarmaceutica);
+
         EditText idArticulo = dialogView.findViewById(R.id.editTextItemId);
         EditText name = dialogView.findViewById(R.id.editTextItemName);
         EditText description = dialogView.findViewById(R.id.editTextItemDescription);
         CheckBox isRestricted = dialogView.findViewById(R.id.checkBoxItemRestricted);
         EditText price = dialogView.findViewById(R.id.editTextItemPrice);
 
-        EditText[] campos = {idMarca, idSubCat, idPF, idArticulo, name, description, price};
+        // Cargar adaptadores
+        List<Marca> marcas = articuloDAO.getAllMarca();
+        marcas.add(0, new Marca(-1, getString(R.string.select_brand), this));
+
+        ArrayAdapter<Marca> adapterMarca = new ArrayAdapter<Marca>(this, android.R.layout.simple_spinner_item, marcas) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                TextView view = (TextView) super.getView(position, convertView, parent);
+                Marca marca = getItem(position);
+                if (marca.getIdMarca() == -1) {
+                    view.setText(getString(R.string.select_brand));
+                } else {
+                    view.setText(marca.getNombreMarca());
+                }
+                return view;
+            }
+
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                TextView view = (TextView) super.getDropDownView(position, convertView, parent);
+                Marca marca = getItem(position);
+                if (marca.getIdMarca() == -1) {
+                    view.setText(getString(R.string.select_brand));
+                    view.setTextColor(Color.GRAY);
+                } else {
+                    view.setText(marca.getNombreMarca() + " (ID: " + marca.getIdMarca() + ")");
+                    view.setTextColor(Color.BLACK);
+                }
+                return view;
+            }
+        };
+        adapterMarca.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerItemMarca.setAdapter(adapterMarca);
 
 
-        //idROA, idPF
-        EditText[] camposNulos = {idROA, idPF};
+        // VIA AMNISTRACION
+        List<ViaAdministracion> vias = articuloDAO.getAllViaAdministracion();
+        vias.add(0, new ViaAdministracion(-1, getString(R.string.select_admin_route), this));
 
-        Button btnSaveArticulo = dialogView.findViewById(R.id.btnGuardarArticulo);
-        Button btnClear = dialogView.findViewById(R.id.btnLimpiarArticulo);
+        ArrayAdapter<ViaAdministracion> adapterVia = new ArrayAdapter<ViaAdministracion>(this, android.R.layout.simple_spinner_item, vias) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                TextView view = (TextView) super.getView(position, convertView, parent);
+                ViaAdministracion via = getItem(position);
+                if (via.getIdViaAdministracion() == -1) {
+                    view.setText(getString(R.string.select_admin_route));
+                } else {
+                    view.setText(via.getTipoAdministracion());
+                }
+                return view;
+            }
 
-        idMarca.setText(Integer.toString(articulo.getIdMarca()));
-        idROA.setText(Integer.toString(articulo.getIdViaAdministracion()));
-        idSubCat.setText(Integer.toString(articulo.getIdSubCategoria()));
-        idPF.setText(Integer.toString(articulo.getIdFormaFarmaceutica()));
-        idArticulo.setText(Integer.toString(articulo.getIdArticulo()));
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                TextView view = (TextView) super.getDropDownView(position, convertView, parent);
+                ViaAdministracion via = getItem(position);
+                if (via.getIdViaAdministracion() == -1) {
+                    view.setText(getString(R.string.select_admin_route));
+                    view.setTextColor(Color.GRAY);
+                } else {
+                    view.setText(via.getTipoAdministracion() + " (ID: " + via.getIdViaAdministracion() + ")");
+                    view.setTextColor(Color.BLACK);
+                }
+                return view;
+            }
+        };
+        adapterVia.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerItemROA.setAdapter(adapterVia);
+
+        //SUVCATEGORIA
+        List<SubCategoria> subcategorias = articuloDAO.getAllSubCategoria();
+        subcategorias.add(0, new SubCategoria(-1, getString(R.string.select_subcategory), this));
+
+        ArrayAdapter<SubCategoria> adapterSubCat = new ArrayAdapter<SubCategoria>(this, android.R.layout.simple_spinner_item, subcategorias) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                TextView view = (TextView) super.getView(position, convertView, parent);
+                SubCategoria sub = getItem(position);
+                if (sub.getIdSubCategoria() == -1) {
+                    view.setText(getString(R.string.select_subcategory));
+                } else {
+                    view.setText(sub.getNombreSubCategoria());
+                }
+                return view;
+            }
+
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                TextView view = (TextView) super.getDropDownView(position, convertView, parent);
+                SubCategoria sub = getItem(position);
+                if (sub.getIdSubCategoria() == -1) {
+                    view.setText(getString(R.string.select_subcategory));
+                    view.setTextColor(Color.GRAY);
+                } else {
+                    view.setText(sub.getNombreSubCategoria() + " (ID: " + sub.getIdSubCategoria() + ")");
+                    view.setTextColor(Color.BLACK);
+                }
+                return view;
+            }
+        };
+        adapterSubCat.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerItemSubCategoria.setAdapter(adapterSubCat);
+
+        //FOrMA Farmaceutica
+        List<FormaFarmaceutica> formas = articuloDAO.getAllFormaFarmaceutica();
+        formas.add(0, new FormaFarmaceutica(-1, getString(R.string.select_pharma_form), this));
+
+        ArrayAdapter<FormaFarmaceutica> adapterForma = new ArrayAdapter<FormaFarmaceutica>(this, android.R.layout.simple_spinner_item, formas) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                TextView view = (TextView) super.getView(position, convertView, parent);
+                FormaFarmaceutica forma = getItem(position);
+                if (forma.getIdFormaFarmaceutica() == -1) {
+                    view.setText(getString(R.string.select_pharma_form));
+                } else {
+                    view.setText(forma.getTipoFormaFarmaceutica());
+                }
+                return view;
+            }
+
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                TextView view = (TextView) super.getDropDownView(position, convertView, parent);
+                FormaFarmaceutica forma = getItem(position);
+                if (forma.getIdFormaFarmaceutica() == -1) {
+                    view.setText(getString(R.string.select_pharma_form));
+                    view.setTextColor(Color.GRAY);
+                } else {
+                    view.setText(forma.getTipoFormaFarmaceutica() + " (ID: " + forma.getIdFormaFarmaceutica() + ")");
+                    view.setTextColor(Color.BLACK);
+                }
+                return view;
+            }
+        };
+        adapterForma.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerItemFormaFarmaceutica.setAdapter(adapterForma);
+
+        seleccionarItemSpinner(spinnerItemMarca, marcas, articulo.getIdMarca());
+        seleccionarItemSpinner(spinnerItemROA, vias, articulo.getIdViaAdministracion());
+        seleccionarItemSpinner(spinnerItemSubCategoria, subcategorias, articulo.getIdSubCategoria());
+        seleccionarItemSpinner(spinnerItemFormaFarmaceutica, formas, articulo.getIdFormaFarmaceutica());
+
+        idArticulo.setText(String.valueOf(articulo.getIdArticulo()));
         name.setText(articulo.getNombreArticulo());
         description.setText(articulo.getDescripcionArticulo());
         isRestricted.setChecked(articulo.getRestringidoArticulo());
-        price.setText(Double.toString(articulo.getPrecioArticulo()));
-
+        price.setText(String.valueOf(articulo.getPrecioArticulo()));
         idArticulo.setEnabled(false);
 
-
+        Button btnSaveArticulo = dialogView.findViewById(R.id.btnGuardarArticulo);
         btnSaveArticulo.setOnClickListener(v -> {
-            if(!areFieldsEmpty(camposNulos)) {
-                if (!areFieldsEmpty(campos)) {
-                    articulo.setIdArticulo(Integer.parseInt(String.valueOf(idArticulo.getText())));
-                    articulo.setIdMarca(Integer.parseInt(String.valueOf(idMarca.getText())));
-                    articulo.setIdViaAdministracion(Integer.parseInt(String.valueOf(idROA.getText())));
-                    articulo.setIdSubCategoria(Integer.parseInt(String.valueOf(idSubCat.getText())));
-                    articulo.setIdFormaFarmaceutica(Integer.parseInt(String.valueOf(idPF.getText())));
-                    articulo.setNombreArticulo(String.valueOf(name.getText()));
-                    articulo.setDescripcionArticulo(String.valueOf(description.getText()));
-                    articulo.setRestringidoArticulo(isRestricted.isChecked());
-                    articulo.setPrecioArticulo(Double.parseDouble(String.valueOf(price.getText())));
+            boolean hayError = false;
 
-                    boolean exito = articuloDAO.updateArticulo(articulo);
-                    if (exito) {
-                        dialog.dismiss();
-                        dialogoPadre.dismiss();
-                    }
-                }
+            String nombre = name.getText().toString().trim();
+            String descripcion = description.getText().toString().trim();
+            String precioTxt = price.getText().toString().trim();
+
+            Marca marca = (Marca) spinnerItemMarca.getSelectedItem();
+            SubCategoria sub = (SubCategoria) spinnerItemSubCategoria.getSelectedItem();
+            ViaAdministracion via = (ViaAdministracion) spinnerItemROA.getSelectedItem();
+            FormaFarmaceutica forma = (FormaFarmaceutica) spinnerItemFormaFarmaceutica.getSelectedItem();
+
+            if (nombre.isEmpty()) {
+                name.setError(getString(R.string.field_empty));
+                hayError = true;
             }
-            else {
-                if (areFieldsEmpty(camposNulos) && !areFieldsEmpty(campos)) {
-                    articulo.setIdArticulo(Integer.parseInt(String.valueOf(idArticulo.getText())));
-                    articulo.setIdMarca(Integer.parseInt(String.valueOf(idMarca.getText())));
-                    articulo.setIdViaAdministracion(-1);
-                    articulo.setIdSubCategoria(Integer.parseInt(String.valueOf(idSubCat.getText())));
-                    articulo.setIdFormaFarmaceutica(-1);
-                    articulo.setNombreArticulo(String.valueOf(name.getText()));
-                    articulo.setDescripcionArticulo(String.valueOf(description.getText()));
-                    articulo.setRestringidoArticulo(isRestricted.isChecked());
-                    articulo.setPrecioArticulo(Double.parseDouble(String.valueOf(price.getText())));
+            if (descripcion.isEmpty()) {
+                description.setError(getString(R.string.field_empty));
+                hayError = true;
+            }
+            if (precioTxt.isEmpty()) {
+                price.setError(getString(R.string.field_empty));
+                hayError = true;
+            }
 
-                    boolean exito = articuloDAO.updateArticulo(articulo);
-                    if (exito) {
-                        dialog.dismiss();
-                        dialogoPadre.dismiss();
-                    }
+            // Validar spinners obligatorios (marca y subcategoría)
+            if (marca.getIdMarca() == -1) {
+                View view = spinnerItemMarca.getSelectedView();
+                if (view instanceof TextView) {
+                    ((TextView) view).setError("");
+                    ((TextView) view).setTextColor(Color.RED);
                 }
+                hayError = true;
+            }
+            if (sub.getIdSubCategoria() == -1) {
+                View view = spinnerItemSubCategoria.getSelectedView();
+                if (view instanceof TextView) {
+                    ((TextView) view).setError("");
+                    ((TextView) view).setTextColor(Color.RED);
+                }
+                hayError = true;
+            }
+
+            if (hayError) {
+                Toast.makeText(this, getString(R.string.field_empty), Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            try {
+                articulo.setIdMarca(marca.getIdMarca());
+                articulo.setIdViaAdministracion(via.getIdViaAdministracion() == -1 ? null : via.getIdViaAdministracion());
+                articulo.setIdSubCategoria(sub.getIdSubCategoria());
+                articulo.setIdFormaFarmaceutica(forma.getIdFormaFarmaceutica() == -1 ? null : forma.getIdFormaFarmaceutica());
+                articulo.setNombreArticulo(nombre);
+                articulo.setDescripcionArticulo(descripcion);
+                articulo.setRestringidoArticulo(isRestricted.isChecked());
+                articulo.setPrecioArticulo(Double.parseDouble(precioTxt));
+
+                boolean exito = articuloDAO.updateArticulo(articulo);
+                if (exito) {
+                    dialog.dismiss();
+                    dialogoPadre.dismiss();
+                    actualizarListView(selected);
+                } else {
+                    Toast.makeText(this, getString(R.string.save_error), Toast.LENGTH_SHORT).show();
+                }
+            } catch (Exception e) {
+                Toast.makeText(this, getString(R.string.save_error), Toast.LENGTH_SHORT).show();
             }
         });
 
+        // Limpiar
+        Button btnClear = dialogView.findViewById(R.id.btnLimpiarArticulo);
         btnClear.setOnClickListener(v -> {
-            idMarca.setText("");
-            idROA.setText("");
-            idSubCat.setText("");
-            idPF.setText("");
+            spinnerItemMarca.setSelection(0);
+            spinnerItemROA.setSelection(0);
+            spinnerItemSubCategoria.setSelection(0);
+            spinnerItemFormaFarmaceutica.setSelection(0);
             name.setText("");
             description.setText("");
             isRestricted.setChecked(false);
             price.setText("");
         });
+
         dialog.show();
     }
+
 
     public void eliminarArticulo(Articulo articulo, AlertDialog dialogoPadre) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -483,4 +1021,27 @@ public class ArticuloActivity extends AppCompatActivity implements AdapterView.O
         }
         return hayVacios;
     }
+
+    private <T> void seleccionarItemSpinner(Spinner spinner, List<T> lista, Integer idBuscado) {
+        if (idBuscado == null) {
+            spinner.setSelection(0);
+            return;
+        }
+        for (int i = 0; i < lista.size(); i++) {
+            Object item = lista.get(i);
+            if (item instanceof Marca && ((Marca) item).getIdMarca() == idBuscado) {
+                spinner.setSelection(i); return;
+            }
+            if (item instanceof ViaAdministracion && ((ViaAdministracion) item).getIdViaAdministracion() == idBuscado) {
+                spinner.setSelection(i); return;
+            }
+            if (item instanceof SubCategoria && ((SubCategoria) item).getIdSubCategoria() == idBuscado) {
+                spinner.setSelection(i); return;
+            }
+            if (item instanceof FormaFarmaceutica && ((FormaFarmaceutica) item).getIdFormaFarmaceutica() == idBuscado) {
+                spinner.setSelection(i); return;
+            }
+        }
+    }
+
 }

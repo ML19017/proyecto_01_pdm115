@@ -13,6 +13,8 @@ public class Marca {
         this.context = context;
     }
 
+
+
     public int getIdMarca() {
         return idMarca;
     }

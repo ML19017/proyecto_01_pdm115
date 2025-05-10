@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ArticuloDAO {
     private SQLiteDatabase dbConection;
@@ -214,7 +215,12 @@ public class ArticuloDAO {
                 if (idForanea == null) return true;
                 String[] viaAdmin = {Integer.toString(idForanea)};
                 Cursor findViaAdmin = getDbConection().query("VIAADMINISTRACION", null, "IDVIAADMINISTRACION = ?", viaAdmin, null, null, null);
-                return findViaAdmin.getCount() == 1;
+                if (findViaAdmin.getCount() == 1) {
+                    return true;
+                } else {
+                    Toast.makeText(this.context, R.string.admin_route_not_found, Toast.LENGTH_SHORT).show();
+                    return false;
+                }
 
             case 3: // SubCategoría
                 String[] subCat = {Integer.toString(idForanea)};
@@ -230,12 +236,93 @@ public class ArticuloDAO {
                 if (idForanea == null) return true;
                 String[] formaFarm = {Integer.toString(idForanea)};
                 Cursor findFormaFarm = getDbConection().query("FORMAFARMACEUTICA", null, "IDFORMAFARMACEUTICA = ?", formaFarm, null, null, null);
-                return findFormaFarm.getCount() == 1;
+                if (findFormaFarm.getCount() == 1) {
+                    return true;
+                } else {
+                    Toast.makeText(this.context, R.string.pharma_form_not_found, Toast.LENGTH_SHORT).show(); // ← este es el nuevo mensaje
+                    return false;
+                }
 
             default:
                 return false;
         }
     }
+
+    public List<Marca> getAllMarca() {
+        List<Marca> lista = new ArrayList<>();
+        String sql = "SELECT * FROM MARCA";
+        Cursor cursor = dbConection.rawQuery(sql, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow("IDMARCA"));
+                String nombre = cursor.getString(cursor.getColumnIndexOrThrow("NOMBREMARCA"));
+
+                lista.add(new Marca(id, nombre, context));
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return lista;
+    }
+
+    public List<ViaAdministracion> getAllViaAdministracion() {
+        List<ViaAdministracion> lista = new ArrayList<>();
+        String sql = "SELECT * FROM VIAADMINISTRACION";
+        Cursor cursor = dbConection.rawQuery(sql, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow("IDVIAADMINISTRACION"));
+                String tipo = cursor.getString(cursor.getColumnIndexOrThrow("TIPOADMINISTRACION"));
+
+                lista.add(new ViaAdministracion(id, tipo, context));
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return lista;
+    }
+
+
+    public List<SubCategoria> getAllSubCategoria() {
+        List<SubCategoria> lista = new ArrayList<>();
+        String sql = "SELECT * FROM SUBCATEGORIA";
+        Cursor cursor = dbConection.rawQuery(sql, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow("IDSUBCATEGORIA"));
+                String nombre = cursor.getString(cursor.getColumnIndexOrThrow("NOMBRESUBCATEGORIA"));
+
+                lista.add(new SubCategoria(id, nombre, context));
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return lista;
+    }
+
+    public List<FormaFarmaceutica> getAllFormaFarmaceutica() {
+        List<FormaFarmaceutica> lista = new ArrayList<>();
+        String sql = "SELECT * FROM FORMAFARMACEUTICA";
+        Cursor cursor = dbConection.rawQuery(sql, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow("IDFORMAFARMACEUTICA"));
+                String tipo = cursor.getString(cursor.getColumnIndexOrThrow("TIPOFORMAFARMACEUTICA"));
+
+                lista.add(new FormaFarmaceutica(id, tipo, context));
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return lista;
+    }
+
+
+
 
 }
 
