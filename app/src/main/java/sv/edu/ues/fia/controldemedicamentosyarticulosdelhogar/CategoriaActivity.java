@@ -35,6 +35,9 @@ public class CategoriaActivity extends AppCompatActivity implements AdapterView.
         SQLiteDatabase conection = new ControlBD(this).getConnection();
         categoriaDAO = new CategoriaDAO(conection, this);
 
+        TextView txtBusqueda = (TextView) findViewById(R.id.busquedaCategoria);
+
+
         adaptador = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, values);
         ListView listV = (ListView) findViewById(R.id.categoryListv);
         listV.setVisibility(vac.validarAcceso(3) || vac.validarAcceso(4) ? View.VISIBLE : View.INVISIBLE);
@@ -46,6 +49,18 @@ public class CategoriaActivity extends AppCompatActivity implements AdapterView.
             showAddDialog();
         });
 
+        Button btnBuscarCategoria = findViewById(R.id.btnBuscarCategoria);
+        btnBuscarCategoria.setVisibility(vac.validarAcceso(2) || vac.validarAcceso(3) || vac.validarAcceso(4)? View.VISIBLE : View.INVISIBLE);
+        btnBuscarCategoria.setOnClickListener(v -> {
+            try {
+                int id = Integer.parseInt(txtBusqueda.getText().toString().trim());
+                buscarCategoriaPorID(id);
+            }
+            catch (NumberFormatException e) {
+                e.printStackTrace();
+                Toast.makeText(this, R.string.invalid_search, Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     public void showAddDialog() {
@@ -258,5 +273,12 @@ public class CategoriaActivity extends AppCompatActivity implements AdapterView.
         return hayVacios;
     }
 
-
+    private void buscarCategoriaPorID(int id) {
+        Categoria categoria = categoriaDAO.getCategoria(id);
+        if(categoria != null) {
+            verCategoria(categoria);
+        } else {
+            Toast.makeText(this, R.string.not_found_message, Toast.LENGTH_SHORT).show();
+        }
+    }
 }

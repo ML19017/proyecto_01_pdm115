@@ -94,4 +94,19 @@ public class CategoriaDAO {
     public void setContext(Context context) {
         this.context = context;
     }
+
+    public Categoria getCategoria(int id) {
+        Cursor cursor = getDbConection().rawQuery("SELECT * FROM CATEGORIA WHERE IDCATEGORIA = ?", new String[]{String.valueOf(id)});
+        if (cursor.moveToFirst()) {
+            Categoria categoria = new Categoria(
+                    cursor.getInt(cursor.getColumnIndexOrThrow("IDCATEGORIA")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("NOMBRECATEGORIA"))
+            );
+            cursor.close();
+            return categoria;
+        }
+        cursor.close();
+        Toast.makeText(context, R.string.not_found_message, Toast.LENGTH_SHORT).show();
+        return null;
+    }
 }
