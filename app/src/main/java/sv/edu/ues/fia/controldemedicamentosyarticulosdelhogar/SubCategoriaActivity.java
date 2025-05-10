@@ -109,9 +109,6 @@ public class SubCategoriaActivity extends AppCompatActivity implements AdapterVi
             ListView listV = (ListView) findViewById(R.id.subCategoryListv);
             listV.setVisibility(View.VISIBLE);
             actualizarListView(selected);
-        } else {
-            ListView listV = (ListView) findViewById(R.id.subCategoryListv);
-            listV.setVisibility(View.INVISIBLE);
         }
     }
 
