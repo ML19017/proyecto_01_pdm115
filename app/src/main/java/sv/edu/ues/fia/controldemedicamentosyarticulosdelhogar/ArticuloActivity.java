@@ -219,46 +219,36 @@ public class ArticuloActivity extends AppCompatActivity implements AdapterView.O
         });
 
         btnSaveArticulo.setOnClickListener(v -> {
-            if(!areFieldsEmpty(camposNulos)) {
-                if (!areFieldsEmpty(campos)) {
+            // Validar que los campos obligatorios no estén vacíos
+            if (!areFieldsEmpty(campos)) {
+                try {
+                    int id = Integer.parseInt(String.valueOf(idArticulo.getText()));
+                    int brand = Integer.parseInt(String.valueOf(idMarca.getText()));
+                    int subCat = Integer.parseInt(String.valueOf(idSubCat.getText()));
 
-                    int id = Integer.parseInt(String.valueOf(idArticulo.getText()));
-                    int brand = Integer.parseInt(String.valueOf(idMarca.getText()));
-                    int ROA = Integer.parseInt(String.valueOf(idROA.getText()));
-                    int subCat = Integer.parseInt(String.valueOf(idSubCat.getText()));
-                    int PF = Integer.parseInt(String.valueOf(idPF.getText()));
+                    // ROA y PF pueden estar vacíos; asignar -1 si es así
+                    int ROA = idROA.getText().toString().isEmpty() ? -1 : Integer.parseInt(String.valueOf(idROA.getText()));
+                    int PF = idPF.getText().toString().isEmpty() ? -1 : Integer.parseInt(String.valueOf(idPF.getText()));
+
                     String nombre = String.valueOf(name.getText());
                     String descipcion = String.valueOf(description.getText());
-                    Boolean restringido = isRestricted.isChecked();
-                    Double precio = Double.parseDouble(String.valueOf(price.getText()));
+                    boolean restringido = isRestricted.isChecked();
+                    double precio = Double.parseDouble(String.valueOf(price.getText()));
+
                     Articulo art = new Articulo(id, brand, ROA, subCat, PF, nombre, descipcion, restringido, precio);
                     boolean exito = articuloDAO.insertarArticulo(art);
                     if (exito) {
                         dialog.dismiss();
                         actualizarListView(selected);
                     }
+                } catch (NumberFormatException e) {
+                    Toast.makeText(this, "Verifica que los campos numéricos estén bien ingresados.", Toast.LENGTH_SHORT).show();
                 }
-            }
-            else {
-                if (areFieldsEmpty(camposNulos) && !areFieldsEmpty(campos)) {
-                    int id = Integer.parseInt(String.valueOf(idArticulo.getText()));
-                    int brand = Integer.parseInt(String.valueOf(idMarca.getText()));
-                    int ROA = -1;
-                    int subCat = Integer.parseInt(String.valueOf(idSubCat.getText()));
-                    int PF = -1;
-                    String nombre = String.valueOf(name.getText());
-                    String descipcion = String.valueOf(description.getText());
-                    Boolean restringido = isRestricted.isChecked();
-                    Double precio = Double.parseDouble(String.valueOf(price.getText()));
-                    Articulo art = new Articulo(id, brand, ROA, subCat, PF, nombre, descipcion, restringido, precio);
-                    boolean exito = articuloDAO.insertarArticulo(art);
-                    if (exito) {
-                        dialog.dismiss();
-                        actualizarListView(selected);
-                    }
-                }
+            } else {
+                Toast.makeText(this, "Completa todos los campos obligatorios.", Toast.LENGTH_SHORT).show();
             }
         });
+
         dialog.show();
 
     }
