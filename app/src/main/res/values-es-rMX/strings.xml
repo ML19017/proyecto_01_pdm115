@@ -227,11 +227,11 @@
     <string name="stock_updated_message">"Stock actualizado correctamente en el detalle # "</string>
     <string name="error_detalle_existencia_no_encontrado">No se encontró stock para este artículo en la sucursal.</string>
     <string name="error_detalle_existencia_no_encontrado_venta">No se encontró stock para este artículo en la sucursal.</string>
-    <string name="stock_insuficiente_message">"Stock insuficiente. Disponible: "</string>
     <string name="error_saving_detail">Error al guardar el detalle de venta.</string>
     <string name="existence_amount">Cantidad Existente</string>
     <string name="expiration_Date">Fecha de Expiración</string>
     <string name="select_sucursal">Seleccione una Sucursal</string>
     <string name="datos_validos">Por favor ingrese datos válidos</string>
+    <string name="stock_insuficiente_message">Stock insuficiente. Disponible: %1$d unidades.</string>
     <!-- Fin DetalleVenta -->
 </resources>

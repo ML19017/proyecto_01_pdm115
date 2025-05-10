@@ -33,7 +33,11 @@ public class DetalleVentaDAO {
 
         int stockDisponible = getStockDisponible(detalleVenta.getIdArticulo(), detalleVenta.getIdVenta(), detalleVenta.getIdCliente());
         if (detalleVenta.getCantidadVenta() > stockDisponible) {
-            Toast.makeText(context, context.getString(R.string.stock_insuficiente_message + stockDisponible), Toast.LENGTH_LONG).show();
+            Toast.makeText(context,
+                    context.getString(R.string.stock_insuficiente_message, stockDisponible),
+                    Toast.LENGTH_LONG
+            ).show();
+
             return;
         }
 
