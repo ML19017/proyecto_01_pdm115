@@ -103,14 +103,32 @@ public class SubCategoriaActivity extends AppCompatActivity implements AdapterVi
         showOptionsDialog(subCategoria);
     }
 
+    @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         selected = (Categoria) parent.getItemAtPosition(position);
-        if (selected.getIdCategoria() != -1) {
-            ListView listV = (ListView) findViewById(R.id.subCategoryListv);
+
+        ListView listV = (ListView) findViewById(R.id.subCategoryListv);
+
+        boolean tieneTodosLosPermisos =
+                vac.validarAcceso(1) &&
+                        vac.validarAcceso(2) &&
+                        vac.validarAcceso(3) &&
+                        vac.validarAcceso(4);
+
+        boolean tienePermisoVer = vac.validarAcceso(2);
+
+        if (tieneTodosLosPermisos) {
+            listV.setVisibility(View.VISIBLE);
+            actualizarListView(selected);
+        }
+
+        if (tienePermisoVer && selected.getIdCategoria() != -1) {
             listV.setVisibility(View.VISIBLE);
             actualizarListView(selected);
         }
     }
+
+
 
 
     public void actualizarListView(Categoria filtro) {
