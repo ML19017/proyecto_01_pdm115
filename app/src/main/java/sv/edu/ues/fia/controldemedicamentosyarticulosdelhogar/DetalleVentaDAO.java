@@ -20,29 +20,23 @@ public class DetalleVentaDAO {
 
     public void addDetalleVenta(DetalleVenta detalleVenta) {
 
-        // 1. Validación de duplicado de clave primaria
         if (isDuplicate(detalleVenta.getIdCliente(), detalleVenta.getIdVenta(),
                 detalleVenta.getIdArticulo(), detalleVenta.getIdVentaDetalle())) {
             Toast.makeText(context, R.string.duplicate_message, Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // 2. Verificar si hay existencia registrada para el artículo en esa sucursal
         if (!existeDetalleExistenciaVenta(detalleVenta.getIdArticulo(), detalleVenta.getIdVenta(), detalleVenta.getIdCliente())) {
             Toast.makeText(context, R.string.error_detalle_existencia_no_encontrado, Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // 3. Validar si hay stock suficiente
         int stockDisponible = getStockDisponible(detalleVenta.getIdArticulo(), detalleVenta.getIdVenta(), detalleVenta.getIdCliente());
         if (detalleVenta.getCantidadVenta() > stockDisponible) {
-            Toast.makeText(context,
-                    context.getString(R.string.stock_insuficiente_message, stockDisponible),
-                    Toast.LENGTH_LONG).show();
+            Toast.makeText(context, context.getString(R.string.stock_insuficiente_message + stockDisponible), Toast.LENGTH_LONG).show();
             return;
         }
 
-        // 4. Inserción del detalle de venta
         ContentValues values = new ContentValues();
         values.put("IDCLIENTE", detalleVenta.getIdCliente());
         values.put("IDVENTA", detalleVenta.getIdVenta());
@@ -53,12 +47,8 @@ public class DetalleVentaDAO {
         values.put("FECHADEVENTA", detalleVenta.getFechaDeVenta());
         values.put("TOTALDETALLEVENTA", detalleVenta.getTotalDetalleVenta());
 
-        long result = conexionDB.insert("DETALLEVENTA", null, values);
-        if (result == -1) {
-            Toast.makeText(context, R.string.error_saving_detail, Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(context, R.string.save_message, Toast.LENGTH_SHORT).show();
-        }
+        conexionDB.insert("DETALLEVENTA", null, values);
+        Toast.makeText(context, R.string.save_message, Toast.LENGTH_SHORT).show();
     }
 
 
