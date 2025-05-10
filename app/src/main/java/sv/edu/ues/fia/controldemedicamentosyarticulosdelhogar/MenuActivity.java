@@ -39,6 +39,8 @@ public class MenuActivity extends AppCompatActivity {
         SharedPreferences preferencias = getSharedPreferences("PERMISOS_APP", Context.MODE_PRIVATE);
         List<String> opcionesFiltradas = new ArrayList<>();
         List<Integer> iconosFiltrados = new ArrayList<>();
+        List<String> idMenuFiltrado = new ArrayList<>();
+
         String[] todasOpciones = getResources().getStringArray(R.array.options_menu);
         String[] idMenu = getResources().getStringArray(R.array.id_menu); // Lista de todas las opciones
         int[] todosIconos = getIconos(getResources().getStringArray(R.array.main_icons));
@@ -49,6 +51,7 @@ public class MenuActivity extends AppCompatActivity {
             if (tienePermiso) {
                 opcionesFiltradas.add(todasOpciones[i]);
                 iconosFiltrados.add(todosIconos[i]);
+                idMenuFiltrado.add(idMenu[i]);
             }
         }
         Log.d("MenuActivity", "Opciones filtradas: " + opcionesFiltradas);
@@ -60,9 +63,10 @@ public class MenuActivity extends AppCompatActivity {
         listView.setOnItemClickListener((parent, view, position, id) -> {
             try {
                 SharedPreferences.Editor editor = preferencias.edit();
-                editor.putString("id_opcion", idMenu[position]);
+                String idOpcionSeleccionada = idMenuFiltrado.get(position);
+                editor.putString("id_opcion", idOpcionSeleccionada);
                 editor.apply();
-                String nombreClase = ACTIVIDADES[position];
+                String nombreClase = ACTIVIDADES[getPosicion(idOpcionSeleccionada)];
                 Class<?> clase = Class.forName("sv.edu.ues.fia.controldemedicamentosyarticulosdelhogar." + nombreClase);
                 Intent inte = new Intent(this, clase);
                 this.startActivity(inte);
@@ -86,5 +90,16 @@ public class MenuActivity extends AppCompatActivity {
             iconos[i] = getResources().getIdentifier(nombreRecurso[i], "drawable", getPackageName());
         }
         return iconos;
+    }
+
+    private int getPosicion(String id_menu) {
+        String [] ids = getResources().getStringArray(R.array.id_menu);
+        for (int i = 0; i < ids.length; i++) {
+            if (ids[i].equals(id_menu)) {
+                Log.d("MENU - POSITION", "getPosicion: " + i);
+                return i;
+            }
+        }
+        return -1;
     }
 }
