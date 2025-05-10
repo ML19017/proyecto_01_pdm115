@@ -76,6 +76,7 @@ public class SubCategoriaActivity extends AppCompatActivity implements AdapterVi
         };
         adaptadorSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         Spinner spinner = (Spinner) findViewById(R.id.itemCategorySpinner);
+        spinner.setVisibility(vac.validarAcceso(2) ? View.VISIBLE : View.INVISIBLE);
         spinner.setAdapter(adaptadorSpinner);
         llenadoSpinner();
         spinner.setOnItemSelectedListener(this);
@@ -104,8 +105,14 @@ public class SubCategoriaActivity extends AppCompatActivity implements AdapterVi
 
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         selected = (Categoria) parent.getItemAtPosition(position);
-
-        actualizarListView(selected);
+        if (selected.getIdCategoria() != -1) {
+            ListView listV = (ListView) findViewById(R.id.subCategoryListv);
+            listV.setVisibility(View.VISIBLE);
+            actualizarListView(selected);
+        } else {
+            ListView listV = (ListView) findViewById(R.id.subCategoryListv);
+            listV.setVisibility(View.INVISIBLE);
+        }
     }
 
 

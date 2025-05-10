@@ -100,6 +100,7 @@ public class ArticuloActivity extends AppCompatActivity implements AdapterView.O
 
         //EditText
         EditText buscar = (EditText) findViewById(R.id.editTextSearchItem);
+        buscar.setVisibility(vac.validarAcceso(2) ? View.VISIBLE : View.INVISIBLE);
         buscar.setVisibility(GONE);
 
         //Botones
@@ -111,6 +112,7 @@ public class ArticuloActivity extends AppCompatActivity implements AdapterView.O
         });
 
         btnSearch.setOnClickListener(v -> {
+            listV.setVisibility(VISIBLE);
             if (buscar.getVisibility() == GONE) {
                 Log.d("inicial", "se activo");
                 categoriaFiltro.setVisibility(GONE);
