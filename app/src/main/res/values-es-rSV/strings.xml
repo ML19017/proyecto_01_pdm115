@@ -234,5 +234,6 @@
     <string name="datos_validos">Por favor ingrese datos válidos</string>
     <string name="mostrar_farmacia">Mostrar sucursales</string>
     <string name="stock_insuficiente_message">Stock insuficiente. Disponible: %1$d unidades.</string>
+    <string name="delete_failed_message">No se pudo eliminar el elemento</string>
     <!-- Fin DetalleVenta -->
 </resources>

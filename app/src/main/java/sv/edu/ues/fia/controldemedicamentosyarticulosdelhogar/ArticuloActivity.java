@@ -42,7 +42,6 @@ public class ArticuloActivity extends AppCompatActivity implements AdapterView.O
     private List<Categoria> valuesCat = new ArrayList<>();
 
     private Articulo busqueda = new Articulo();
-    private final ValidarAccesoCRUD vac = new ValidarAccesoCRUD(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,25 +93,21 @@ public class ArticuloActivity extends AppCompatActivity implements AdapterView.O
         //ListV
         adaptadorListV = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, valuesArt);
         ListView listV = (ListView) findViewById(R.id.itemListv);
-        listV.setVisibility(vac.validarAcceso(3) || vac.validarAcceso(4) ? View.VISIBLE : View.INVISIBLE);
         listV.setAdapter(adaptadorListV);
         listV.setOnItemClickListener(this);
 
         //EditText
         EditText buscar = (EditText) findViewById(R.id.editTextSearchItem);
-        buscar.setVisibility(vac.validarAcceso(2) ? View.VISIBLE : View.INVISIBLE);
         buscar.setVisibility(GONE);
 
         //Botones
         Button btnAdd = (Button) findViewById(R.id.btnAddItem);
         Button btnSearch = (Button) findViewById(R.id.btnSearchItem);
-        btnSearch.setVisibility(vac.validarAcceso(2) ? View.VISIBLE : View.INVISIBLE);
         btnAdd.setOnClickListener(v -> {
             showAddDialog();
         });
 
         btnSearch.setOnClickListener(v -> {
-            listV.setVisibility(VISIBLE);
             if (buscar.getVisibility() == GONE) {
                 Log.d("inicial", "se activo");
                 categoriaFiltro.setVisibility(GONE);
@@ -256,40 +251,17 @@ public class ArticuloActivity extends AppCompatActivity implements AdapterView.O
 
         AlertDialog dialog = builder.create();
 
-        dialogView.findViewById(R.id.buttonView).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(vac.validarAcceso(2))
-                    verArticulo(articulo);
-                else
-                    Toast.makeText(getApplicationContext(), R.string.action_block, Toast.LENGTH_LONG).show();
-                dialog.dismiss();
-            }
+        btnView.setOnClickListener(v -> {
+            verArticulo(articulo);
         });
 
-        dialogView.findViewById(R.id.buttonEdit).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(vac.validarAcceso(3))
-                    editArticulo(articulo, dialog);
-                else
-                    Toast.makeText(getApplicationContext(), R.string.action_block, Toast.LENGTH_LONG).show();
-                dialog.dismiss();
-            }
+        btnUpdate.setOnClickListener(v -> {
+            editArticulo(articulo, dialog);
         });
 
-        dialogView.findViewById(R.id.buttonDelete).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(vac.validarAcceso(4))
-                    eliminarArticulo(articulo, dialog);
-                else
-                    Toast.makeText(getApplicationContext(), R.string.action_block, Toast.LENGTH_LONG).show();
-                dialog.dismiss();
-            }
+        btnDelete.setOnClickListener(v -> {
+            eliminarArticulo(articulo, dialog);
         });
-
-
         dialog.show();
 
     }

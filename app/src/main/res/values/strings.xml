@@ -281,5 +281,9 @@
     <string name="error_detalle_existencia_no_encontrado_venta">Stock not found for this item in the branch.</string>
     <string name="error_saving_detail">Error saving the sales detail.</string>
     <string name="stock_insuficiente_message">Insufficient stock. Available: %1$d units.</string>
+
+
+    <string name="delete_failed_message">The item could not be deleted.</string>
+
     <!-- End SaleDetail -->
 </resources>

@@ -233,7 +233,8 @@ public class CategoriaActivity extends AppCompatActivity implements AdapterView.
 
     public void eliminarCategoria(Categoria categoria, AlertDialog dialogoPadre) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("WARNING");
+        builder.setTitle(getString(R.string.confirmation));
+
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_confirmation, null);
         builder.setView(dialogView);
         AlertDialog dialog = builder.create();
@@ -242,25 +243,30 @@ public class CategoriaActivity extends AppCompatActivity implements AdapterView.
         Button btnConfirmar = dialogView.findViewById(R.id.btnConfirm);
         Button btnCancelar = dialogView.findViewById(R.id.btnDecline);
 
-        advertencia.setText("Está apunto de eliminar la categoria con id:" + categoria.getIdCategoria() + "\n Esta acción no se puede revertir, ¿Desea continuar?");
+        advertencia.setText(getString(R.string.confirmation_message) + " " + getString(R.string.category).toLowerCase() +
+                " ID: " + categoria.getIdCategoria() + "\n" + getString(R.string.confirm_delete));
+
+        btnConfirmar.setText(getString(R.string.yes));
+        btnCancelar.setText(getString(R.string.no));
 
         btnConfirmar.setOnClickListener(v -> {
             int filasAfectadas = categoriaDAO.deleteCategoria(categoria);
             if (filasAfectadas > 0) {
                 actualizarListView();
-                Toast.makeText(this, "Se ha eliminado: categoria id: " + categoria.getIdCategoria(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.delete_message) + ": " + getString(R.string.category) +
+                        " ID: " + categoria.getIdCategoria(), Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
                 dialogoPadre.dismiss();
             } else {
-                Log.d("DELETE_ERROR", "No se elimino");
+
             }
         });
 
-        btnCancelar.setOnClickListener(v -> {
-            dialog.dismiss();
-        });
+        btnCancelar.setOnClickListener(v -> dialog.dismiss());
+
         dialog.show();
     }
+
 
     public boolean areFieldsEmpty(EditText[] campos) {
         boolean hayVacios = false;
