@@ -48,7 +48,7 @@ public class DetalleCompraActivity extends AppCompatActivity {
         TextView txtBusqueda = findViewById(R.id.busquedaDetalleCompra);
 
         Button btnBuscarDetalleCompraPorId = findViewById(R.id.btnBuscarDetalleCompra);
-        btnBuscarDetalleCompraPorId.setVisibility(vac.validarAcceso(2) ? View.VISIBLE : View.INVISIBLE);
+        btnBuscarDetalleCompraPorId.setVisibility(vac.validarAcceso(2) || vac.validarAcceso(3) || vac.validarAcceso(4)? View.VISIBLE : View.INVISIBLE);
         btnBuscarDetalleCompraPorId.setOnClickListener(v -> {
             try {
                 int id = Integer.parseInt(txtBusqueda.getText().toString().trim());
@@ -69,6 +69,7 @@ public class DetalleCompraActivity extends AppCompatActivity {
         });
 
         Button btnAgregarDetalleCompra = findViewById(R.id.btnAgregarDetalleCompra);
+        btnAgregarDetalleCompra.setVisibility(vac.validarAcceso(1) ? View.VISIBLE : View.INVISIBLE);
         btnAgregarDetalleCompra.setOnClickListener(v -> showAddDialog());
     }
 

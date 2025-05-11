@@ -42,7 +42,7 @@ public class ViaAdministracionActivity extends AppCompatActivity {
         });
 
         listViewViaAdministracion = findViewById(R.id.lvViaAdministracion);
-        listViewViaAdministracion.setVisibility(vac.validarAcceso(2) ? View.VISIBLE : View.INVISIBLE);
+        listViewViaAdministracion.setVisibility(vac.validarAcceso(3) || vac.validarAcceso(4) ? View.VISIBLE : View.INVISIBLE);
         llenarLista();
         listViewViaAdministracion.setOnItemClickListener((parent, view, position, id) -> {
             ViaAdministracion viaAdministracion = (ViaAdministracion) parent.getItemAtPosition(position);

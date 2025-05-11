@@ -57,8 +57,8 @@ public class FacturaVentaActivity extends AppCompatActivity {
 
         TextView txtBusquedaFacturaVenta = findViewById(R.id.txtBusquedaFacturaVenta);
         Button btnBuscarFacturaVenta = findViewById(R.id.btnBuscarFacturaVenta);
+        btnBuscarFacturaVenta.setVisibility(vac.validarAcceso(2) || vac.validarAcceso(3) || vac.validarAcceso(4)? View.VISIBLE : View.INVISIBLE);
         if (btnBuscarFacturaVenta != null) {
-            btnBuscarFacturaVenta.setVisibility(vac.validarAcceso(2) ? View.VISIBLE : View.INVISIBLE);
             btnBuscarFacturaVenta.setOnClickListener(v -> {
                 try {
                     if (txtBusquedaFacturaVenta.getText().toString().trim().isEmpty()){
@@ -75,7 +75,7 @@ public class FacturaVentaActivity extends AppCompatActivity {
 
 
         listViewFacturasVenta = findViewById(R.id.listViewFacturasVenta);
-        listViewFacturasVenta.setVisibility(vac.validarAcceso(2) || vac.validarAcceso(3) || vac.validarAcceso(4) ? View.VISIBLE : View.INVISIBLE);
+        listViewFacturasVenta.setVisibility(vac.validarAcceso(3) || vac.validarAcceso(4) ? View.VISIBLE : View.INVISIBLE);
         fillList();
 
         btnAddFacturaVenta = findViewById(R.id.btnAddFacturaVenta);

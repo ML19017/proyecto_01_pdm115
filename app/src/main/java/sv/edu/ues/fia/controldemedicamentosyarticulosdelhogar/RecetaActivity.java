@@ -32,7 +32,7 @@ public class RecetaActivity extends AppCompatActivity {
         btnAgregarReceta.setOnClickListener(v -> showAddDialog());
 
         Button btnBuscarRecetaPorId = findViewById(R.id.btnBuscarReceta);
-        btnBuscarRecetaPorId.setVisibility(vac.validarAcceso(2) ? View.VISIBLE : View.INVISIBLE);
+        btnBuscarRecetaPorId.setVisibility(vac.validarAcceso(2) || vac.validarAcceso(3) || vac.validarAcceso(4)? View.VISIBLE : View.INVISIBLE);
         btnBuscarRecetaPorId.setOnClickListener(v -> {
             try {
                 String id = txtBusqueda.getText().toString().trim();
@@ -45,7 +45,7 @@ public class RecetaActivity extends AppCompatActivity {
         });
 
         listverReceta = findViewById(R.id.lvReceta);
-        listverReceta.setVisibility(vac.validarAcceso(2) || vac.validarAcceso(3) || vac.validarAcceso(4)? View.VISIBLE : View.INVISIBLE);
+        listverReceta.setVisibility(vac.validarAcceso(3) || vac.validarAcceso(4) ? View.VISIBLE : View.INVISIBLE);
         llenarLista();
         listverReceta.setOnItemClickListener((parent, view, position, id) -> {
             Receta receta = (Receta) parent.getItemAtPosition(position);

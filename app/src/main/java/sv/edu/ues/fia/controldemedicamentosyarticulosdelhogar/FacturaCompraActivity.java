@@ -52,7 +52,7 @@ public class FacturaCompraActivity extends AppCompatActivity {
         TextView txtBusqueda = (TextView) findViewById(R.id.busquedaFacturaCompra);
 
         Button btnBuscarFacturaCompraPorId = findViewById(R.id.btnBuscarFacturaCompra);
-        btnBuscarFacturaCompraPorId.setVisibility(vac.validarAcceso(2) ? View.VISIBLE : View.INVISIBLE);
+        btnBuscarFacturaCompraPorId.setVisibility(vac.validarAcceso(2) || vac.validarAcceso(3) || vac.validarAcceso(4)? View.VISIBLE : View.INVISIBLE);
         btnBuscarFacturaCompraPorId.setOnClickListener(v -> {
             try {
                 int id = Integer.parseInt(txtBusqueda.getText().toString().trim());
@@ -75,6 +75,7 @@ public class FacturaCompraActivity extends AppCompatActivity {
         });
 
         Button btnAgregarFacturaCompra = findViewById(R.id.btnAgregarFacturaCompra);
+        btnAgregarFacturaCompra.setVisibility(vac.validarAcceso(1) ? View.VISIBLE : View.INVISIBLE);
         btnAgregarFacturaCompra.setOnClickListener(v -> showAddDialog());
     }
 

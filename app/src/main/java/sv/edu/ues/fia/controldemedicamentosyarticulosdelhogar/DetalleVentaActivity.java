@@ -48,7 +48,7 @@ public class DetalleVentaActivity extends AppCompatActivity {
 
 
         Button btnBuscarDetalleVentaPorId = findViewById(R.id.btnBuscarDetalleVenta);
-        btnBuscarDetalleVentaPorId.setVisibility(vac.validarAcceso(2) ? View.VISIBLE : View.INVISIBLE);
+        btnBuscarDetalleVentaPorId.setVisibility(vac.validarAcceso(2) || vac.validarAcceso(3) || vac.validarAcceso(4)? View.VISIBLE : View.INVISIBLE);
         btnBuscarDetalleVentaPorId.setOnClickListener(v -> {
             try {
                 String searchText = txtBusqueda.getText().toString().trim();
@@ -66,7 +66,7 @@ public class DetalleVentaActivity extends AppCompatActivity {
         });
 
         listViewDetalleVenta = findViewById(R.id.lvDetalleVenta);
-        listViewDetalleVenta.setVisibility(vac.validarAcceso(2) || vac.validarAcceso(3) || vac.validarAcceso(4) ? View.VISIBLE : View.INVISIBLE);
+        listViewDetalleVenta.setVisibility(vac.validarAcceso(3) || vac.validarAcceso(4) ? View.VISIBLE : View.INVISIBLE);
         fillList();
 
         listViewDetalleVenta.setOnItemClickListener((parent, view, position, id) -> {

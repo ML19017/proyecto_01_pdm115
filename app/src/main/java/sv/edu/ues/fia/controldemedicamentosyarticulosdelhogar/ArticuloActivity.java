@@ -85,7 +85,7 @@ public class ArticuloActivity extends AppCompatActivity implements AdapterView.O
         };
         adaptadorSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         Spinner spinner = (Spinner) findViewById(R.id.itemCategorySpinner);
-        spinner.setVisibility(vac.validarAcceso(2) ? View.VISIBLE : View.INVISIBLE);
+        spinner.setVisibility(vac.validarAcceso(2) || vac.validarAcceso(3) || vac.validarAcceso(4)? View.VISIBLE : View.INVISIBLE);
         spinner.setAdapter(adaptadorSpinner);
         llenadoSpinner();
         spinner.setOnItemSelectedListener(this);
@@ -106,13 +106,15 @@ public class ArticuloActivity extends AppCompatActivity implements AdapterView.O
 
         //Botones
         Button btnAdd = (Button) findViewById(R.id.btnAddItem);
+        btnAdd.setVisibility(vac.validarAcceso(1) ? View.VISIBLE : View.INVISIBLE);
         Button btnSearch = (Button) findViewById(R.id.btnSearchItem);
-        btnSearch.setVisibility(vac.validarAcceso(2) ? View.VISIBLE : View.INVISIBLE);
+        btnSearch.setVisibility(vac.validarAcceso(2) || vac.validarAcceso(3) || vac.validarAcceso(4)? View.VISIBLE : View.INVISIBLE);
         btnAdd.setOnClickListener(v -> {
             showAddDialog();
         });
 
         btnSearch.setOnClickListener(v -> {
+            listV.setVisibility(VISIBLE);
             if (buscar.getVisibility() == GONE) {
                 Log.d("inicial", "se activo");
                 categoriaFiltro.setVisibility(GONE);
@@ -702,10 +704,26 @@ public class ArticuloActivity extends AppCompatActivity implements AdapterView.O
         dialog.show();
     }
 
+    @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         selected = (Categoria) parent.getItemAtPosition(position);
-        actualizarListView(selected);
+        ListView listV = findViewById(R.id.itemListv);
+
+        boolean permisoActualizar = vac.validarAcceso(3);
+        boolean permisoEliminar = vac.validarAcceso(4);
+        boolean permisoVer = vac.validarAcceso(2);
+
+        if (permisoActualizar || permisoEliminar) {
+            listV.setVisibility(View.VISIBLE);
+            actualizarListView(selected);
+        } else if (permisoVer && selected.getIdCategoria() != -1) {
+            listV.setVisibility(View.VISIBLE);
+            actualizarListView(selected);
+        } else {
+            listV.setVisibility(View.INVISIBLE);
+        }
     }
+
 
     public void editArticulo(Articulo articulo, AlertDialog dialogoPadre) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

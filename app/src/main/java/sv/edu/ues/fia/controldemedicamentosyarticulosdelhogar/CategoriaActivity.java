@@ -45,6 +45,7 @@ public class CategoriaActivity extends AppCompatActivity implements AdapterView.
         actualizarListView();
         listV.setOnItemClickListener(this);
         Button btnInsertarCategoria = (Button) findViewById(R.id.btnAgregarCategoria);
+        btnInsertarCategoria.setVisibility(vac.validarAcceso(1) ? View.VISIBLE : View.INVISIBLE);
         btnInsertarCategoria.setOnClickListener(v -> {
             showAddDialog();
         });

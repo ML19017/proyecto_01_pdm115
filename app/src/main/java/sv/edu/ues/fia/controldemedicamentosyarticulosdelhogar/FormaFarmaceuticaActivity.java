@@ -53,7 +53,7 @@ public class FormaFarmaceuticaActivity extends AppCompatActivity {
         });
 
         listViewFormaFaramceutica = findViewById(R.id.lvFormaFarmaceutica);
-        listViewFormaFaramceutica.setVisibility(vac.validarAcceso(2) ? View.VISIBLE : View.INVISIBLE);
+        listViewFormaFaramceutica.setVisibility(vac.validarAcceso(3) || vac.validarAcceso(4) ? View.VISIBLE : View.INVISIBLE);
         llenarLista();
         listViewFormaFaramceutica.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

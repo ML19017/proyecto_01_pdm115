@@ -40,7 +40,7 @@ public class ProveedorActivity extends AppCompatActivity {
         TextView txtBusqueda = findViewById(R.id.txtBusquedaProveedor);
 
         Button btnBuscarProveedor = findViewById(R.id.btnBuscarProveedor);
-        btnBuscarProveedor.setVisibility(vac.validarAcceso(2) ? View.VISIBLE : View.INVISIBLE);
+        btnBuscarProveedor.setVisibility(vac.validarAcceso(2) || vac.validarAcceso(3) || vac.validarAcceso(4)? View.VISIBLE : View.INVISIBLE);
         btnBuscarProveedor.setOnClickListener(v -> {
             try {
                 int id = Integer.parseInt(txtBusqueda.getText().toString().trim());

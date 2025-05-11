@@ -38,8 +38,8 @@ public class ClienteActivity extends AppCompatActivity {
 
         TextView txtBusquedaCliente = findViewById(R.id.txtBusquedaCliente);
         Button btnBuscarCliente = findViewById(R.id.btnBuscarCliente);
+        btnBuscarCliente.setVisibility(vac.validarAcceso(2) || vac.validarAcceso(3) || vac.validarAcceso(4)? View.VISIBLE : View.INVISIBLE);
         if (btnBuscarCliente != null) {
-            btnBuscarCliente.setVisibility(vac.validarAcceso(2) ? View.VISIBLE : View.INVISIBLE);
             btnBuscarCliente.setOnClickListener(v -> {
                 try {
                     if (txtBusquedaCliente.getText().toString().trim().isEmpty()){
@@ -56,7 +56,7 @@ public class ClienteActivity extends AppCompatActivity {
         }
 
         listViewClientes = findViewById(R.id.listViewClientes);
-        listViewClientes.setVisibility(vac.validarAcceso(2) || vac.validarAcceso(3) || vac.validarAcceso(4) ? View.VISIBLE : View.INVISIBLE);
+        listViewClientes.setVisibility(vac.validarAcceso(3) || vac.validarAcceso(4) ? View.VISIBLE : View.INVISIBLE);
         fillList();
 
         listViewClientes.setOnItemClickListener((parent, view, position, id) -> {
