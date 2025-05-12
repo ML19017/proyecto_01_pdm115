@@ -144,10 +144,8 @@ public class DetalleCompraActivity extends AppCompatActivity {
                 FacturaCompra factura = getItem(position);
                 if (factura.getIdCompra() == -1) {
                     view.setText(getString(R.string.select_factura));
-                    view.setTextColor(Color.GRAY);
                 } else {
                     view.setText("ID : " + factura.getIdCompra() + ", "  + getString(R.string.provider) + ": " + factura.getIdProveedor() + ", " + getString(R.string.purchase_date) + ": " + factura.getFechaCompra());
-                    view.setTextColor(Color.BLACK);
                 }
                 return view;
             }
@@ -193,10 +191,8 @@ public class DetalleCompraActivity extends AppCompatActivity {
                 Articulo articulo = getItem(position);
                 if (articulo.getIdArticulo() == -1) {
                     view.setText(getString(R.string.select_articulo));
-                    view.setTextColor(Color.GRAY);
                 } else {
                     view.setText(articulo.getNombreArticulo() + " (ID: " + articulo.getIdArticulo() + ")");
-                    view.setTextColor(Color.BLACK);
                 }
                 return view;
             }
@@ -369,10 +365,10 @@ public class DetalleCompraActivity extends AppCompatActivity {
                 FacturaCompra factura = getItem(position);
                 if (factura.getIdCompra() == -1) {
                     view.setText(getString(R.string.select_factura));
-                    view.setTextColor(Color.GRAY);
+                    
                 } else {
                     view.setText("ID : " + factura.getIdCompra() + ", "  + getString(R.string.provider) + ": " + factura.getIdProveedor() + ", " + getString(R.string.purchase_date) + ": " + factura.getFechaCompra());
-                    view.setTextColor(Color.BLACK);
+                    
                 }
                 return view;
             }
@@ -401,10 +397,10 @@ public class DetalleCompraActivity extends AppCompatActivity {
                 Articulo articulo = getItem(position);
                 if (articulo.getIdArticulo() == -1) {
                     view.setText(getString(R.string.select_articulo));
-                    view.setTextColor(Color.GRAY);
+                    
                 } else {
                     view.setText(articulo.getNombreArticulo() + " (ID: " + articulo.getIdArticulo() + ")");
-                    view.setTextColor(Color.BLACK);
+                    
                 }
                 return view;
             }
@@ -504,10 +500,10 @@ public class DetalleCompraActivity extends AppCompatActivity {
                 FacturaCompra factura = getItem(position);
                 if (factura.getIdCompra() == -1) {
                     view.setText(getString(R.string.select_factura));
-                    view.setTextColor(Color.GRAY);
+                    
                 } else {
                     view.setText("ID : " + factura.getIdCompra() + ", "  + getString(R.string.provider) + ": " + factura.getIdProveedor() + ", " + getString(R.string.purchase_date) + ": " + factura.getFechaCompra());
-                    view.setTextColor(Color.BLACK);
+                    
                 }
                 return view;
             }
@@ -552,10 +548,10 @@ public class DetalleCompraActivity extends AppCompatActivity {
                 Articulo articulo = getItem(position);
                 if (articulo.getIdArticulo() == -1) {
                     view.setText(getString(R.string.select_articulo));
-                    view.setTextColor(Color.GRAY);
+                    
                 } else {
                     view.setText(articulo.getNombreArticulo() + " (ID: " + articulo.getIdArticulo() + ")");
-                    view.setTextColor(Color.BLACK);
+                    
                 }
                 return view;
             }

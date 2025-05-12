@@ -134,10 +134,10 @@ public class RecetaActivity extends AppCompatActivity {
                 Doctor doctor = getItem(position);
                 if (doctor.getIdDoctor() == -1) {
                     view.setText(getString(R.string.select_doctor));
-                    view.setTextColor(Color.GRAY);
+
                 } else {
                     view.setText(doctor.getNombreDoctor() + " (ID: " + doctor.getIdDoctor() + ")");
-                    view.setTextColor(Color.BLACK);
+                    
                 }
                 return view;
             }
@@ -167,10 +167,10 @@ public class RecetaActivity extends AppCompatActivity {
                 Cliente cliente = getItem(position);
                 if (cliente.getIdCliente() == -1) {
                     view.setText(getString(R.string.select_cliente));
-                    view.setTextColor(Color.GRAY);
+
                 } else {
                     view.setText(cliente.getNombreCliente() + " (ID: " + cliente.getIdCliente() + ")");
-                    view.setTextColor(Color.BLACK);
+                    
                 }
                 return view;
             }
@@ -271,10 +271,10 @@ public class RecetaActivity extends AppCompatActivity {
                 Doctor doctor = getItem(position);
                 if (doctor.getIdDoctor() == -1) {
                     view.setText(getString(R.string.select_factura));
-                    view.setTextColor(Color.GRAY);
+
                 } else {
                     view.setText(doctor.getNombreDoctor() + " (ID: " + doctor.getIdDoctor() + ")");
-                    view.setTextColor(Color.BLACK);
+                    
                 }
                 return view;
             }
@@ -304,10 +304,10 @@ public class RecetaActivity extends AppCompatActivity {
                 Cliente cliente = getItem(position);
                 if (cliente.getIdCliente() == -1) {
                     view.setText(getString(R.string.select_factura));
-                    view.setTextColor(Color.GRAY);
+
                 } else {
                     view.setText(cliente.getNombreCliente() + " (ID: " + cliente.getIdCliente() + ")");
-                    view.setTextColor(Color.BLACK);
+                    
                 }
                 return view;
             }
@@ -386,10 +386,10 @@ public class RecetaActivity extends AppCompatActivity {
                 Doctor doctor = getItem(position);
                 if (doctor.getIdDoctor() == -1) {
                     view.setText(getString(R.string.select_doctor));
-                    view.setTextColor(Color.GRAY);
+
                 } else {
                     view.setText(doctor.getNombreDoctor() + " (ID: " + doctor.getIdDoctor() + ")");
-                    view.setTextColor(Color.BLACK);
+                    
                 }
                 return view;
             }
@@ -419,10 +419,10 @@ public class RecetaActivity extends AppCompatActivity {
                 Cliente cliente = getItem(position);
                 if (cliente.getIdCliente() == -1) {
                     view.setText(getString(R.string.select_cliente));
-                    view.setTextColor(Color.GRAY);
+
                 } else {
                     view.setText(cliente.getNombreCliente() + " (ID: " + cliente.getIdCliente() + ")");
-                    view.setTextColor(Color.BLACK);
+                    
                 }
                 return view;
             }

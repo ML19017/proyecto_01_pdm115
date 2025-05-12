@@ -66,10 +66,10 @@ public class SubCategoriaActivity extends AppCompatActivity implements AdapterVi
                 Categoria categoria = getItem(position);
                 if (categoria.getIdCategoria() == -1) {
                     view.setText(getString(R.string.category_prompt));
-                    view.setTextColor(Color.GRAY);
+
                 } else {
                     view.setText("ID : " + categoria.getIdCategoria() + ", "  + getString(R.string.category_name) + ": " + categoria.getNombreCategoria());
-                    view.setTextColor(Color.BLACK);
+
                 }
                 return view;
             }
@@ -184,7 +184,6 @@ public class SubCategoriaActivity extends AppCompatActivity implements AdapterVi
                 view.setText(categoria.getIdCategoria() == -1
                         ? getString(R.string.select_categoria)
                         : categoria.getNombreCategoria() + " (ID: " + categoria.getIdCategoria() + ")");
-                view.setTextColor(categoria.getIdCategoria() == -1 ? Color.GRAY : Color.BLACK);
                 return view;
             }
         };
@@ -332,7 +331,7 @@ public class SubCategoriaActivity extends AppCompatActivity implements AdapterVi
                 view.setText(categoria.getIdCategoria() == -1
                         ? getString(R.string.select_categoria)
                         : categoria.getNombreCategoria() + " (ID: " + categoria.getIdCategoria() + ")");
-                view.setTextColor(categoria.getIdCategoria() == -1 ? Color.GRAY : Color.BLACK);
+                
                 return view;
             }
         };
@@ -389,7 +388,7 @@ public class SubCategoriaActivity extends AppCompatActivity implements AdapterVi
                 view.setText(categoria.getIdCategoria() == -1
                         ? getString(R.string.select_categoria)
                         : categoria.getNombreCategoria() + " (ID: " + categoria.getIdCategoria() + ")");
-                view.setTextColor(categoria.getIdCategoria() == -1 ? Color.GRAY : Color.BLACK);
+                
                 return view;
             }
         };

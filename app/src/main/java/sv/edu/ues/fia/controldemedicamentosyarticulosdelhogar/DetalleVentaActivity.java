@@ -150,10 +150,10 @@ public class DetalleVentaActivity extends AppCompatActivity {
                 FacturaVenta factura = getItem(position);
                 if (factura.getIdCliente() == -1) {
                     view.setText(getString(R.string.select_factura_venta));
-                    view.setTextColor(Color.GRAY);
+                    
                 } else {
                     view.setText("ID Venta: " + factura.getIdVenta() + ", Cliente: " + factura.getIdCliente() + ", Fecha: " + factura.getFechaVenta());
-                    view.setTextColor(Color.BLACK);
+                    
                 }
                 return view;
             }
@@ -183,10 +183,10 @@ public class DetalleVentaActivity extends AppCompatActivity {
                 Articulo articulo = getItem(position);
                 if (articulo.getIdArticulo() == -1) {
                     view.setText(getString(R.string.select_articulo));
-                    view.setTextColor(Color.GRAY);
+                    
                 } else {
                     view.setText(articulo.getNombreArticulo() + " (ID: " + articulo.getIdArticulo() + ")");
-                    view.setTextColor(Color.BLACK);
+                    
                 }
                 return view;
             }

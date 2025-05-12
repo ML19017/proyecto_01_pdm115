@@ -120,10 +120,10 @@ public class FacturaCompraActivity extends AppCompatActivity {
                 SucursalFarmacia sucursalFarmacia = getItem(position);
                 if (sucursalFarmacia.getIdFarmacia() == -1) {
                     view.setText(getString(R.string.select_farmacia));
-                    view.setTextColor(Color.GRAY);
+                    
                 } else {
                     view.setText(sucursalFarmacia.getNombreFarmacia() + " (ID: " + sucursalFarmacia.getIdFarmacia() + ")");
-                    view.setTextColor(Color.BLACK);
+                    
                 }
                 return view;
             }
@@ -152,10 +152,10 @@ public class FacturaCompraActivity extends AppCompatActivity {
                 Proveedor proveedor = getItem(position);
                 if (proveedor.getIdProveedor() == -1) {
                     view.setText(getString(R.string.select_proveedor));
-                    view.setTextColor(Color.GRAY);
+                    
                 } else {
                     view.setText(proveedor.getNombreProveedor() + " (ID: " + proveedor.getIdProveedor() + ")");
-                    view.setTextColor(Color.BLACK);
+                    
                 }
                 return view;
             }
@@ -358,10 +358,10 @@ public class FacturaCompraActivity extends AppCompatActivity {
                 SucursalFarmacia sucursalFarmacia = getItem(position);
                 if (sucursalFarmacia.getIdFarmacia() == -1) {
                     view.setText(getString(R.string.select_farmacia));
-                    view.setTextColor(Color.GRAY);
+                    
                 } else {
                     view.setText(sucursalFarmacia.getNombreFarmacia() + " (ID: " + sucursalFarmacia.getIdFarmacia() + ")");
-                    view.setTextColor(Color.BLACK);
+                    
                 }
                 return view;
             }
@@ -389,10 +389,10 @@ public class FacturaCompraActivity extends AppCompatActivity {
                 Proveedor proveedor = getItem(position);
                 if (proveedor.getIdProveedor() == -1) {
                     view.setText(getString(R.string.select_proveedor));
-                    view.setTextColor(Color.GRAY);
+                    
                 } else {
                     view.setText(proveedor.getNombreProveedor() + " (ID: " + proveedor.getIdProveedor() + ")");
-                    view.setTextColor(Color.BLACK);
+                    
                 }
                 return view;
             }
@@ -453,10 +453,10 @@ public class FacturaCompraActivity extends AppCompatActivity {
                 SucursalFarmacia sucursalFarmacia = getItem(position);
                 if (sucursalFarmacia.getIdFarmacia() == -1) {
                     view.setText(getString(R.string.select_farmacia));
-                    view.setTextColor(Color.GRAY);
+                    
                 } else {
                     view.setText(sucursalFarmacia.getNombreFarmacia() + " (ID: " + sucursalFarmacia.getIdFarmacia() + ")");
-                    view.setTextColor(Color.BLACK);
+                    
                 }
                 return view;
             }
@@ -485,10 +485,10 @@ public class FacturaCompraActivity extends AppCompatActivity {
                 Proveedor proveedor = getItem(position);
                 if (proveedor.getIdProveedor() == -1) {
                     view.setText(getString(R.string.select_proveedor));
-                    view.setTextColor(Color.GRAY);
+                    
                 } else {
                     view.setText(proveedor.getNombreProveedor() + " (ID: " + proveedor.getIdProveedor() + ")");
-                    view.setTextColor(Color.BLACK);
+                    
                 }
                 return view;
             }

@@ -75,10 +75,9 @@ public class ArticuloActivity extends AppCompatActivity implements AdapterView.O
                 Categoria categoria = getItem(position);
                 if (categoria.getIdCategoria() == -1) {
                     view.setText(getString(R.string.category_prompt));
-                    view.setTextColor(Color.GRAY);
+                    
                 } else {
                     view.setText("ID : " + categoria.getIdCategoria() + ", " + getString(R.string.category_name) + ": " + categoria.getNombreCategoria());
-                    view.setTextColor(Color.BLACK);
                 }
                 return view;
             }
@@ -222,10 +221,10 @@ public class ArticuloActivity extends AppCompatActivity implements AdapterView.O
                 Marca marca = getItem(position);
                 if (marca.getIdMarca() == -1) {
                     view.setText(getString(R.string.select_brand));
-                    view.setTextColor(Color.GRAY);
+                    
                 } else {
                     view.setText(marca.getNombreMarca() + " (ID: " + marca.getIdMarca() + ")");
-                    view.setTextColor(Color.BLACK);
+                    
                 }
                 return view;
             }
@@ -256,10 +255,10 @@ public class ArticuloActivity extends AppCompatActivity implements AdapterView.O
                 ViaAdministracion via = getItem(position);
                 if (via.getIdViaAdministracion() == -1) {
                     view.setText(getString(R.string.select_admin_route));
-                    view.setTextColor(Color.GRAY);
+                    
                 } else {
                     view.setText(via.getTipoAdministracion() + " (ID: " + via.getIdViaAdministracion() + ")");
-                    view.setTextColor(Color.BLACK);
+                    
                 }
                 return view;
             }
@@ -290,10 +289,10 @@ public class ArticuloActivity extends AppCompatActivity implements AdapterView.O
                 SubCategoria sub = getItem(position);
                 if (sub.getIdSubCategoria() == -1) {
                     view.setText(getString(R.string.select_subcategory));
-                    view.setTextColor(Color.GRAY);
+                    
                 } else {
                     view.setText(sub.getNombreSubCategoria() + " (ID: " + sub.getIdSubCategoria() + ")");
-                    view.setTextColor(Color.BLACK);
+                    
                 }
                 return view;
             }
@@ -324,10 +323,10 @@ public class ArticuloActivity extends AppCompatActivity implements AdapterView.O
                 FormaFarmaceutica forma = getItem(position);
                 if (forma.getIdFormaFarmaceutica() == -1) {
                     view.setText(getString(R.string.select_pharma_form));
-                    view.setTextColor(Color.GRAY);
+                    
                 } else {
                     view.setText(forma.getTipoFormaFarmaceutica() + " (ID: " + forma.getIdFormaFarmaceutica() + ")");
-                    view.setTextColor(Color.BLACK);
+                    
                 }
                 return view;
             }
@@ -531,10 +530,10 @@ public class ArticuloActivity extends AppCompatActivity implements AdapterView.O
                 Marca marca = getItem(position);
                 if (marca.getIdMarca() == -1) {
                     view.setText(getString(R.string.select_brand));
-                    view.setTextColor(Color.GRAY);
+                    
                 } else {
                     view.setText(marca.getNombreMarca() + " (ID: " + marca.getIdMarca() + ")");
-                    view.setTextColor(Color.BLACK);
+                    
                 }
                 return view;
             }
@@ -611,10 +610,10 @@ public class ArticuloActivity extends AppCompatActivity implements AdapterView.O
                 SubCategoria sub = getItem(position);
                 if (sub.getIdSubCategoria() == -1) {
                     view.setText(getString(R.string.select_subcategory));
-                    view.setTextColor(Color.GRAY);
+                    
                 } else {
                     view.setText(sub.getNombreSubCategoria() + " (ID: " + sub.getIdSubCategoria() + ")");
-                    view.setTextColor(Color.BLACK);
+                    
                 }
                 return view;
             }
@@ -767,10 +766,10 @@ public class ArticuloActivity extends AppCompatActivity implements AdapterView.O
                 Marca marca = getItem(position);
                 if (marca.getIdMarca() == -1) {
                     view.setText(getString(R.string.select_brand));
-                    view.setTextColor(Color.GRAY);
+                    
                 } else {
                     view.setText(marca.getNombreMarca() + " (ID: " + marca.getIdMarca() + ")");
-                    view.setTextColor(Color.BLACK);
+                    
                 }
                 return view;
             }
@@ -802,10 +801,10 @@ public class ArticuloActivity extends AppCompatActivity implements AdapterView.O
                 ViaAdministracion via = getItem(position);
                 if (via.getIdViaAdministracion() == -1) {
                     view.setText(getString(R.string.select_admin_route));
-                    view.setTextColor(Color.GRAY);
+                    
                 } else {
                     view.setText(via.getTipoAdministracion() + " (ID: " + via.getIdViaAdministracion() + ")");
-                    view.setTextColor(Color.BLACK);
+                    
                 }
                 return view;
             }
@@ -836,10 +835,10 @@ public class ArticuloActivity extends AppCompatActivity implements AdapterView.O
                 SubCategoria sub = getItem(position);
                 if (sub.getIdSubCategoria() == -1) {
                     view.setText(getString(R.string.select_subcategory));
-                    view.setTextColor(Color.GRAY);
+                    
                 } else {
                     view.setText(sub.getNombreSubCategoria() + " (ID: " + sub.getIdSubCategoria() + ")");
-                    view.setTextColor(Color.BLACK);
+                    
                 }
                 return view;
             }
@@ -870,10 +869,10 @@ public class ArticuloActivity extends AppCompatActivity implements AdapterView.O
                 FormaFarmaceutica forma = getItem(position);
                 if (forma.getIdFormaFarmaceutica() == -1) {
                     view.setText(getString(R.string.select_pharma_form));
-                    view.setTextColor(Color.GRAY);
+                    
                 } else {
                     view.setText(forma.getTipoFormaFarmaceutica() + " (ID: " + forma.getIdFormaFarmaceutica() + ")");
-                    view.setTextColor(Color.BLACK);
+                    
                 }
                 return view;
             }
